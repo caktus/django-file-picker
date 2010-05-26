@@ -9,22 +9,45 @@ $(document).ready(function() {
         var picker = $(this).data('picker');
         picker.show();
     })
-    $('.form-row.body').prepend(anchor);
+    var dialog = $('<div>').attr('id', 'picker-dialog');
+    $('.form-row.body').prepend(anchor).prepend(dialog);
     $('#file-picker').data('picker', new FilePicker('/blog/images/'));
 });
 
 function FilePicker(url) {
     this.url = url;
     this.files = [];
+    this.window = $('#picker-dialog');
+    this.window.dialog({
+        title: 'File Picker',
+        width: 600,
+        height: 400,
+        autoOpen: false
+    });
     this.show = function () {
         this.getFiles();
-        
+        this.window.dialog('open');
     }
-    this.getFiles = function () {
-        var files = [];
+    this.getFiles = function() {
+        var picker = this;
         $.get(this.url, function(data) {
-            files = data.result;
+            picker.displayFiles(data.result);
         });
-        this.files = files;
+    }
+    this.displayFiles = function(files) {
+        var picker = this;
+        this.window.empty();
+        var table = $('<table>');
+        $.each(files, function(idx, file) {
+            var tr = $('<tr>');
+            var img = $('<img>').attr({
+                'src': file.thumb_url,
+                'alt': file.name,
+            });
+            tr.append($('<td>').append(img));
+            tr.append($('<td>').text(file.name));
+            table.append(tr);
+        });
+        this.window.append(table);
     }
 }

@@ -8,7 +8,7 @@ class ImagePicker(FilePicker):
     model = Image
     
     def append(self, obj):
-        thumb = DjangoThumbnail(obj.file, (20,20))
+        thumb = DjangoThumbnail(obj.file, (150, 150))
         return {
             'name': unicode(obj), 'url': obj.file.url,
             'thumb_url': thumb.absolute_url,
