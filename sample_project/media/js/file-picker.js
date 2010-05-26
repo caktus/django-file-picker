@@ -28,16 +28,24 @@ function FilePicker(url) {
         this.getFiles();
         this.window.dialog('open');
     }
-    this.getFiles = function() {
+    this.getFiles = function(data) {
+        if (!data) {
+            data = {};
+        }
         var picker = this;
-        $.get(this.url, function(data) {
-            picker.displayFiles(data.result);
+        $.get(this.url, data, function(response) {
+            picker.displayFiles(response);
         });
     }
-    this.displayFiles = function(files) {
+    this.displayFiles = function(data) {
+        var files = data.result;
         var picker = this;
         this.window.empty();
         var table = $('<table>');
+        var tr = $('<tr>');
+        tr.append($('<th>').text('Thumbnail'));
+        tr.append($('<th>').text('Name'));
+        table.append(tr);
         $.each(files, function(idx, file) {
             var tr = $('<tr>');
             
@@ -59,6 +67,24 @@ function FilePicker(url) {
             table.append(tr);
         });
         this.window.append(table);
+        var footer = $('<div>').attr('id', 'footer');
+        var next = $('<a>').attr({
+            'title': 'Next',
+            'href': '#'
+        }).text('Next').click(function(e) {
+            e.preventDefault();
+            picker.getFiles({'page': data.page + 1});
+        });
+        var previous = $('<a>').attr({
+            'title': 'Next',
+            'href': '#'
+        }).text('Previous').click(function(e) {
+            e.preventDefault();
+            picker.getFiles({'page': data.page - 1});
+        });
+        footer.append(previous);
+        footer.append(next);
+        this.window.append(footer);
     }
 }
 
