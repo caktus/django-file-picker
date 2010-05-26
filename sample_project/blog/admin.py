@@ -1,9 +1,14 @@
 from django.contrib import admin
 from sample_project.blog.models import Post, Image
+from sample_project.blog.forms import ImageForm
 
 
 class PostAdmin(admin.ModelAdmin):
-    pass
+    class Media:
+        css = {
+            "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",)
+        }
+        js = ("js/jquery-ui-1.8.1.custom.min.js",)
 admin.site.register(Post, PostAdmin)
 
 
