@@ -41,8 +41,10 @@ function FilePicker(url) {
         $.each(files, function(idx, file) {
             var tr = $('<tr>');
             var img = $('<img>').attr({
-                'src': file.thumb_url,
                 'alt': file.name,
+                'src': file.thumb.url,
+                'width': file.thumb.width,
+                'height': file.thumb.height
             });
             tr.append($('<td>').append(img));
             tr.append($('<td>').text(file.name));
