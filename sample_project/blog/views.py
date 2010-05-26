@@ -13,8 +13,8 @@ class ImagePicker(FilePicker):
             'name': unicode(obj), 'url': obj.file.url,
             'thumb': {
                 'url': thumb.absolute_url,
-                'width': thumb.width,
-                'height': thumb.height,
+                'width': thumb.width(),
+                'height': thumb.height(),
             }
         }
     
