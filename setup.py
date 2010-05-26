@@ -12,7 +12,7 @@ setup(
     exclude_package_data={
         '': ['*.sql', '*.pyc'],
     },
-    url='',
+    url='http://bitbucket.org/copelco/django-file-picker/',
     license='LICENSE.txt',
     description='Pluggable file picker',
     long_description=open('README.rst').read(),
