@@ -12,11 +12,14 @@ class FilePicker(object):
         )
         return urlpatterns
     urls = property(get_urls)
+    
+    def append(self, obj):
+        return {'name': unicode(obj), 'url': obj.file.url}
 
     def list(self, request):
         data = {}
         result = []
         for obj in self.model.objects.all():
-            result.append({'name': unicode(obj), 'url': obj.file.url})
+            result.append(self.append(obj))
         data['result'] = result
         return HttpResponse(json.dumps(data), mimetype='application/json')
