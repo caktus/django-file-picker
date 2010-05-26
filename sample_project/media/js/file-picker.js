@@ -43,9 +43,7 @@ function FilePicker(url) {
             
             var a = $('<a>').click(
                 function(e){
-                    insertAtCaret('id_body',
-                        '<img src="' + file.url + '" />'
-                    );
+                    insertAtCaret('id_body', file.insert);
                 }
             );
             var img = $('<img>').attr({

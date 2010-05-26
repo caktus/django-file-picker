@@ -15,7 +15,8 @@ class ImagePicker(FilePicker):
                 'url': thumb.absolute_url,
                 'width': thumb.width(),
                 'height': thumb.height(),
-            }
+            },
+            'insert': '<img src="%s" />' % obj.file.url
         }
     
 file_picker = ImagePicker()
