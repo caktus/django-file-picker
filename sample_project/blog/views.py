@@ -11,7 +11,11 @@ class ImagePicker(FilePicker):
         thumb = DjangoThumbnail(obj.file, (150, 150))
         return {
             'name': unicode(obj), 'url': obj.file.url,
-            'thumb_url': thumb.absolute_url,
+            'thumb': {
+                'url': thumb.absolute_url,
+                'width': thumb.width,
+                'height': thumb.height,
+            }
         }
     
 file_picker = ImagePicker()
