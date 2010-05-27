@@ -23,3 +23,8 @@ if getattr(settings, 'SERVE_STATIC_MEDIA', False):
             {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}
         )
     )
+    
+urlpatterns += patterns('',
+    (r'^%spagelets/', include('pagelets.urls.management')),
+    (r'^%s', include('pagelets.urls.content')),
+)

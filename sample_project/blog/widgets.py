@@ -20,7 +20,7 @@ class WYMEditor(forms.Textarea):
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
                 var dialog = $('<div>').attr('id', 'picker-dialog');
-                $('.form-row.body').prepend(dialog);
+                $('body').prepend(dialog);
                 handle_click = function(e, insert) {
                     $(document).data('wymGlob').insert(insert);
                 }                
