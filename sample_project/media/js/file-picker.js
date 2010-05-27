@@ -1,16 +1,14 @@
 function FilePicker(url) {
     this.url = url;
     this.files = [];
-    this.window = $('#picker-dialog');
-    this.window.dialog({
-        title: 'File Picker',
-        width: 600,
-        height: 400,
-        autoOpen: false
-    });
     this.show = function () {
         this.getFiles();
-        this.window.dialog('open');
+        $('#picker-dialog').overlay({
+            load: true,
+            mask: {
+                color: '#fff',
+	        }
+        });
     }
     this.getFiles = function(data) {
         if (!data) {
@@ -24,7 +22,7 @@ function FilePicker(url) {
     this.displayFiles = function(data) {
         var files = data.result;
         var picker = this;
-        this.window.empty();
+        var tool = $('#picker-dialog')
         var table = $('<table>');
 
         var tr = $('<tr>');
@@ -69,7 +67,7 @@ function FilePicker(url) {
             tr.append($('<td>').text(file.name));
             table.append(tr);
         });
-        this.window.append(table);
+        tool.append(table);
         var footer = $('<div>').attr('id', 'footer');
         var next = $('<a>').attr({
             'title': 'Next',
@@ -87,7 +85,7 @@ function FilePicker(url) {
         });
         footer.append(previous);
         footer.append(next);
-        this.window.append(footer);
+        tool.append(footer);
     }
 }
 
