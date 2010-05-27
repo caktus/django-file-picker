@@ -7,6 +7,9 @@ from sorl.thumbnail.main import DjangoThumbnail
 class ImagePicker(FilePicker):
     model = Image
     
+    def get_queryset(self,search):
+        return Image.objects.filter(name__icontains=search)
+    
     def append(self, obj):
         thumb = DjangoThumbnail(obj.file, (150, 150))
         return {

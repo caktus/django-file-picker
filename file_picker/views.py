@@ -19,6 +19,9 @@ class FilePicker(object):
     def append(self, obj):
         return {'name': unicode(obj), 'url': obj.file.url}
 
+    def get_queryset(self,search):
+        return self.model.objects.all()
+
     def list(self, request):
         form = QueryForm(request.GET)
         if not form.is_valid():
@@ -27,7 +30,8 @@ class FilePicker(object):
         start = page * self.page_size
         end = start + self.page_size
         result = []
-        for obj in self.model.objects.all()[start:end]:
+        qs = self.get_queryset(form.cleaned_data['search'])
+        for obj in qs[start:end]:
             result.append(self.append(obj))
         data = {
             'page': page,
