@@ -42,6 +42,25 @@ function FilePicker(url) {
         var picker = this;
         this.window.empty();
         var table = $('<table>');
+
+        var tr = $('<tr>');
+        var form = $('<form>').attr({
+             'action': "",
+             'method': 'get'
+        });
+        form.append(
+            $('<input>').attr({ 'type': 'text', 'id':'search','name':'search'})
+        );
+        form.append(
+            $('<input>').attr({ 'type': 'submit', 'value':'Search'}).click(
+            function(e) {
+                e.preventDefault();
+                picker.getFiles({'search': $('#search').val() });
+            })
+        );
+        tr.append($('<td>').append(form));
+        table.append(tr);
+        
         var tr = $('<tr>');
         tr.append($('<th>').text('Thumbnail'));
         tr.append($('<th>').text('Name'));

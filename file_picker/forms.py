@@ -4,7 +4,7 @@ from django.db.models import Q
 class QueryForm(forms.Form):
     page = forms.IntegerField(min_value=0, required=False)
     search = forms.CharField(
-        min_length=3,max_length=300, required=False,
+        max_length=300, required=False,
     )
     
     def clean_page(self):
