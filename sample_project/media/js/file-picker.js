@@ -1,19 +1,3 @@
-$(document).ready(function() {
-    var anchor = $('<a>').attr({
-        'id': 'file-picker',
-        'name': 'file-picker',
-        'href': '#'
-    }).text('Add Image');
-    anchor.click(function(e) {
-        e.preventDefault();
-        var picker = $(this).data('picker');
-        picker.show();
-    })
-    var dialog = $('<div>').attr('id', 'picker-dialog');
-    $('.form-row.body').prepend(anchor).prepend(dialog);
-    $('#file-picker').data('picker', new FilePicker('/blog/images/'));
-});
-
 function FilePicker(url) {
     this.url = url;
     this.files = [];
@@ -66,11 +50,11 @@ function FilePicker(url) {
         tr.append($('<th>').text('Name'));
         table.append(tr);
         $.each(files, function(idx, file) {
-            var tr = $('<tr>');
-            
+            var picker = this;
+            var tr = $('<tr>');            
             var a = $('<a>').click(
                 function(e){
-                    insertAtCaret('id_body', file.insert);
+                    handle_click(e, file.insert);
                 }
             );
             var img = $('<img>').attr({

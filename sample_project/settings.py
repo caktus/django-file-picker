@@ -75,4 +75,5 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.admin',
     'sample_project.blog',
+    'sample_project.article',
 )

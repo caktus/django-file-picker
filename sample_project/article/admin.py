@@ -1,6 +1,6 @@
 from django.contrib import admin
-from sample_project.blog.models import Post, Image
-from sample_project.blog.forms import ImageForm, PostAdminModelForm
+from sample_project.article.models import Post, Image
+from sample_project.article.forms import ImageForm, PostAdminModelForm
 
 
 class PostAdmin(admin.ModelAdmin):

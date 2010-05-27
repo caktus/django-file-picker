@@ -1,12 +1,11 @@
 from django import forms
 from django.db.models import get_model
-from sample_project.blog.widgets import WYMEditor
+from sample_project.article.widgets import FilePickerForm
 
 class ImageForm(forms.Form):
     pass
     
 class PostAdminModelForm(forms.ModelForm):
-    body = forms.CharField(widget=WYMEditor())
-
+    body = forms.CharField(widget=FilePickerForm())
     class Meta:
-        model = get_model('blog', 'post')
+        model = get_model('article', 'post')
