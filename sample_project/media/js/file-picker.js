@@ -4,11 +4,14 @@ function FilePicker(url) {
     this.show = function () {
         this.getFiles();
         $('#picker-dialog').overlay({
-            load: true,
+            load: false,
+            effect: 'apple',
+            speed: 1000,
             mask: {
-                color: '#fff',
+                color: '#fff'
 	        }
-        });
+        }).load();
+        
     }
     this.getFiles = function(data) {
         if (!data) {
@@ -24,6 +27,13 @@ function FilePicker(url) {
         var picker = this;
         var tool = $('#picker-dialog');
         tool.empty();
+        tool.append(
+            $('<a>').attr({'class': 'exit'}).text('Test').click(
+                function(e) {
+                    closeWindow();
+                }
+            )
+        );
         var table = $('<table>');
 
         var tr = $('<tr>');
@@ -88,6 +98,10 @@ function FilePicker(url) {
         footer.append(next);
         tool.append(footer);
     }
+}
+
+function closeWindow(){
+    $('#picker-dialog').overlay().close();
 }
 
 function insertAtCaret(areaId,text) { 

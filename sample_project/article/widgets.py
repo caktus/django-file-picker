@@ -20,7 +20,7 @@ class FilePickerForm(forms.Textarea):
                     var picker = $(this).data('picker');
                     picker.show();
                 })
-                var dialog = $('<div>').attr('id', 'picker-dialog');
+                var dialog = $('<div>').attr({ 'id': 'picker-dialog'});
                 $('.form-row.body').prepend(anchor).prepend(dialog);
                 $('#file-picker').data('picker', new FilePicker('/article/images/'));
             });

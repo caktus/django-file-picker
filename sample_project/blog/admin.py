@@ -9,7 +9,9 @@ class PostAdmin(admin.ModelAdmin):
     form = PostAdminModelForm
     class Media:
         css = {
-            "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",)
+            "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",
+                    "css/overlay.css",
+                   )
         }
         js = ("js/jquery-1.4.2.min.js", "js/jquery-ui-1.8.1.custom.min.js",
               "js/file-picker.js", "js/jquery.tools.overlay.js")
@@ -25,7 +27,9 @@ class PageletAdmin(pagelets_admin.PageletAdmin):
     form = PageletForm
     class Media:
         css = {
-            "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",)
+            "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",
+                    "css/overlay.css",
+                   )
         }
         js = ("js/jquery-1.4.2.min.js", "js/jquery-ui-1.8.1.custom.min.js",
               "js/file-picker.js", "js/jquery.tools.overlay.js")
@@ -42,7 +46,9 @@ class PageAdmin(pagelets_admin.PageAdmin):
            pagelets_admin.InlinePageAttachmentAdmin]
     class Media:
         css = {
-            "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",)
+            "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",
+                    "css/overlay.css",
+            )
         }
         js = ("js/jquery-1.4.2.min.js", "js/jquery-ui-1.8.1.custom.min.js",
               "js/file-picker.js", "js/jquery.tools.overlay.js")

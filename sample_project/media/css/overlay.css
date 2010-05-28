@@ -1,0 +1,12 @@
+#picker-dialog{
+    display: none;
+    z-index: 999;
+    background-image: url('white_chromebutton.png');
+    margin-top: 20px;
+    margin-left: 40px;
+    width:400px;
+    text-align: left;
+}
+#picker-dialog a.exit{
+    background-color: #CCCCCC;
+}
