@@ -21,6 +21,7 @@ class WYMEditor(forms.Textarea):
             $(document).ready(function() {
                 var dialog = $('<div>').attr({'id':'picker-dialog', 'style':'display:none;width:200px;height:200px;z-index:999;background-color:#fff;'});
                 $('body').prepend(dialog);
+                $(document).data('picker', new FilePicker('/blog/images/'));
                 handle_click = function(e, insert) {
                     $(document).data('wymGlob').insert(insert);
                 }                
@@ -33,7 +34,6 @@ class WYMEditor(forms.Textarea):
                         image_button.unbind();
                         image_button.click(function(e) {
                             jQuery(document).data('wymGlob', wym);
-                            $(document).data('picker', new FilePicker('/blog/images/'));
                             var picker = $(document).data('picker');
                             picker.show();
                             e.preventDefault();  

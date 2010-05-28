@@ -22,7 +22,8 @@ function FilePicker(url) {
     this.displayFiles = function(data) {
         var files = data.result;
         var picker = this;
-        var tool = $('#picker-dialog')
+        var tool = $('#picker-dialog');
+        tool.empty();
         var table = $('<table>');
 
         var tr = $('<tr>');

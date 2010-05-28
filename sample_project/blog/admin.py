@@ -28,7 +28,7 @@ class PageletAdmin(pagelets_admin.PageletAdmin):
             "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",)
         }
         js = ("js/jquery-1.4.2.min.js", "js/jquery-ui-1.8.1.custom.min.js",
-              "js/file-picker.js")
+              "js/file-picker.js", "js/jquery.tools.overlay.js")
 admin.site.unregister(pagelets.Pagelet)
 admin.site.register(pagelets.Pagelet, PageletAdmin)
 
@@ -45,6 +45,6 @@ class PageAdmin(pagelets_admin.PageAdmin):
             "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",)
         }
         js = ("js/jquery-1.4.2.min.js", "js/jquery-ui-1.8.1.custom.min.js",
-              "js/file-picker.js")
+              "js/file-picker.js", "js/jquery.tools.overlay.js")
 admin.site.unregister(pagelets.Page)
 admin.site.register(pagelets.Page, PageAdmin)
