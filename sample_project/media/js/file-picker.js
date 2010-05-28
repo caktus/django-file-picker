@@ -12,8 +12,8 @@
         // current instance
         var self = this;
         
-        root.append($('<div>').addClass('container'));
-        root = root.find('.container');
+        root.append($('<div>').addClass('file-picker'));
+        root = root.find('.file-picker');
         
         // methods
         $.extend(self, {

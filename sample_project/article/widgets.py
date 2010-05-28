@@ -1,6 +1,6 @@
 from django import forms
-from django.conf import settings
 from django.utils.safestring import mark_safe
+
 
 class FilePickerForm(forms.Textarea):
     def render(self, name, value, attrs=None):
@@ -16,16 +16,16 @@ class FilePickerForm(forms.Textarea):
                 }).filePicker({
                     url: '/article/images/',
                     onImageClick: function(e, insert) {
-                        insertAtCaret('id_%s', insert);
+                        insertAtCaret('id_%(name)s', insert);
                     }
-                }).appendTo($('body'));
+                }).appendTo(body');
                 var anchor = $('<a>').text('Add Image').attr({
-                    'id': 'file-picker',
                     'name': 'file-picker',
+                    'title': 'Add Image',
                     'href': '#'
                 }).click(function(e) {
                     e.preventDefault();
                     $(overlay).data('overlay').load();
                 }).prependTo('.form-row.body');
             });
-            </script>''' % name)
+            </script>''' % {'name': name})

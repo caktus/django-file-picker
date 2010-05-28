@@ -2,6 +2,7 @@ from django import forms
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
+
 class WYMEditor(forms.Textarea):
     class Media:
         js = (
@@ -30,11 +31,11 @@ class WYMEditor(forms.Textarea):
                     onImageClick: function(e, insert) {
                         this.getRoot().parent().data('wym').insert(insert);
                     }
-                }).appendTo($('body'));
-                jQuery('#id_%s').wymeditor({
+                }).insertBefore('#id_%(name)s');
+                jQuery('#id_%(name)s').wymeditor({
                     updateSelector: '.submit-row input[type=submit]',
                     updateEvent: 'click',
-                    lang: '%s',
+                    lang: '%(language)s',
                     postInit: function(wym) {
                         image_button = jQuery(wym._box).find('li.wym_tools_image a');
                         image_button.unbind();
@@ -46,4 +47,4 @@ class WYMEditor(forms.Textarea):
                     },
                 });
             });
-            </script>''' % (name, self.language))
+            </script>''' % {'name': name, 'language': self.language})
