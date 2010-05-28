@@ -3,6 +3,7 @@
     $.filePicker = {
         conf: {
             url: '',
+            urls: '',
         }
     };
 
@@ -27,29 +28,29 @@
             },
 
             load: function() {
-                console.log('1');
-                self.setup();
-                self.getFiles();
+                self.setupTabs();
+                $.get(conf.url, function(response) {
+                    conf.urls = response.urls;
+                    self.getFiles();
+                });
             },
 
             getFiles: function(data) {
                 if (!data) {
                     data = {};
                 }
-                $.get(conf.url, data, function(response) {
+                $.get(conf.urls.browse.files, data, function(response) {
                     self.displayFiles(response);
                 });
             },
             
-            setup: function() {
-                console.log('2');
+            setupTabs: function() {
                 var tabs = $('<ul>').attr('id', 'file-picker-tabs').addClass('css-tabs');
                 tabs.append($('<li>').append($('<a>').attr('href', '#').text('Browse')));
                 tabs.append($('<li>').append($('<a>').attr('href', '#').text('Upload')));
                 var panes = $('<div>').addClass('panes');
                 panes.append($('<div>').attr('id', 'file-picker-browse'));
                 panes.append($('<div>').attr('id', 'file-picker-upload'));
-                console.log(tabs);
                 root.append(tabs);
                 root.append(panes);
                 $("ul#file-picker-tabs").tabs("div.panes > div");

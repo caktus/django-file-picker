@@ -1,6 +1,7 @@
 from django.utils import simplejson as json
 from django.http import HttpResponse, HttpResponseServerError
 from django.core.paginator import Paginator, EmptyPage
+from django.core.urlresolvers import reverse
 
 from file_picker.forms import QueryForm
 
@@ -12,10 +13,20 @@ class FilePicker(object):
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
         urlpatterns = patterns('',
-            url(r'^$', self.list, name='file-list')
+            url(r'^$', self.setup, name='file-picker-init'),
+            url(r'^files/$', self.list, name='file-picker-list'),
         )
         return urlpatterns
     urls = property(get_urls)
+    
+    def setup(self, request):
+        data = {}
+        urls = {
+            'browse': {'files': reverse('file-picker-list')},
+            'upload': {'ajax-upload': ''},
+        }
+        data['urls'] = urls
+        return HttpResponse(json.dumps(data), mimetype='application/json')
     
     def append(self, obj):
         return {'name': unicode(obj), 'url': obj.file.url}
