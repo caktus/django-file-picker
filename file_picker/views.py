@@ -12,8 +12,9 @@ class FilePicker(object):
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
         urlpatterns = patterns('',
-            url(r'^$', self.list, name='file-list')
-        )
+            url(r'^$', self.list, name='file-list-%s-%s' % 
+            (self.model._meta.app_label, self.model._meta.module_name)
+        ))
         return urlpatterns
     urls = property(get_urls)
     

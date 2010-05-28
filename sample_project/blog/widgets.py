@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
 
 class WYMEditor(forms.Textarea):
     class Media:
@@ -17,7 +18,7 @@ class WYMEditor(forms.Textarea):
 
     def render(self, name, value, attrs=None):
         rendered = super(WYMEditor, self).render(name, value, attrs)
-        print name
+        url = reverse("file-list-blog-image");
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
                 var overlay = $('<div>').addClass('file-picker-overlay').overlay({
@@ -27,7 +28,7 @@ class WYMEditor(forms.Textarea):
                         this.getOverlay().data('filePicker').load();
                     }
                 }).filePicker({
-                    url: '/blog/images/',
+                    url: '%s',
                     onImageClick: function(e, insert) {
                         this.getRoot().parent().data('wym').insert(insert);
                     }
@@ -47,4 +48,4 @@ class WYMEditor(forms.Textarea):
                     },
                 });
             });
-            </script>''' % (name, self.language))
+            </script>''' % (url, name, self.language))
