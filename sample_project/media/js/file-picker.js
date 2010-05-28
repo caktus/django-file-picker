@@ -27,6 +27,8 @@
             },
 
             load: function() {
+                console.log('1');
+                self.setup();
                 self.getFiles();
             },
 
@@ -38,10 +40,26 @@
                     self.displayFiles(response);
                 });
             },
+            
+            setup: function() {
+                console.log('2');
+                var tabs = $('<ul>').attr('id', 'file-picker-tabs').addClass('css-tabs');
+                tabs.append($('<li>').append($('<a>').attr('href', '#').text('Browse')));
+                tabs.append($('<li>').append($('<a>').attr('href', '#').text('Upload')));
+                var panes = $('<div>').addClass('panes');
+                panes.append($('<div>').attr('id', 'file-picker-browse'));
+                panes.append($('<div>').attr('id', 'file-picker-upload'));
+                console.log(tabs);
+                root.append(tabs);
+                root.append(panes);
+                $("ul#file-picker-tabs").tabs("div.panes > div");
+            },
 
             displayFiles: function(data) {
+                var container = root.find('#file-picker-browse');
+                
                 var files = data.result;
-                root.empty();
+                container.empty();
                 var table = $('<table>');
                 var tr = $('<tr>');
                 var form = $('<form>').attr({
@@ -80,8 +98,8 @@
                     table.append(tr);
                 });
                 var div = $('<div>').attr({'class': 'scrollable'});
-                root.append(form);
-                root.append(div.append(table));
+                container.append(form);
+                container.append(div.append(table));
                 var footer = $('<div>').attr('id', 'footer');
                  var next = $('<a>').attr({
                         'title': 'Next',
@@ -124,7 +142,7 @@
                         footer.append(list);
                 });
                 footer.append(next);
-                root.append(footer);
+                container.append(footer);
             },
         });
 
