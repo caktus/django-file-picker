@@ -8,10 +8,8 @@ class FilePickerForm(forms.Textarea):
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
                 var overlay = $('<div>').addClass('file-picker-overlay').overlay({
-                    load: false,
                     effect: 'apple',
-                    speed: 200,
-                    load: false,
+                    speed: 'fast',
                     onLoad: function() {
                         this.getOverlay().data('filePicker').load();
                     }
