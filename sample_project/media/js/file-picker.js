@@ -85,20 +85,24 @@
                 });
                 root.append(table);
                 var footer = $('<div>').attr('id', 'footer');
-                var next = $('<a>').attr({
-                    'title': 'Next',
-                    'href': '#'
-                }).text('Next').click(function(e) {
-                    e.preventDefault();
-                    self.getFiles({'page': data.page + 1});
-                });
-                var previous = $('<a>').attr({
-                    'title': 'Next',
-                    'href': '#'
-                }).text('Previous').click(function(e) {
-                    e.preventDefault();
-                    self.getFiles({'page': data.page - 1});
-                });
+                if (data.has_next) {
+                    var next = $('<a>').attr({
+                        'title': 'Next',
+                        'href': '#'
+                    }).text('Next').click(function(e) {
+                        e.preventDefault();
+                        self.getFiles({'page': data.page + 1});
+                    });
+                }
+                if (data.has_previous) {
+                    var previous = $('<a>').attr({
+                        'title': 'Next',
+                        'href': '#'
+                    }).text('Previous').click(function(e) {
+                        e.preventDefault();
+                        self.getFiles({'page': data.page - 1});
+                    });
+                }
                 footer.append(previous);
                 footer.append(next);
                 root.append(footer);
