@@ -50,7 +50,7 @@
                      'method': 'get'
                 });
                 form.append(
-                    $('<input>').attr({ 'type': 'text', 'id':'search','name':'search'})
+                    $('<input>').attr({ 'type': 'text', 'id':'search','name':'search'}).val(data.search)
                 );
                 form.append(
                     $('<input>').attr({ 'type': 'submit', 'value':'Search'}).click(
@@ -91,19 +91,29 @@
                         'href': '#'
                     }).text('Next').click(function(e) {
                         e.preventDefault();
-                        self.getFiles({'page': data.page + 1});
+                        self.getFiles({'page': data.page + 1, 'search': $('#search').val()});
                     });
                 }
                 if (data.has_previous) {
                     var previous = $('<a>').attr({
                         'title': 'Next',
                         'href': '#'
-                    }).text('Previous').click(function(e) {
+                    }).text('Previous ').click(function(e) {
                         e.preventDefault();
-                        self.getFiles({'page': data.page - 1});
+                        self.getFiles({'page': data.page - 1, 'search': $('#search').val()});
                     });
                 }
                 footer.append(previous);
+                $.each(data.pages, function(index, value){ 
+                        var list = $('<a>').attr({
+                            'title': value,
+                            'href': '#'
+                        }).text(value+' ').click(function(e) {
+                            e.preventDefault();
+                            self.getFiles({'page': value, 'search': $('#search').val()});
+                        });
+                        footer.append(list);
+                });
                 footer.append(next);
                 root.append(footer);
             },

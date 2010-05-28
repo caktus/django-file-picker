@@ -39,6 +39,8 @@ class FilePicker(object):
             result.append(self.append(obj))
         data = {
             'page': page,
+            'pages': pages.page_range,
+            'search': form.cleaned_data['search'],
             'result': result,
             'has_next': page_obj.has_next(),
             'has_previous': page_obj.has_previous(),
