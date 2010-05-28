@@ -19,15 +19,13 @@ class FilePickerForm(forms.Textarea):
                         insertAtCaret('id_%s', insert);
                     }
                 }).appendTo($('body'));
-                var anchor = $('<a>').attr({
+                var anchor = $('<a>').text('Add Image').attr({
                     'id': 'file-picker',
                     'name': 'file-picker',
                     'href': '#'
-                }).text('Add Image');
-                anchor.click(function(e) {
+                }).click(function(e) {
                     e.preventDefault();
                     $(overlay).data('overlay').load();
-                })
-                $('.form-row.body').prepend(anchor);
+                }).prependTo('.form-row.body');
             });
             </script>''' % name)

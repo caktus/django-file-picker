@@ -19,12 +19,18 @@ class WYMEditor(forms.Textarea):
         rendered = super(WYMEditor, self).render(name, value, attrs)
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
-                var dialog = $('<div>').attr({'id':'picker-dialog'});
-                $('body').prepend(dialog);
-                $(document).data('picker', new FilePicker('/blog/images/'));
-                handle_click = function(e, insert) {
-                    $(document).data('wymGlob').insert(insert);
-                }                
+                var overlay = $('<div>').addClass('file-picker-overlay').overlay({
+                    effect: 'apple',
+                    speed: 'fast',
+                    onLoad: function() {
+                        this.getOverlay().data('filePicker').load();
+                    }
+                }).filePicker({
+                    url: '/blog/images/',
+                    onImageClick: function(e, insert) {
+                        this.getRoot().parent().data('wym').insert(insert);
+                    }
+                }).appendTo($('body'));
                 jQuery('#id_%s').wymeditor({
                     updateSelector: '.submit-row input[type=submit]',
                     updateEvent: 'click',
@@ -33,11 +39,9 @@ class WYMEditor(forms.Textarea):
                         image_button = jQuery(wym._box).find('li.wym_tools_image a');
                         image_button.unbind();
                         image_button.click(function(e) {
-                            jQuery(document).data('wymGlob', wym);
-                            var picker = $(document).data('picker');
-                            picker.show();
-                            e.preventDefault();  
-                            return(false);
+                            e.preventDefault();
+                            $(overlay).data('wym', wym);
+                            $(overlay).data('overlay').load();
                         });
                     },
                 });
