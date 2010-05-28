@@ -7,9 +7,20 @@ class FilePickerForm(forms.Textarea):
         rendered = super(FilePickerForm, self).render(name, value, attrs)
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
-                handle_click = function(e, insert) {
-                    insertAtCaret('id_%s', insert);
-                }
+                var overlay = $('<div>').addClass('file-picker-overlay').overlay({
+                    load: false,
+                    effect: 'apple',
+                    speed: 200,
+                    load: false,
+                    onLoad: function() {
+                        this.getOverlay().data('filePicker').load();
+                    }
+                }).filePicker({
+                    url: '/article/images/',
+                    onImageClick: function(e, insert) {
+                        insertAtCaret('id_%s', insert);
+                    }
+                }).appendTo($('body'));
                 var anchor = $('<a>').attr({
                     'id': 'file-picker',
                     'name': 'file-picker',
@@ -17,11 +28,8 @@ class FilePickerForm(forms.Textarea):
                 }).text('Add Image');
                 anchor.click(function(e) {
                     e.preventDefault();
-                    var picker = $(this).data('picker');
-                    picker.show();
+                    $(overlay).data('overlay').load();
                 })
-                var dialog = $('<div>').attr({ 'id': 'picker-dialog'});
-                $('.form-row.body').prepend(anchor).prepend(dialog);
-                $('#file-picker').data('picker', new FilePicker('/article/images/'));
+                $('.form-row.body').prepend(anchor);
             });
             </script>''' % name)
