@@ -18,7 +18,7 @@ class FilePickerForm(forms.Textarea):
                     onImageClick: function(e, insert) {
                         insertAtCaret('id_%(name)s', insert);
                     }
-                }).appendTo(body');
+                }).appendTo('body');
                 var anchor = $('<a>').text('Add Image').attr({
                     'name': 'file-picker',
                     'title': 'Add Image',
