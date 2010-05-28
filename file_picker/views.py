@@ -1,5 +1,6 @@
 from django.utils import simplejson as json
 from django.http import HttpResponse, HttpResponseServerError
+from django.core.paginator import Paginator, EmptyPage
 
 from file_picker.forms import QueryForm
 
@@ -27,14 +28,19 @@ class FilePicker(object):
         if not form.is_valid():
             return HttpResponseServerError()
         page = form.cleaned_data['page']
-        start = page * self.page_size
-        end = start + self.page_size
         result = []
         qs = self.get_queryset(form.cleaned_data['search'])
-        for obj in qs[start:end]:
+        pages = Paginator(qs, self.page_size)
+        try:
+            page_obj = pages.page(page)
+        except EmptyPage:
+            return HttpResponseServerError()
+        for obj in page_obj.object_list:
             result.append(self.append(obj))
         data = {
             'page': page,
             'result': result,
+            'has_next': page_obj.has_next(),
+            'has_previous': page_obj.has_previous(),
         }
         return HttpResponse(json.dumps(data), mimetype='application/json')
