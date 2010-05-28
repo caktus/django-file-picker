@@ -28,3 +28,9 @@
     height:35px;
     width:35px;
 }
+
+.scrollable {
+    width: 632px;
+    height: 450px;
+    overflow:auto;
+}

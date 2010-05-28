@@ -42,7 +42,6 @@
             displayFiles: function(data) {
                 var files = data.result;
                 root.empty();
-                
                 var table = $('<table>');
                 var tr = $('<tr>');
                 var form = $('<form>').attr({
@@ -59,9 +58,6 @@
                         self.getFiles({'search': $('#search').val() });
                     })
                 );
-                tr.append($('<td>').append(form));
-                table.append(tr);
-
                 var tr = $('<tr>');
                 tr.append($('<th>').text('Thumbnail'));
                 tr.append($('<th>').text('Name'));
@@ -83,35 +79,48 @@
                     tr.append($('<td>').text(file.name));
                     table.append(tr);
                 });
-                root.append(table);
+                var div = $('<div>').attr({'class': 'scrollable'});
+                root.append(form);
+                root.append(div.append(table));
                 var footer = $('<div>').attr('id', 'footer');
-                if (data.has_next) {
-                    var next = $('<a>').attr({
+                 var next = $('<a>').attr({
                         'title': 'Next',
                         'href': '#'
-                    }).text('Next').click(function(e) {
+                    }).text('Next')
+                if (data.has_next) {
+                    next.click(function(e) {
                         e.preventDefault();
                         self.getFiles({'page': data.page + 1, 'search': $('#search').val()});
                     });
+                } else {
+                    next.css('color', '#bbb');
                 }
-                if (data.has_previous) {
-                    var previous = $('<a>').attr({
+                var previous = $('<a>').attr({
                         'title': 'Next',
                         'href': '#'
-                    }).text('Previous ').click(function(e) {
+                    }).text('Previous ')
+                if (data.has_previous) {
+                    previous.click(function(e) {
                         e.preventDefault();
                         self.getFiles({'page': data.page - 1, 'search': $('#search').val()});
                     });
+                } else {
+                    previous.css('color', '#bbb');
                 }
                 footer.append(previous);
                 $.each(data.pages, function(index, value){ 
                         var list = $('<a>').attr({
                             'title': value,
                             'href': '#'
-                        }).text(value+' ').click(function(e) {
-                            e.preventDefault();
-                            self.getFiles({'page': value, 'search': $('#search').val()});
-                        });
+                        }).text(value+' ')
+                        if (data.page==value) {
+                            list.css('color', '#bbb');
+                        } else {
+                            list.click(function(e) {
+                                e.preventDefault();
+                                self.getFiles({'page': value, 'search': $('#search').val()});
+                            });
+                        }
                         footer.append(list);
                 });
                 footer.append(next);
