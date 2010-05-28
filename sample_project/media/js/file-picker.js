@@ -1,14 +1,3 @@
-function closeWindow(){
-    $('#picker-dialog').overlay().close();
-}
-// tool.append(
-//     $('<a>').attr({'class': 'exit'}).text('Test').click(
-//         function(e) {
-//             closeWindow();
-//         }
-//     )
-// );
-
 (function($) {
 
     $.filePicker = {
