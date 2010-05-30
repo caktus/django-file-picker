@@ -11,7 +11,8 @@
     function FilePicker(root, conf) {   
         
         // current instance
-        var self = this;
+        var self = this,
+            tabs = null;
         
         root.append($('<div>').addClass('file-picker'));
         root = root.find('.file-picker');
@@ -28,11 +29,33 @@
             },
 
             load: function() {
-                self.setupTabs();
+                tabs.tabs('div.panes > div');
+                tabs.tabs().onClick(function(e, index) {
+                    self.tabClick(e, index);
+                });
                 $.get(conf.url, function(response) {
                     conf.urls = response.urls;
                     self.getFiles();
                 });
+            },
+
+            tabClick: function(e, index) {
+                if (index == 1) {
+                    var pane = root.find('.file-picker-upload');
+                    pane.empty();
+                    pane.append($('<div>').attr('id', 'filelist'));
+                    var browse = $('<a>').text('Select Files').attr({
+                        'href': '#',
+                        'id': 'pickfiles',
+                    });
+                    pane.append(browse);
+                    var uploaded = $('<a>').text('Upload Files').attr({
+                        'href': '#',
+                        'id': 'uploadfiles',
+                    });
+                    pane.append(uploaded);
+                    self.setupUpload();
+                }
             },
 
             getFiles: function(data) {
@@ -44,40 +67,7 @@
                 });
             },
             
-            setupTabs: function() {
-                var tabs = $('<ul>').attr('id', 'file-picker-tabs').addClass('css-tabs');
-                tabs.append($('<li>').append($('<a>').attr('href', '#').text('Browse')));
-                tabs.append($('<li>').append($('<a>').attr('href', '#').text('Upload')));
-                var panes = $('<div>').addClass('panes');
-                panes.append($('<div>').attr('id', 'file-picker-browse'));
-                panes.append($('<div>').addClass('file-picker-upload'));
-                root.append(tabs);
-                root.append(panes);
-                $("ul#file-picker-tabs").tabs("div.panes > div");
-                tabs = $("ul#file-picker-tabs").tabs();
-                tabs.onClick(function(e, index) {
-                    if (index == 1) {
-                        var pane = root.find('.file-picker-upload');
-                        pane.empty();
-                        pane.append($('<div>').attr('id', 'filelist'));
-                        var browse = $('<a>').text('Select Files').attr({
-                            'href': '#',
-                            'id': 'pickfiles',
-                        });
-                        pane.append(browse);
-                        var uploaded = $('<a>').text('Upload Files').attr({
-                            'href': '#',
-                            'id': 'uploadfiles',
-                        });
-                        pane.append(uploaded);
-                        self.setupUpload();
-                    }
-                });
-
-            },
-            
             setupUpload: function() {
-                    
                 var uploader = new plupload.Uploader({
                     runtimes : 'html5',//'gears,html5,flash,silverlight,browserplus',
                     browse_button : 'pickfiles',
@@ -219,7 +209,16 @@
                 return self;
             };
         });
-
+        
+        // setup tabs
+        var tabs = $('<ul>').addClass('css-tabs').addClass('file-picker-tabs');
+        tabs.append($('<li>').append($('<a>').attr('href', '#').text('Browse')));
+        tabs.append($('<li>').append($('<a>').attr('href', '#').text('Upload')));
+        var panes = $('<div>').addClass('panes');
+        panes.append($('<div>').attr('id', 'file-picker-browse'));
+        panes.append($('<div>').addClass('file-picker-upload'));
+        root.append(tabs);
+        root.append(panes);
     } 
 
 
