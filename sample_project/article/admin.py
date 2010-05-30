@@ -7,12 +7,21 @@ class PostAdmin(admin.ModelAdmin):
     form = PostAdminModelForm
     class Media:
         css = {
-            "all": ("css/ui-lightness/jquery-ui-1.8.1.custom.css",
-                    "css/overlay.css",
-            )
+            "all": ("css/overlay.css",)
         }
-        js = ("js/jquery-1.4.2.min.js", "js/jquery-ui-1.8.1.custom.min.js",
-              "js/file-picker.js", "js/jquery.tools.min.js")
+        js = ("js/jquery-1.4.2.min.js",
+              "js/jquery.tools.min.js",
+              "js/file-picker.js",
+              #"js/gears_init.js",
+              #"http://bp.yahooapis.com/2.4.21/browserplus-min.js",
+              "js/plupload.full.min.js",
+              #"js/plupload.gears.js",
+              #"js/plupload.silverlight.js",
+              #"js/plupload.flash.js",
+              #"js/plupload.browserplus.js",
+              #"js/plupload.html5.js",
+              #"js/jquery.plupload.queue.js",
+        )
 admin.site.register(Post, PostAdmin)
 
 

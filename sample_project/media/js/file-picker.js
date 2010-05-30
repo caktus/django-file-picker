@@ -50,10 +50,71 @@
                 tabs.append($('<li>').append($('<a>').attr('href', '#').text('Upload')));
                 var panes = $('<div>').addClass('panes');
                 panes.append($('<div>').attr('id', 'file-picker-browse'));
-                panes.append($('<div>').attr('id', 'file-picker-upload'));
+                panes.append($('<div>').addClass('file-picker-upload'));
                 root.append(tabs);
                 root.append(panes);
                 $("ul#file-picker-tabs").tabs("div.panes > div");
+                tabs = $("ul#file-picker-tabs").tabs();
+                tabs.onClick(function(e, index) {
+                    if (index == 1) {
+                        var pane = root.find('.file-picker-upload');
+                        pane.empty();
+                        pane.append($('<div>').attr('id', 'filelist'));
+                        var browse = $('<a>').text('Select Files').attr({
+                            'href': '#',
+                            'id': 'pickfiles',
+                        });
+                        pane.append(browse);
+                        var uploaded = $('<a>').text('Upload Files').attr({
+                            'href': '#',
+                            'id': 'uploadfiles',
+                        });
+                        pane.append(uploaded);
+                        self.setupUpload();
+                    }
+                });
+
+            },
+            
+            setupUpload: function() {
+                    
+                var uploader = new plupload.Uploader({
+                    runtimes : 'html5',//'gears,html5,flash,silverlight,browserplus',
+                    browse_button : 'pickfiles',
+                    max_file_size : '10mb',
+                    url : 'upload.php',
+                    resize : {width : 320, height : 240, quality : 90},
+                    //flash_swf_url : '/media/js/plupload.flash.swf',
+                    //silverlight_xap_url : '/media/js/plupload.silverlight.xap',
+                    filters : [
+                        {title : "Image files", extensions : "jpg,gif,png"},
+                        {title : "Zip files", extensions : "zip"}
+                    ]
+                });
+                
+                uploader.bind('Init', function(up, params) {
+                    $('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+                });
+                
+                uploader.bind('FilesAdded', function(up, files) {
+                    $.each(files, function(i, file) {
+                        $('#filelist').append(
+                            '<div id="' + file.id + '">' +
+                            file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
+                        '</div>');
+                    });
+                });
+                
+                uploader.bind('UploadProgress', function(up, file) {
+                    $('#' + file.id + " b").html(file.percent + "%");
+                });
+                
+                $('#uploadfiles').click(function(e) {
+                    uploader.start();
+                    e.preventDefault();
+                });
+                
+                uploader.init();
             },
 
             displayFiles: function(data) {
@@ -102,7 +163,7 @@
                 container.append(form);
                 container.append(div.append(table));
                 var footer = $('<div>').attr('id', 'footer');
-                 var next = $('<a>').attr({
+                var next = $('<a>').attr({
                         'title': 'Next',
                         'href': '#'
                     }).text('Next')
