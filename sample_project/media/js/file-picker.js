@@ -71,7 +71,7 @@
                     'id': 'uploadfiles',
                 });
                 pane.append(uploaded);
-                var form = $('form').attr({'method': 'post'})
+                var form = $('<form>').attr({'method': 'post'})
                 form.html(data.form);
                 form.append($('<input>').attr({'type': 'submit', 'value': 'Sumbit'}));
                 pane.append(form);
