@@ -40,24 +40,9 @@
             },
 
             tabClick: function(e, index) {
+                console.log(index);
                 if (index == 1) {
-                    /*
-                    var pane = root.find('.file-picker-upload');
-                    pane.empty();
-                    pane.append($('<div>').attr('id', 'filelist'));
-                    var browse = $('<a>').text('Select Files').attr({
-                        'href': '#',
-                        'id': 'pickfiles',
-                    });
-                    pane.append(browse);
-                    var uploaded = $('<a>').text('Upload Files').attr({
-                        'href': '#',
-                        'id': 'uploadfiles',
-                    });
-                    pane.append(uploaded);
-                    */
-                    self.getForm();
-                    self.setupUpload();
+                    self.getForm(); 
                 }
             },
             
@@ -67,10 +52,12 @@
                 }
                 $.get(conf.urls.upload.file, data, function(response){
                     self.displayForm(response);
+                    self.setupUpload();
                 });
             },
             
             displayForm: function(data){
+                console.log(data);
                 var pane = root.find('.file-picker-upload');
                 pane.empty();
                 pane.append($('<div>').attr('id', 'filelist'));
@@ -84,7 +71,8 @@
                     'id': 'uploadfiles',
                 });
                 pane.append(uploaded);
-                var form = $('form').attr({'method': 'post'}).html(data.form);
+                var form = $('form').attr({'method': 'post'})
+                form.html(data.form);
                 form.append($('<input>').attr({'type': 'submit', 'value': 'Sumbit'}));
                 pane.append(form);
             },
