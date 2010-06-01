@@ -1,10 +1,12 @@
 from django import forms
 from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
 
 
 class FilePickerForm(forms.Textarea):
     def render(self, name, value, attrs=None):
         rendered = super(FilePickerForm, self).render(name, value, attrs)
+        url = reverse("file-picker-init");
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
                 var overlay = $('<div>').addClass('file-picker-overlay').overlay({
@@ -14,7 +16,7 @@ class FilePickerForm(forms.Textarea):
                         this.getOverlay().data('filePicker').load();
                     }
                 }).filePicker({
-                    url: '/article/images/',
+                    url: '%(url)s',
                     onImageClick: function(e, insert) {
                         insertAtCaret('id_%(name)s', insert);
                     }
@@ -28,4 +30,4 @@ class FilePickerForm(forms.Textarea):
                     $(overlay).data('overlay').load();
                 }).prependTo('.form-row.body');
             });
-            </script>''' % {'name': name})
+            </script>''' % {'name': name, 'url': url})
