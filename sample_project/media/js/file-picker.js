@@ -72,7 +72,7 @@
                     runtimes : 'html5',//'gears,html5,flash,silverlight,browserplus',
                     browse_button : 'pickfiles',
                     max_file_size : '10mb',
-                    url : 'upload.php',
+                    url : conf.urls.upload.file,
                     resize : {width : 320, height : 240, quality : 90},
                     //flash_swf_url : '/media/js/plupload.flash.swf',
                     //silverlight_xap_url : '/media/js/plupload.silverlight.xap',
