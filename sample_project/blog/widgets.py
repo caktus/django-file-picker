@@ -19,7 +19,7 @@ class WYMEditor(forms.Textarea):
 
     def render(self, name, value, attrs=None):
         rendered = super(WYMEditor, self).render(name, value, attrs)
-        url = reverse("file-list-blog-image");
+        url = reverse("file-picker-blog-image-init");
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
                 var overlay = $('<div>').addClass('file-picker-overlay').overlay({

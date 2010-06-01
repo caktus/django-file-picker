@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 class FilePickerForm(forms.Textarea):
     def render(self, name, value, attrs=None):
         rendered = super(FilePickerForm, self).render(name, value, attrs)
-        url = reverse("file-picker-init");
+        url = reverse("file-picker-article-image-init");
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
                 var overlay = $('<div>').addClass('file-picker-overlay').overlay({

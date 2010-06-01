@@ -14,9 +14,16 @@ class FilePicker(object):
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
         urlpatterns = patterns('',
-            url(r'^$', self.setup, name='file-picker-init'),
-            url(r'^files/$', self.list, name='file-picker-list'),
-            url(r'^upload/file/$', self.upload_file, name='file-picker-upload'),
+            url(r'^$', self.setup, name='file-picker-%s-%s-init' %
+                (self.model._meta.app_label, self.model._meta.module_name)
+            ),
+            url(r'^files/$', self.list, name='file-picker-%s-%s-list' %
+                (self.model._meta.app_label, self.model._meta.module_name)
+            ),
+            url(r'^upload/file/$', self.upload_file, 
+                name='file-picker-%s-%s-upload' % 
+                (self.model._meta.app_label, self.model._meta.module_name)
+            ),
         )
         return urlpatterns
     urls = property(get_urls)
@@ -24,8 +31,12 @@ class FilePicker(object):
     def setup(self, request):
         data = {}
         urls = {
-            'browse': {'files': reverse('file-picker-list')},
-            'upload': {'file': reverse('file-picker-upload'), 'form': ''},
+            'browse': {'files': reverse('file-picker-%s-%s-list' %
+                (self.model._meta.app_label, self.model._meta.module_name)
+            )},
+            'upload': {'file': reverse('file-picker-%s-%s-upload' %
+                (self.model._meta.app_label, self.model._meta.module_name)), 
+                'form': '' },
         }
         data['urls'] = urls
         return HttpResponse(json.dumps(data), mimetype='application/json')

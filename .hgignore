@@ -3,3 +3,4 @@ local_settings.py
 *.pyc
 *.db
 .DS_Store
+media/images
