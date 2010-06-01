@@ -41,6 +41,7 @@
 
             tabClick: function(e, index) {
                 if (index == 1) {
+                    /*
                     var pane = root.find('.file-picker-upload');
                     pane.empty();
                     pane.append($('<div>').attr('id', 'filelist'));
@@ -54,10 +55,40 @@
                         'id': 'uploadfiles',
                     });
                     pane.append(uploaded);
+                    */
+                    self.getForm();
                     self.setupUpload();
                 }
             },
-
+            
+            getForm: function(data){
+                if (!data) {
+                    data = {};
+                }
+                $.get(conf.urls.upload.file, data, function(response){
+                    self.displayForm(response);
+                });
+            },
+            
+            displayForm: function(data){
+                var pane = root.find('.file-picker-upload');
+                pane.empty();
+                pane.append($('<div>').attr('id', 'filelist'));
+                var browse = $('<a>').text('Select Files').attr({
+                    'href': '#',
+                    'id': 'pickfiles',
+                });
+                pane.append(browse);
+                var uploaded = $('<a>').text('Upload Files').attr({
+                    'href': '#',
+                    'id': 'uploadfiles',
+                });
+                pane.append(uploaded);
+                var form = $('form').attr({'method': 'post'}).html(data.form);
+                form.append($('<input>').attr({'type': 'submit', 'value': 'Sumbit'}));
+                pane.append(form);
+            },
+            
             getFiles: function(data) {
                 if (!data) {
                     data = {};
@@ -81,7 +112,6 @@
                         {title : "Zip files", extensions : "zip"}
                     ]
                 });
-                
                 uploader.bind('Init', function(up, params) {
                     $('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
                 });
@@ -103,7 +133,6 @@
                     uploader.start();
                     e.preventDefault();
                 });
-                
                 uploader.init();
             },
 

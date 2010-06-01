@@ -48,9 +48,9 @@ class FilePicker(object):
         return self.model.objects.all()
 
     def upload_file(self, request):
-        f = open('/Users/copelco/Desktop/temp', 'wb+')
+        f = open('/tmp', 'wb+')
         f.write(request.raw_post_data)
-        f.close()
+        f.close()  
         data = {'hello': 'moo'}
         return HttpResponse(json.dumps(data), mimetype='application/json')
 

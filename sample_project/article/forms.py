@@ -9,3 +9,9 @@ class PostAdminModelForm(forms.ModelForm):
     body = forms.CharField(widget=FilePickerForm())
     class Meta:
         model = get_model('article', 'post')
+        
+
+class AjaxImageForm(forms.ModelForm):
+    class Meta:
+        model = get_model('article', 'image')
+
