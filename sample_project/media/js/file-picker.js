@@ -29,7 +29,7 @@
             },
 
             load: function() {
-                tabs.tabs('div.panes > div');
+                tabs.tabs('div.panes > div', {effect: 'fade', fadeOutSpeed: 400});
                 tabs.tabs().onClick(function(e, index) {
                     self.tabClick(e, index);
                 });
