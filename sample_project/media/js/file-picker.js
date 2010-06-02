@@ -41,8 +41,10 @@
 
             tabClick: function(e, index) {
                 if (index == 1) {
+                    root.find('.file-picker-upload').empty();
                     self.getForm(); 
                 }else if (index == 0){
+                    root.find('.file-picker-upload').empty();
                     self.getFiles();
                 }
             },
