@@ -64,11 +64,6 @@
                     'id': 'pickfiles',
                 });
                 pane.append(browse);
-                var uploaded = $('<a>').text('Upload Files').attr({
-                    'href': '#',
-                    'id': 'uploadfiles',
-                });
-                pane.append(uploaded);
                 var form = $('<form>').attr({
                     'method': 'post', 'id': 'upload_form', 'action':'',
                 });
@@ -99,6 +94,7 @@
                         {title : "Zip files", extensions : "zip"}
                     ]
                 });
+                
                 uploader.bind('Init', function(up, params) {
                     $('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
                 });
@@ -112,13 +108,14 @@
                     });
                 });
                 
-                uploader.bind('UploadProgress', function(up, file) {
-                    $('#' + file.id + " b").html(file.percent + "%");
+                uploader.bind('QueueChanged', function(up) {
+                    if ( up.files.length > 0 && uploader.state != 2) {
+                        uploader.start();
+                    }
                 });
                 
-                $('#uploadfiles').click(function(e) {
-                    uploader.start();
-                    e.preventDefault();
+                uploader.bind('UploadProgress', function(up, file) {
+                    $('#' + file.id + " b").html(file.percent + "%");
                 });
                 
                 uploader.bind('FileUploaded', function(uploader, file, response){
