@@ -1,5 +1,4 @@
 import os
-import sys
 import tempfile
 
 from django.template.loader import render_to_string
@@ -25,12 +24,12 @@ class ImagePicker(FilePicker):
     @csrf_exempt
     def upload_file(self, request):
         if request.GET and 'name' in request.GET:
-            fn = add_unique_postfix('/tmp/%s' % request.GET['name'])
-            tempfile.NamedTemporaryFile([mode='w+b'[, bufsize=-1[, suffix=''[, prefix='tmp'[, dir=None[, delete=True]]]]]])
-            f = open(fn, 'wb+')
-            f.write(request.raw_post_data)
-            f.close()
-            return HttpResponse(fn, mimetype='application/json')
+            name, ext = os.path.splitext(request.GET['name'])
+            fn = tempfile.NamedTemporaryFile(prefix=name, suffix=ext, delete=False)
+            fn.write(request.raw_post_data)
+            fn.close()
+            fn.name
+            return HttpResponse(fn.name, mimetype='application/json')
         else: 
             if request.POST:
                 form = AjaxImageForm(request.POST)
@@ -59,19 +58,3 @@ class ImagePicker(FilePicker):
         }
     
 file_picker = ImagePicker()
-
-
-def add_unique_postfix(fn):
-    if not os.path.exists(fn):
-        return fn
-
-    path, name = os.path.split(fn)
-    name, ext = os.path.splitext(name)
-
-    make_fn = lambda i: os.path.join(path, '%s(%d)%s' % (name, i, ext))
-
-    for i in xrange(2, sys.maxint):
-        uni_fn = make_fn(i)
-        if not os.path.exists(uni_fn):
-            return uni_fn
-
