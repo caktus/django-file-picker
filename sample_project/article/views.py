@@ -28,7 +28,6 @@ class ImagePicker(FilePicker):
             fn = tempfile.NamedTemporaryFile(prefix=name, suffix=ext, delete=False)
             fn.write(request.raw_post_data)
             fn.close()
-            fn.name
             return HttpResponse(fn.name, mimetype='application/json')
         else: 
             if request.POST:
