@@ -42,17 +42,38 @@
             tabClick: function(e, index) {
                 if (index == 1) {
                     self.getForm(); 
+                }else if (index == 0){
+                    self.getFiles();
                 }
             },
             
             getForm: function(data){
                 if (!data) {
-                    data = {};
+                    $.get(conf.urls.upload.file, {}, function(response){
+                        self.displayForm(response);
+                        self.setupUpload();
+                    });
+                } else {
+                    $.post(conf.urls.upload.file, data, function(response){
+                        if (response['insert']) {
+                            $(self).trigger("onImageClick", [response.insert]);
+                        }else{
+                            self.displayForm(response);
+                            self.setupUpload();
+                            submit = $('<input>').attr({'type': 'submit', 'value': 'Submit'}).
+                            click( function(e) {
+                                e.preventDefault();
+                                data = {};
+                                $(':input', $('#upload_form')).each(function() {
+                                    data[this.name]=this.value;
+                                });
+                                data['file'] = response['response'];
+                                self.getForm(data);
+                            })
+                            $('#upload_form').append(submit);
+                        }
+                    });
                 }
-                $.post(conf.urls.upload.file, data, function(response){
-                    self.displayForm(response);
-                    self.setupUpload();
-                });
             },
             
             displayForm: function(data){
@@ -84,9 +105,8 @@
                 var uploader = new plupload.Uploader({
                     runtimes : 'html5',//'gears,html5,flash,silverlight,browserplus',
                     browse_button : 'pickfiles',
-                    max_file_size : '10mb',
+                    max_file_size : '20mb',
                     url : conf.urls.upload.file,
-                    resize : {width : 320, height : 240, quality : 90},
                     //flash_swf_url : '/media/js/plupload.flash.swf',
                     //silverlight_xap_url : '/media/js/plupload.silverlight.xap',
                     filters : [
@@ -119,7 +139,6 @@
                 });
                 
                 uploader.bind('FileUploaded', function(uploader, file, response){
-                    $('#upload_form').data('uploaded', response['response']);
                     submit = $('<input>').attr({'type': 'submit', 'value': 'Submit'}).
                         click( function(e) {
                             e.preventDefault();
@@ -127,7 +146,7 @@
                             $(':input', $('#upload_form')).each(function() {
                                 data[this.name]=this.value;
                             });
-                            data['file'] = $('#upload_form').data('uploaded');
+                            data['file'] = response['response'];
                             self.getForm(data);
                         })
                     $('#upload_form').append(submit);
@@ -137,7 +156,6 @@
 
             displayFiles: function(data) {
                 var container = root.find('#file-picker-browse');
-                
                 var files = data.result;
                 container.empty();
                 var table = $('<table>');

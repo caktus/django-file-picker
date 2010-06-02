@@ -64,7 +64,11 @@ class FilePicker(object):
             if request.POST:
                 form = self.form(request.POST)
                 if form.is_valid():
-                    form.save()
+                    obj = form.save()
+                    data = self.append(obj)
+                    return HttpResponse(
+                        json.dumps(data), mimetype='application/json'
+                    )
             else:
                 form = self.form()
             form_str = form.as_p()

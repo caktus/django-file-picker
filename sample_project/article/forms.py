@@ -34,3 +34,4 @@ class AjaxImageForm(forms.ModelForm):
             ContentFile(open(str(self.cleaned_data['file']),'r').read())
         )
         item.save(*args, **kwargs)
+        return item
