@@ -96,4 +96,9 @@ ul.css-tabs a.current {
 	background-color:#ddd;	
 }
 
+/* Select Files */
+#pickfiles {
+    font-size:18px;
+}
+
 
