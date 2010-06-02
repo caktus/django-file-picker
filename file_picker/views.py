@@ -1,3 +1,6 @@
+import os
+import tempfile
+
 from django.utils import simplejson as json
 from django.http import HttpResponse, HttpResponseServerError
 from django.core.paginator import Paginator, EmptyPage
@@ -10,6 +13,7 @@ from file_picker.forms import QueryForm
 
 class FilePicker(object):
     model = None
+    form = None
     page_size = 4
 
     def get_urls(self):
@@ -48,12 +52,24 @@ class FilePicker(object):
     def get_queryset(self,search):
         return self.model.objects.all()
 
+    @csrf_exempt
     def upload_file(self, request):
-        f = open('/tmp', 'wb+')
-        f.write(request.raw_post_data)
-        f.close()  
-        data = {'hello': 'moo'}
-        return HttpResponse(json.dumps(data), mimetype='application/json')
+        if request.GET and 'name' in request.GET:
+            name, ext = os.path.splitext(request.GET['name'])
+            fn = tempfile.NamedTemporaryFile(prefix=name, suffix=ext, delete=False)
+            fn.write(request.raw_post_data)
+            fn.close()
+            return HttpResponse(fn.name, mimetype='application/json')
+        else: 
+            if request.POST:
+                form = self.form(request.POST)
+                if form.is_valid():
+                    form.save()
+            else:
+                form = self.form()
+            form_str = form.as_p()
+            data = { 'form': form_str }
+            return HttpResponse(json.dumps(data), mimetype='application/json') 
 
     def list(self, request):
         form = QueryForm(request.GET)
