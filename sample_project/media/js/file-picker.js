@@ -67,7 +67,6 @@
                                 $(':input', $('#upload_form')).each(function() {
                                     data[this.name]=this.value;
                                 });
-                                data['file'] = response['response'];
                                 self.getForm(data);
                             })
                             $('#upload_form').append(submit);
