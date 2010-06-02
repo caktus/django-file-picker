@@ -120,7 +120,7 @@
                 
                 uploader.bind('FileUploaded', function(uploader, file, response){
                     $('#upload_form').data('uploaded', response['response']);
-                    submit = $('<input>').attr({'type': 'submit', 'value': 'Sumbit'}).
+                    submit = $('<input>').attr({'type': 'submit', 'value': 'Submit'}).
                         click( function(e) {
                             e.preventDefault();
                             data = {};

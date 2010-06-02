@@ -1,3 +1,5 @@
+import os
+
 from django import forms
 from django.db.models import get_model
 from sample_project.article.widgets import FilePickerForm
@@ -15,6 +17,12 @@ class PostAdminModelForm(forms.ModelForm):
 
 class AjaxImageForm(forms.ModelForm):
     file = forms.CharField(widget=forms.widgets.HiddenInput())    
+    
+    def clean_file(self):
+        file = self.cleaned_data['file']
+        if not os.path.exists(file):
+            raise forms.ValidationErorr('Missing file')
+        return file
         
     class Meta:
         model = get_model('article', 'image')
