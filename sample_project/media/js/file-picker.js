@@ -40,7 +40,6 @@
             },
 
             tabClick: function(e, index) {
-                console.log(index);
                 if (index == 1) {
                     self.getForm(); 
                 }
@@ -50,14 +49,13 @@
                 if (!data) {
                     data = {};
                 }
-                $.get(conf.urls.upload.file, data, function(response){
+                $.post(conf.urls.upload.file, data, function(response){
                     self.displayForm(response);
                     self.setupUpload();
                 });
             },
             
             displayForm: function(data){
-                console.log(data);
                 var pane = root.find('.file-picker-upload');
                 pane.empty();
                 pane.append($('<div>').attr('id', 'filelist'));
@@ -71,9 +69,21 @@
                     'id': 'uploadfiles',
                 });
                 pane.append(uploaded);
-                var form = $('<form>').attr({'method': 'post'})
+                var form = $('<form>').attr({
+                    'method': 'post', 'id': 'upload_form', 'action':'',
+                });
                 form.html(data.form);
-                form.append($('<input>').attr({'type': 'submit', 'value': 'Sumbit'}));
+                submit = $('<input>').attr({'type': 'submit', 'value': 'Sumbit'}).
+                click( function(e, form) {
+                    e.preventDefault();
+                    data = {};
+                    $(':input', $('#upload_form')).each(function() {
+                        data[this.name]=this.value;
+                    });
+                    console.log(data);
+                    self.getForm(data);
+                })
+                form.append(submit);
                 pane.append(form);
             },
             

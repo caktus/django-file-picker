@@ -1,6 +1,7 @@
 from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseServerError
 from django.utils import simplejson as json
+from django.views.decorators.csrf import csrf_exempt
 
 from sample_project.article.models import Image
 from sample_project.article.forms import AjaxImageForm
@@ -16,9 +17,11 @@ class ImagePicker(FilePicker):
     def get_queryset(self,search):
         return Image.objects.filter(name__icontains=search)
     
+    @csrf_exempt
     def upload_file(self, request):
         if request.POST:
             form = AjaxImageForm(request.POST)
+            print request.POST
         else:
             form = AjaxImageForm()
         form_str = render_to_string('article/upload_form.html', {'form': form})

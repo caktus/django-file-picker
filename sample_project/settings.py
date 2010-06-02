@@ -57,6 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'sample_project.urls'
@@ -78,4 +79,5 @@ INSTALLED_APPS = (
     'sample_project.article',
     'pagelets',
     'treenav',
+    'debug_toolbar',
 )

@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseServerError
 from django.core.paginator import Paginator, EmptyPage
 from django.core.urlresolvers import reverse
 from django.core.files.uploadedfile import UploadedFile
+from django.views.decorators.csrf import csrf_exempt
 
 from file_picker.forms import QueryForm
 
