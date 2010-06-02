@@ -71,7 +71,7 @@ class FilePicker(object):
                     )
             else:
                 form = self.form()
-            form_str = form.as_p()
+            form_str = form.as_table()
             data = { 'form': form_str }
             return HttpResponse(json.dumps(data), mimetype='application/json') 
 

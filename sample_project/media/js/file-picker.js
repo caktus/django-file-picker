@@ -12,7 +12,9 @@
         
         // current instance
         var self = this,
-            tabs = null;
+            tabs = null,
+            browse_pane = null,
+            upload_pane = null;
         
         root.append($('<div>').addClass('file-picker'));
         root = root.find('.file-picker');
@@ -82,16 +84,20 @@
                 var pane = root.find('.file-picker-upload');
                 pane.empty();
                 pane.append($('<h2>').text('Select file to upload'));
-                pane.append($('<div>').attr('id', 'filelist'));
-                var browse = $('<a>').text('Select Files').attr({
-                    'href': '#',
-                    'id': 'pickfiles',
+                var browse = $('<input>').val('Select a file').attr({
+                    'type': 'button',
+                    'id': 'select-a-file',
                 });
                 pane.append(browse);
+                var runtime = $('<div>').addClass('runtime');
+                pane.append(runtime);
+                pane.append($('<ul>').addClass('upload-list'));
+                pane.append($('<h3>').text('File details'));
                 var form = $('<form>').attr({
                     'method': 'post', 'id': 'upload_form', 'action':'',
                 });
-                form.html(data.form);
+                var table = $('<table>').html(data.form)
+                form.append(table);
                 pane.append(form);
             },
             
@@ -107,7 +113,7 @@
             setupUpload: function() {
                 var uploader = new plupload.Uploader({
                     runtimes : 'html5',//'gears,html5,flash,silverlight,browserplus',
-                    browse_button : 'pickfiles',
+                    browse_button : 'select-a-file',
                     max_file_size : '20mb',
                     url : conf.urls.upload.file,
                     //flash_swf_url : '/media/js/plupload.flash.swf',
@@ -119,15 +125,16 @@
                 });
                 
                 uploader.bind('Init', function(up, params) {
-                    $('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+                    upload_pane.find('.runtime').html('Upload runtime: ' + params.runtime);
                 });
                 
                 uploader.bind('FilesAdded', function(up, files) {
+                    var list = upload_pane.find('.upload-list');
                     $.each(files, function(i, file) {
-                        $('#filelist').append(
-                            '<div id="' + file.id + '">' +
-                            file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
-                        '</div>');
+                        var li = $('<li>').attr({'id': file.id});
+                        li.append($('<span>').text(file.name + ' (' + plupload.formatSize(file.size) + ') '));
+                        li.append('<b>');
+                        list.append(li);
                     });
                 });
                 
@@ -266,11 +273,11 @@
         tabs.append($('<li>').append($('<a>').attr('href', '#').text('Browse')));
         tabs.append($('<li>').append($('<a>').attr('href', '#').text('Upload')));
         var panes = $('<div>').addClass('panes');
-        var browse = $('<div>').attr('id', 'file-picker-browse').addClass('pane');
-        browse.append($('<h2>').text('Browse for a file'));
-        
-        panes.append(browse);
-        panes.append($('<div>').addClass('file-picker-upload').addClass('pane'));
+        browse_pane = $('<div>').attr('id', 'file-picker-browse').addClass('pane');
+        browse_pane.append($('<h2>').text('Browse for a file'));
+        panes.append(browse_pane);
+        upload_pane = $('<div>').addClass('file-picker-upload').addClass('pane')
+        panes.append(upload_pane);
         root.append(tabs);
         root.append(panes);
     } 
