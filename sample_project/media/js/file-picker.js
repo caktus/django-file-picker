@@ -29,7 +29,7 @@
             },
 
             load: function() {
-                tabs.tabs('div.panes > div', {effect: 'fade', fadeOutSpeed: 400});
+                tabs.tabs('div.panes > div.pane', {effect: 'fade', fadeOutSpeed: 400});
                 tabs.tabs().onClick(function(e, index) {
                     self.tabClick(e, index);
                 });
@@ -263,8 +263,8 @@
         tabs.append($('<li>').append($('<a>').attr('href', '#').text('Browse')));
         tabs.append($('<li>').append($('<a>').attr('href', '#').text('Upload')));
         var panes = $('<div>').addClass('panes');
-        panes.append($('<div>').attr('id', 'file-picker-browse'));
-        panes.append($('<div>').addClass('file-picker-upload'));
+        panes.append($('<div>').attr('id', 'file-picker-browse').addClass('pane'));
+        panes.append($('<div>').addClass('file-picker-upload').addClass('pane'));
         root.append(tabs);
         root.append(panes);
     } 

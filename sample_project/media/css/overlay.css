@@ -89,13 +89,9 @@ ul.css-tabs a.current {
 
 	
 /* tab pane */
-.css-panes div {
-	display:none;
-	border:1px solid #666;
-	border-width:0 1px 1px 1px;
-	min-height:150px;
-	padding:15px 20px;
-	background-color:#ddd;	
+div.panes div.pane {
+	display: none;
+	position: absolute;
 }
 
 /* Select Files */
