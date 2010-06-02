@@ -2,22 +2,22 @@
 .file-picker-overlay {
     
     /* initially overlay is hidden */
-    display:none;
+    display: none;
     
     /* growing background image */
-    background-image:url(../img/white.png);
+    background-image: url(../img/white.png);
     
     /* 
         width after the growing animation finishes
         height is automatically calculated
     */
-    width:640px;        
+    width: 640px;        
     
     /* some padding to layout nested elements nicely  */
-    padding:35px;
+    padding: 35px;
 
     /* a little styling */  
-    font-size:11px;
+/*    font-size:11px;*/
 }
 
 /* default close button positioned on upper right corner */
@@ -28,14 +28,6 @@
     height:35px;
     width:35px;
 }
-
-.scrollable {
-    width: 632px;
-    height: 420px;
-    overflow:auto;
-}
-
-
 
 /* root element for tabs  */
 ul.css-tabs {  
@@ -60,7 +52,7 @@ ul.css-tabs a {
 	float: left;
 	top: 1px;
 	height: 12px;
-	margin-right: 2px;
+	margin: 0 2px 0 3px;
 	padding: 8px 30px;
 	font-size: 12px;
 	text-decoration: none;
@@ -92,9 +84,36 @@ ul.css-tabs a.current {
 div.panes div.pane {
 	display: none;
 	position: absolute;
+	padding-top: 5px;
 }
 
 /* Select Files */
 #pickfiles {
     font-size:18px;
+}
+
+.file-picker-overlay .file-picker-search {
+    margin-bottom: 1em;
+}
+
+.file-picker-overlay .file-picker-search input {
+    margin-left: 5px;
+}
+
+.file-picker-overlay .scrollable {
+    width: 632px;
+    height: 368px;
+    overflow: auto;
+    border-top: 1px solid #EEE;
+}
+
+.file-picker-overlay .scrollable {
+    width: 632px;
+    height: 353px;
+    overflow: auto;
+    border-top: 1px solid #EEE;
+}
+
+.file-picker-overlay .scrollable table {
+    width: 100%;
 }

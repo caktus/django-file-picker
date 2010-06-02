@@ -81,6 +81,7 @@
             displayForm: function(data){
                 var pane = root.find('.file-picker-upload');
                 pane.empty();
+                pane.append($('<h2>').text('Select file to upload'));
                 pane.append($('<div>').attr('id', 'filelist'));
                 var browse = $('<a>').text('Select Files').attr({
                     'href': '#',
@@ -160,11 +161,13 @@
                 var container = root.find('#file-picker-browse');
                 var files = data.result;
                 container.empty();
-                var table = $('<table>');
+                container.append($('<h2>').text('Select file to insert'));
+                var table = $('<table>').addClass('file-list');
                 var tr = $('<tr>');
                 var form = $('<form>').attr({
                      'action': "",
-                     'method': 'get'
+                     'method': 'get',
+                     'class': 'file-picker-search'
                 });
                 form.append(
                     $('<input>').attr({ 'type': 'text', 'id':'search','name':'search'}).val(data.search)
@@ -263,7 +266,10 @@
         tabs.append($('<li>').append($('<a>').attr('href', '#').text('Browse')));
         tabs.append($('<li>').append($('<a>').attr('href', '#').text('Upload')));
         var panes = $('<div>').addClass('panes');
-        panes.append($('<div>').attr('id', 'file-picker-browse').addClass('pane'));
+        var browse = $('<div>').attr('id', 'file-picker-browse').addClass('pane');
+        browse.append($('<h2>').text('Browse for a file'));
+        
+        panes.append(browse);
         panes.append($('<div>').addClass('file-picker-upload').addClass('pane'));
         root.append(tabs);
         root.append(panes);
