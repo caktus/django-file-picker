@@ -69,6 +69,9 @@ ul.css-tabs a {
 ul.css-tabs a:hover {
 	background-color: #B3C8D3;
 	color: #417690;
+	-webkit-transition: background-color 0.1s linear;  
+    -moz-transition: background-color 0.1s linear;  
+    -o-transition: background-color 0.1s linear;
 }
 	
 /* selected tab */
