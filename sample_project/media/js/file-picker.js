@@ -57,6 +57,7 @@
                     $.post(conf.urls.upload.file, data, function(response){
                         if (response['insert']) {
                             $(self).trigger("onImageClick", [response.insert]);
+                            self.getForm();
                         }else{
                             self.displayForm(response);
                             self.setupUpload();
