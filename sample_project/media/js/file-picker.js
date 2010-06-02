@@ -73,17 +73,6 @@
                     'method': 'post', 'id': 'upload_form', 'action':'',
                 });
                 form.html(data.form);
-                submit = $('<input>').attr({'type': 'submit', 'value': 'Sumbit'}).
-                click( function(e, form) {
-                    e.preventDefault();
-                    data = {};
-                    $(':input', $('#upload_form')).each(function() {
-                        data[this.name]=this.value;
-                    });
-                    console.log(data);
-                    self.getForm(data);
-                })
-                form.append(submit);
                 pane.append(form);
             },
             
@@ -130,6 +119,21 @@
                 $('#uploadfiles').click(function(e) {
                     uploader.start();
                     e.preventDefault();
+                });
+                
+                uploader.bind('FileUploaded', function(uploader, file, response){
+                    $('#upload_form').data('uploaded', response['response']);
+                    submit = $('<input>').attr({'type': 'submit', 'value': 'Sumbit'}).
+                        click( function(e) {
+                            e.preventDefault();
+                            data = {};
+                            $(':input', $('#upload_form')).each(function() {
+                                data[this.name]=this.value;
+                            });
+                            data['file'] = $('#upload_form').data('uploaded');
+                            self.getForm(data);
+                        })
+                    $('#upload_form').append(submit);
                 });
                 uploader.init();
             },

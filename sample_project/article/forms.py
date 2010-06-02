@@ -14,4 +14,4 @@ class PostAdminModelForm(forms.ModelForm):
 class AjaxImageForm(forms.ModelForm):
     class Meta:
         model = get_model('article', 'image')
-
+        exclude = ['file']
