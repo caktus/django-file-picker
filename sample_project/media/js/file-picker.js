@@ -65,15 +65,16 @@
                         }else{
                             self.displayForm(response);
                             self.setupUpload();
-                            submit = $('<input>').attr({'type': 'submit', 'value': 'Submit'}).
-                            click( function(e) {
-                                e.preventDefault();
-                                data = {};
-                                $(':input', $('#upload_form')).each(function() {
-                                    data[this.name]=this.value;
-                                });
-                                self.getForm(data);
-                            })
+                            submit = $('<input>').
+                                attr({'type': 'submit', 'value': 'Submit'}).
+                                click( function(e) {
+                                    e.preventDefault();
+                                    data = {};
+                                    $(':input', $('#upload_form')).each(function() {
+                                        data[this.name]=this.value;
+                                    });
+                                    self.getForm(data);
+                                })
                             $('#upload_form').append(submit);
                         }
                     });
@@ -130,11 +131,14 @@
                 
                 uploader.bind('FilesAdded', function(up, files) {
                     var list = upload_pane.find('.upload-list');
+                    list.empty();
                     $.each(files, function(i, file) {
                         var li = $('<li>').attr({'id': file.id});
                         li.append($('<span>').text(file.name + ' (' + plupload.formatSize(file.size) + ') '));
                         li.append('<b>');
                         list.append(li);
+                        up.removeFile(file);
+                        $('#add_to_model').remove();
                     });
                 });
                 
@@ -149,18 +153,20 @@
                 });
                 
                 uploader.bind('FileUploaded', function(uploader, file, response){
-                    submit = $('<input>').attr({'type': 'submit', 'value': 'Submit'}).
+                    submit = $('<input>').attr(
+                            {'id': 'add_to_model', 'type': 'submit', 'value': 'Submit'}
+                        ).
                         click( function(e) {
                             e.preventDefault();
-                            data = {};
+                            var data = {};
                             $(':input', $('#upload_form')).each(function() {
                                 data[this.name]=this.value;
                             });
                             data['file'] = response['response'];
                             self.getForm(data);
                         })
-                    $('#upload_form').append(submit);
-                });
+                        $('#upload_form').append(submit);
+                        });
                 uploader.init();
             },
 
