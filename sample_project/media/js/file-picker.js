@@ -88,7 +88,7 @@
                 var browse = $('<input>').val('Select a file').attr({
                     'type': 'button',
                     'id': 'select-a-file',
-                });
+                }).addClass('select-a-file');
                 pane.append(browse);
                 var runtime = $('<div>').addClass('runtime');
                 pane.append(runtime);

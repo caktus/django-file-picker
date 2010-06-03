@@ -32,7 +32,7 @@ class PageletAdmin(pagelets_admin.PageletAdmin):
                     "css/overlay.css",
                    )
         }
-        js = ("js/jquery-1.4.2.min.js", "js/jquery-ui-1.8.1.custom.min.js",
+        js = ("js/jquery-1.4.2.min.js",
               "js/file-picker.js", "js/jquery.tools.min.js",
               "js/plupload.full.min.js",)
 admin.site.unregister(pagelets.Pagelet)
@@ -52,7 +52,7 @@ class PageAdmin(pagelets_admin.PageAdmin):
                     "css/overlay.css",
             )
         }
-        js = ("js/jquery-1.4.2.min.js", "js/jquery-ui-1.8.1.custom.min.js",
+        js = ("js/jquery-1.4.2.min.js",
               "js/file-picker.js", "js/jquery.tools.min.js",
               "js/plupload.full.min.js",)
 admin.site.unregister(pagelets.Page)

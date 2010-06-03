@@ -1,4 +1,5 @@
 from sample_project.blog.models import Image
+from sample_project.blog.forms import AjaxImageForm
 
 from file_picker.views import FilePicker
 
@@ -6,6 +7,7 @@ from sorl.thumbnail.main import DjangoThumbnail
 
 class ImagePicker(FilePicker):
     model = Image
+    form = AjaxImageForm
     
     def get_queryset(self,search):
         return Image.objects.filter(name__icontains=search)
