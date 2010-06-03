@@ -27,6 +27,9 @@ class WYMEditor(forms.Textarea):
                     speed: 'fast',
                     onLoad: function() {
                         this.getOverlay().data('filePicker').load();
+                    },
+                    onClose: function() {
+                        $('#select-a-file').remove();
                     }
                 }).filePicker({
                     url: '%(url)s',

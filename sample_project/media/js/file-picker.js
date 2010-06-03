@@ -39,10 +39,12 @@ var uploader = null;
                 $.get(conf.url, function(response) {
                     conf.urls = response.urls;
                     self.getFiles();
+                    self.getForm();
                 });
             },
 
             tabClick: function(e, index) {
+                $(document).find('.plupload').remove();
                 if (index == 1) {
                     self.getForm(); 
                 }else if (index == 0){
@@ -125,7 +127,7 @@ var uploader = null;
                     ]
                 });
                 
-                uploader.bind('Init', function(up, params) {
+                uploader.bind('Init', function(up, params) {  
                     upload_pane.find('.runtime').html('Upload runtime: ' + params.runtime);
                 });
                 
