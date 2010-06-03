@@ -102,7 +102,7 @@ div.panes div.pane {
 
 .file-picker-overlay .scrollable {
     width: 632px;
-    height: 353px;
+    height: 390px;
     overflow: auto;
     border-top: 1px solid #EEE;
 }
@@ -132,4 +132,16 @@ div.panes div.pane {
 
 .plupload {
     cursor: pointer;
+}
+div.panes h2 {
+    font-size: 16px;
+    color: #333333;
+    font-weight: bold;
+    background: none;
+    padding: 0px;
+    margin: 0px;
+    margin-left: 5px;
+}
+div.footer {
+    margin-left:5px;
 }
