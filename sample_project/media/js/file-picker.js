@@ -43,10 +43,8 @@
 
             tabClick: function(e, index) {
                 if (index == 1) {
-                    root.find('.file-picker-upload').empty();
                     self.getForm(); 
                 }else if (index == 0){
-                    root.find('.file-picker-upload').empty();
                     self.getFiles();
                 }
             },
@@ -117,8 +115,7 @@
                     browse_button : 'select-a-file',
                     max_file_size : '20mb',
                     url : conf.urls.upload.file,
-                    //flash_swf_url : '/media/js/plupload.flash.swf',
-                    //silverlight_xap_url : '/media/js/plupload.silverlight.xap',
+                    multi_selection: false,
                     filters : [
                         {title : "Image files", extensions : "jpg,gif,png"},
                         {title : "Zip files", extensions : "zip"}
@@ -145,6 +142,7 @@
                 uploader.bind('QueueChanged', function(up) {
                     if ( up.files.length > 0 && uploader.state != 2) {
                         uploader.start();
+                        
                     }
                 });
                 
