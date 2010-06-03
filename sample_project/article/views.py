@@ -17,7 +17,6 @@ from sorl.thumbnail.main import DjangoThumbnail
 
 class ImagePicker(FilePicker):
     model = Image
-    form = AjaxImageForm
     
     def get_queryset(self,search):
         return Image.objects.filter(name__icontains=search)
