@@ -63,17 +63,19 @@
                         }else{
                             self.displayForm(response);
                             self.setupUpload();
+                            var upload_form = upload_pane.find('.upload_form');
                             submit = $('<input>').
                                 attr({'type': 'submit', 'value': 'Submit'}).
                                 click( function(e) {
                                     e.preventDefault();
+                                    var upload_form = upload_pane.find('.upload_form');
                                     data = {};
-                                    $(':input', $('#upload_form')).each(function() {
+                                    $(':input', upload_form).each(function() {
                                         data[this.name]=this.value;
                                     });
                                     self.getForm(data);
                                 })
-                            $('#upload_form').append(submit);
+                            upload_form.append(submit);
                         }
                     });
                 }
@@ -93,7 +95,7 @@
                 pane.append($('<ul>').addClass('upload-list'));
                 pane.append($('<h3>').text('File details'));
                 var form = $('<form>').attr({
-                    'method': 'post', 'id': 'upload_form', 'action':'',
+                    'method': 'post', 'class': 'upload_form', 'action':'',
                 });
                 var table = $('<table>').html(data.form)
                 form.append(table);
@@ -135,7 +137,7 @@
                         li.append('<b>');
                         list.append(li);
                         up.removeFile(file);
-                        $('#add_to_model').remove();
+                        upload_pane.find('.add_to_model').remove();
                     });
                 });
                 
@@ -152,27 +154,28 @@
                 
                 uploader.bind('FileUploaded', function(uploader, file, response){
                     submit = $('<input>').attr(
-                            {'id': 'add_to_model', 'type': 'submit', 'value': 'Submit'}
+                            {'class': 'add_to_model', 'type': 'submit', 'value': 'Submit'}
                         ).
                         click( function(e) {
                             e.preventDefault();
+                            var upload_form = upload_pane.find('.upload_form');
                             var data = {};
-                            $(':input', $('#upload_form')).each(function() {
+                            $(':input', upload_form).each(function() {
                                 data[this.name]=this.value;
                             });
                             data['file'] = response['response'];
                             self.getForm(data);
                         })
-                        $('#upload_form').append(submit);
+                        var upload_form = upload_pane.find('.upload_form');
+                        upload_form.append(submit);
                         });
                 uploader.init();
             },
 
             displayFiles: function(data) {
-                var container = root.find('#file-picker-browse');
                 var files = data.result;
-                container.empty();
-                container.append($('<h2>').text('Select file to insert'));
+                browse_pane.empty();
+                browse_pane.append($('<h2>').text('Select file to insert'));
                 var table = $('<table>').addClass('file-list');
                 var tr = $('<tr>');
                 var form = $('<form>').attr({
@@ -181,13 +184,17 @@
                      'class': 'file-picker-search'
                 });
                 form.append(
-                    $('<input>').attr({ 'type': 'text', 'id':'search','name':'search'}).val(data.search)
+                    $('<input>').attr({ 'type': 'text',
+                    'class':'search_val','name':'search'}).val(data.search)
                 );
                 form.append(
-                    $('<input>').attr({ 'type': 'submit', 'value':'Search'}).click(
+                    $('<input>').attr({ 'type': 'submit', 'value':'Search'})
+                    .addClass('search_val').click(
                     function(e) {
                         e.preventDefault();
-                        self.getFiles({'search': $('#search').val() });
+                        self.getFiles(
+                        {'search': browse_pane.find('.search_val').val() }
+                        );
                     })
                 );
                 var tr = $('<tr>');
@@ -212,9 +219,9 @@
                     table.append(tr);
                 });
                 var div = $('<div>').attr({'class': 'scrollable'});
-                container.append(form);
-                container.append(div.append(table));
-                var footer = $('<div>').attr('id', 'footer');
+                browse_pane.append(form);
+                browse_pane.append(div.append(table));
+                var footer = $('<div>').attr('class', 'footer');
                 var next = $('<a>').attr({
                         'title': 'Next',
                         'href': '#'
@@ -222,7 +229,8 @@
                 if (data.has_next) {
                     next.click(function(e) {
                         e.preventDefault();
-                        self.getFiles({'page': data.page + 1, 'search': $('#search').val()});
+                        self.getFiles({'page': data.page + 1, 
+                        'search': browse_pane.find('.search_val').val()});
                     });
                 } else {
                     next.css('color', '#bbb');
@@ -234,7 +242,8 @@
                 if (data.has_previous) {
                     previous.click(function(e) {
                         e.preventDefault();
-                        self.getFiles({'page': data.page - 1, 'search': $('#search').val()});
+                        self.getFiles({'page': data.page - 1, 
+                        'search': browse_pane.find('.search_val').val()});
                     });
                 } else {
                     previous.css('color', '#bbb');
@@ -250,13 +259,14 @@
                         } else {
                             list.click(function(e) {
                                 e.preventDefault();
-                                self.getFiles({'page': value, 'search': $('#search').val()});
+                                self.getFiles({'page': value, 
+                                'search': browse_pane.find('.search_val').val()});
                             });
                         }
                         footer.append(list);
                 });
                 footer.append(next);
-                container.append(footer);
+                browse_pane.append(footer);
             },
         });
 
@@ -277,7 +287,7 @@
         tabs.append($('<li>').append($('<a>').attr('href', '#').text('Browse')));
         tabs.append($('<li>').append($('<a>').attr('href', '#').text('Upload')));
         var panes = $('<div>').addClass('panes');
-        browse_pane = $('<div>').attr('id', 'file-picker-browse').addClass('pane');
+        browse_pane = $('<div>').addClass('file-picker-browse').addClass('pane');
         browse_pane.append($('<h2>').text('Browse for a file'));
         panes.append(browse_pane);
         upload_pane = $('<div>').addClass('file-picker-upload').addClass('pane')
