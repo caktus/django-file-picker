@@ -1,3 +1,4 @@
+var uploader = null;
 (function($) {
 
     $.filePicker = {
@@ -112,7 +113,7 @@
             },
             
             setupUpload: function() {
-                var uploader = new plupload.Uploader({
+                    uploader = new plupload.Uploader({
                     runtimes : 'html5',//'gears,html5,flash,silverlight,browserplus',
                     browse_button : 'select-a-file',
                     max_file_size : '20mb',
@@ -126,6 +127,10 @@
                 
                 uploader.bind('Init', function(up, params) {
                     upload_pane.find('.runtime').html('Upload runtime: ' + params.runtime);
+                });
+                
+                uploader.bind('PostInit', function(up) {
+                    $(document).find('div.plupload').css({'position': 'fixed'});
                 });
                 
                 uploader.bind('FilesAdded', function(up, files) {
