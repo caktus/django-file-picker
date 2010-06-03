@@ -52,8 +52,8 @@ class PageAdmin(pagelets_admin.PageAdmin):
                     "css/overlay.css",
             )
         }
-        js = ("js/jquery-1.4.2.min.js",
-              "js/file-picker.js", "js/jquery.tools.min.js",
-              "js/plupload.full.min.js",)
+        js = ("js/jquery-1.4.2.min.js", "js/jquery.tools.min.js",
+              "js/plupload.full.min.js", "js/file-picker.js",
+              "js/pagelets.js")
 admin.site.unregister(pagelets.Page)
 admin.site.register(pagelets.Page, PageAdmin)

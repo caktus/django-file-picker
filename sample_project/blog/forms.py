@@ -24,17 +24,26 @@ class PageletForm(forms.ModelForm):
     content = forms.CharField(widget=WYMEditor())
     class Meta:
         model = pagelets.Pagelet
+    
+    def __init__(self, *args, **kwargs):
+        super(PageletForm, self).__init__(*args, **kwargs)
+        self.fields['type'].widget.attrs.update({'class': 'pagelet-change'})
+        
         
 
 class InlinePageletForm(forms.ModelForm):
     content = forms.CharField(widget=WYMEditor())
     class Meta:
         model = pagelets.InlinePagelet
+
+    def __init__(self, *args, **kwargs):
+        super(InlinePageletForm, self).__init__(*args, **kwargs)
+        self.fields['type'].widget.attrs.update({'class': 'pagelet-change'})
         
 
 class AjaxImageForm(forms.ModelForm):
-    file = forms.CharField(widget=forms.widgets.HiddenInput())    
-    
+    file = forms.CharField(widget=forms.widgets.HiddenInput())
+
     def clean_file(self):
         file = self.cleaned_data['file']
         if not os.path.exists(file):

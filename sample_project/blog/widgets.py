@@ -22,31 +22,7 @@ class WYMEditor(forms.Textarea):
         url = reverse("file-picker-blog-image-init");
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
-                var overlay = $('<div>').addClass('file-picker-overlay').overlay({
-                    effect: 'apple',
-                    speed: 'fast',
-                    onLoad: function() {
-                        this.getOverlay().data('filePicker').load();
-                    }
-                }).filePicker({
-                    url: '%(url)s',
-                    onImageClick: function(e, insert) {
-                        this.getRoot().parent().data('wym').insert(insert);
-                    }
-                }).insertBefore('#id_%(name)s');
-                jQuery('#id_%(name)s').wymeditor({
-                    updateSelector: '.submit-row input[type=submit]',
-                    updateEvent: 'click',
-                    lang: '%(language)s',
-                    postInit: function(wym) {
-                        image_button = jQuery(wym._box).find('li.wym_tools_image a');
-                        image_button.unbind();
-                        image_button.click(function(e) {
-                            e.preventDefault();
-                            $(overlay).data('wym', wym);
-                            $(overlay).data('overlay').load();
-                        });
-                    },
-                });
+                var div = $('#id_%(name)s');
+                div.data('conf', {'url': '%(url)s'});
             });
             </script>''' % {'name': name, 'language': self.language, 'url': url})
