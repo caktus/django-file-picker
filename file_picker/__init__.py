@@ -17,10 +17,10 @@ def autodiscover():
     for app in settings.INSTALLED_APPS:
         mod = import_module(app)
         try:
-            import_module('%s.file_picker' % app)
+            import_module('%s.file_pickers' % app)
         except:
             # Decide whether to bubble up this error. If the app just
             # doesn't have an admin module, we can ignore the error
             # attempting to import it, otherwise we want it to bubble up.
-            if module_has_submodule(mod, 'file_picker'):
+            if module_has_submodule(mod, 'file_pickers'):
                 raise

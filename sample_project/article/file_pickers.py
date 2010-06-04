@@ -1,17 +1,17 @@
-from sample_project.blog.models import Image
-from sample_project.blog.forms import AjaxImageForm
+from sorl.thumbnail.main import DjangoThumbnail
 
-from file_picker.views import FilePicker
+from sample_project.article.models import Image
+from sample_project.article.forms import AjaxImageForm
 
-from sorl.thumbnail.main import DjangoThumbnail 
+import file_picker
 
-class ImagePicker(FilePicker):
-    model = Image
+
+class ImagePicker(file_picker.FilePickerBase):
     form = AjaxImageForm
-    
+
     def get_queryset(self,search):
         return Image.objects.filter(name__icontains=search)
-    
+
     def append(self, obj):
         thumb = DjangoThumbnail(obj.file, (150, 150))
         return {
@@ -23,5 +23,5 @@ class ImagePicker(FilePicker):
             },
             'insert': '<img src="%s" />' % obj.file.url
         }
-    
-file_picker = ImagePicker()
+
+file_picker.site.register(Image, ImagePicker)
