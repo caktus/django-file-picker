@@ -22,38 +22,3 @@ admin.site.register(Post, PostAdmin)
 class ImageAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Image, ImageAdmin)
-
-
-class PageletAdmin(pagelets_admin.PageletAdmin):    
-    form = PageletForm
-    class Media:
-        css = {
-            "all": (
-                    "css/overlay.css",
-                   )
-        }
-        js = ("js/jquery-1.4.2.min.js",
-              "js/file-picker.js", "js/jquery.tools.min.js",
-              "js/plupload.full.min.js",)
-admin.site.unregister(pagelets.Pagelet)
-admin.site.register(pagelets.Pagelet, PageletAdmin)
-
-
-class InlinePageletAdmin(pagelets_admin.InlinePageletAdmin):
-    form = InlinePageletForm
-
-
-class PageAdmin(pagelets_admin.PageAdmin):    
-    inlines = [InlinePageletAdmin, pagelets_admin.SharedPageletAdmin,
-           pagelets_admin.InlinePageAttachmentAdmin]
-    class Media:
-        css = {
-            "all": (
-                    "css/overlay.css",
-            )
-        }
-        js = ("js/jquery-1.4.2.min.js", "js/jquery.tools.min.js",
-              "js/plupload.full.min.js", "js/file-picker.js",
-              "js/pagelets.js")
-admin.site.unregister(pagelets.Page)
-admin.site.register(pagelets.Page, PageAdmin)

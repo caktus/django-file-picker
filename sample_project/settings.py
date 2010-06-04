@@ -77,6 +77,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'sample_project.blog',
     'sample_project.article',
+    'sample_project.pagelets',
     'pagelets',
     'treenav',
     'debug_toolbar',
