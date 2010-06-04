@@ -23,15 +23,16 @@ class FilePickerBase(object):
     def __init__(self, name, model):
         self.name = name
         self.model = model
-        self.form = model_to_AjaxItemForm(self.model)
+        if self.form == None:
+            self.form = model_to_AjaxItemForm(self.model)
         self.field_names = model._meta.get_all_field_names()
         self.field_labels = {}
         for field_name in model._meta.get_all_field_names():
             field = model._meta.get_field(field_name)
-            if type(field) == models.ImageField:
-                self.image_field = field_name
+            if isinstance(field, (models.ImageField, models.FileField)):
+                self.field = field_name
                 self.field_names.remove(field_name)
-            elif type(field) in (models.FileField, models.ForeignKey, models.ManyToManyField):
+            elif isinstance(field, (models.ForeignKey, models.ManyToManyField)):
                 self.field_names.remove(field_name)
             else:
                 self.field_labels[field_name] = capfirst(field.verbose_name)
@@ -55,7 +56,13 @@ class FilePickerBase(object):
         return HttpResponse(json.dumps(data), mimetype='application/json')
     
     def append(self, obj):
-        return {'name': unicode(obj), 'url': obj.file.url}
+        extra = {}
+        for name in self.field_names:
+            extra[self.field_labels[name]] = str(getattr(obj, name))
+        return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
+            'extra': extra,
+            'insert': getattr(obj, self.field).url,
+        }
 
     def get_queryset(self,search):
         return self.model.objects.all()
@@ -110,17 +117,12 @@ class FilePickerBase(object):
 
 class ImagePickerBase(FilePickerBase):
     def append(self, obj):
-        thumb = DjangoThumbnail(getattr(obj, self.image_field), (150, 150))
-        extra = {}
-        for name in self.field_names:
-            extra[self.field_labels[name]] = str(getattr(obj, name))
-        return {
-            'url': getattr(obj, self.image_field).url,
-            'thumb': {
+        json = super(ImagePickerBase, self).append(obj)
+        thumb = DjangoThumbnail(getattr(obj, self.field), (150, 150))
+        json['thumb'] = {
                 'url': thumb.absolute_url,
                 'width': thumb.width(),
                 'height': thumb.height(),
-            },
-            'insert': '<img src="%s" />' % getattr(obj, self.image_field).url,
-            'extra': extra
         }
+        json['insert'] = '<img src="%s" />' % getattr(obj, self.field).url
+        return json
