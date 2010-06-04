@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 from django.core.files.uploadedfile import UploadedFile
 from django.views.decorators.csrf import csrf_exempt
 
+from sorl.thumbnail.main import DjangoThumbnail
+
 from file_picker.forms import QueryForm, model_to_AjaxItemForm
 
 
@@ -92,3 +94,16 @@ class FilePickerBase(object):
         }
         return HttpResponse(json.dumps(data), mimetype='application/json')
 
+
+class ImagePickerBase(FilePickerBase):
+    def append(self, obj):
+        thumb = DjangoThumbnail(obj.file, (150, 150))
+        return {
+            'name': unicode(obj), 'url': obj.file.url,
+            'thumb': {
+                'url': thumb.absolute_url,
+                'width': thumb.width(),
+                'height': thumb.height(),
+            },
+            'insert': '<img src="%s" />' % obj.file.url
+        }

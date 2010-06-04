@@ -1,3 +1,4 @@
+from django.db import models
 from django.db.models.base import ModelBase
 
 import file_picker
@@ -8,9 +9,18 @@ class FilePickerSite(object):
     def __init__(self, name=None, app_name='file-picker'):
         self._registry = []
 
+    def guess_default(self, model):
+        for field_name in model._meta.get_all_field_names():
+            field = model._meta.get_field(field_name)
+            if isinstance(field, models.ImageField):
+                return file_picker.ImagePickerBase
+            elif isinstance(field, models.FileField):
+                return file_picker.FilePickerBase
+        return file_picker.FilePickerBase
+
     def register(self, model_or_iterable, class_=None, name=None, **options):
-        if not class_:
-            class_ = file_picker.FilePickerBase
+        # if not class_:
+        #     class_ = file_picker.FilePickerBase
         if isinstance(model_or_iterable, ModelBase):
             model_or_iterable = [model_or_iterable]
         for model in model_or_iterable:
@@ -18,7 +28,11 @@ class FilePickerSite(object):
                 view_name = class_.__class__.__name__.lower()
                 model_name = model().__class__.__name__.lower()
                 name = "%s-%s" % (model_name, view_name)
-            self._registry.append({'name': name, 'picker': class_(name, model)})
+            if class_:
+                picker_class = class_
+            else:
+                picker_class = self.guess_default(model)
+            self._registry.append({'name': name, 'picker': picker_class(name, model)})
 
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url, include
