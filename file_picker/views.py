@@ -1,7 +1,9 @@
 import os
 import tempfile
 
+from django.db import models
 from django.utils import simplejson as json
+from django.utils.text import capfirst
 from django.http import HttpResponse, HttpResponseServerError
 from django.core.paginator import Paginator, EmptyPage
 from django.core.urlresolvers import reverse
@@ -22,6 +24,15 @@ class FilePickerBase(object):
         self.name = name
         self.model = model
         self.form = model_to_AjaxItemForm(self.model)
+        self.field_names = model._meta.get_all_field_names()
+        self.field_labels = {}
+        for field_name in model._meta.get_all_field_names():
+            field = model._meta.get_field(field_name)
+            if type(field) == models.ImageField:
+                self.image_field = field_name
+                self.field_names.remove(field_name)
+            else:
+                self.field_labels[field_name] = capfirst(field.verbose_name)
 
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
@@ -97,13 +108,17 @@ class FilePickerBase(object):
 
 class ImagePickerBase(FilePickerBase):
     def append(self, obj):
-        thumb = DjangoThumbnail(obj.file, (150, 150))
+        thumb = DjangoThumbnail(getattr(obj, self.image_field), (150, 150))
+        extra = {}
+        for name in self.field_names:
+            extra[self.field_labels[name]] = str(getattr(obj, name))
         return {
-            'name': unicode(obj), 'url': obj.file.url,
+            'url': getattr(obj, self.image_field).url,
             'thumb': {
                 'url': thumb.absolute_url,
                 'width': thumb.width(),
                 'height': thumb.height(),
             },
-            'insert': '<img src="%s" />' % obj.file.url
+            'insert': '<img src="%s" />' % getattr(obj, self.image_field).url,
+            'extra': extra
         }

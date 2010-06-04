@@ -206,7 +206,10 @@ var uploader = null;
                 );
                 var tr = $('<tr>');
                 tr.append($('<th>').text('Thumbnail'));
-                tr.append($('<th>').text('Name'));
+                var extra = files[0].extra
+                $.each(extra, function(key, value){
+                    tr.append($('<th>').text(key));
+                });
                 table.append(tr);
                 $.each(files, function(idx, file) {
                     var tr = $('<tr>');            
@@ -220,9 +223,10 @@ var uploader = null;
                         'height': file.thumb.height
                     });
                     a.append(img);
-
                     tr.append($('<td>').append(a));
-                    tr.append($('<td>').text(file.name));
+                    $.each(file.extra, function(key,value){
+                        tr.append($('<td>').text(value));
+                    });
                     table.append(tr);
                 });
                 var div = $('<div>').attr({'class': 'scrollable'});
