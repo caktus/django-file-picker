@@ -3,10 +3,14 @@ from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 
 
-class FilePickerForm(forms.Textarea):
+class BasicFilePickerWidget(forms.Textarea):
+    def __init__(self, picker, *args, **kwargs):
+        self.picker_name = picker
+        super(BasicFilePickerWidget, self).__init__(*args, **kwargs)
+
     def render(self, name, value, attrs=None):
-        rendered = super(FilePickerForm, self).render(name, value, attrs)
-        url = reverse("file-picker-article-image-init");
+        rendered = super(BasicFilePickerWidget, self).render(name, value, attrs)
+        url = reverse('filepicker:%s:init' % self.picker_name)
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
                 var overlay = $('<div>').addClass('file-picker-overlay').overlay({

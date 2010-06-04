@@ -22,4 +22,4 @@ class ImagePicker(file_picker.FilePickerBase):
             'insert': '<img src="%s" />' % obj.file.url
         }
     
-file_picker.site.register(Image, ImagePicker)
+file_picker.site.register(Image, ImagePicker, name='blog')

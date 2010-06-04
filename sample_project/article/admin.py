@@ -1,22 +1,25 @@
 from django.contrib import admin
+from django.db import models
+from django.core.urlresolvers import reverse
+
 from sample_project.article.models import Post, Image
-from sample_project.article.forms import ImageForm, PostAdminModelForm
+
+import file_picker
 
 
 class PostAdmin(admin.ModelAdmin):
-    form = PostAdminModelForm
+    formfield_overrides = {
+        models.TextField: {
+            'widget': file_picker.widgets.BasicFilePickerWidget(picker="article")
+        },
+    }
+
     class Media:
-        css = {
-            "all": ("css/overlay.css",)
-        }
+        css = {"all": ("css/overlay.css",)}
         js = ("js/jquery-1.4.2.min.js",
               "js/jquery.tools.min.js",
-              "js/file-picker.js",
               "js/plupload.full.min.js",
-        )
+              "js/file-picker.js",)
+
 admin.site.register(Post, PostAdmin)
-
-
-class ImageAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(Image, ImageAdmin)
+admin.site.register(Image)

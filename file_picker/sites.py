@@ -18,14 +18,14 @@ class FilePickerSite(object):
                 view_name = class_.__class__.__name__.lower()
                 model_name = model().__class__.__name__.lower()
                 name = "%s-%s" % (model_name, view_name)
-            self._registry.append({'name': name, 'picker': class_(model)})
+            self._registry.append({'name': name, 'picker': class_(name, model)})
 
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url, include
-        urlpatterns = patterns('', url(r'^$', self.primary))
+        urlpatterns = patterns('', url(r'^$', self.primary, name='index'),)
         for p in self._registry:
             urlpatterns += url(r'^%s/' % p['name'], include(p['picker'].urls)),
-        return urlpatterns
+        return (urlpatterns, None, "filepicker")
     urls = property(get_urls)
 
     def primary(self, request):

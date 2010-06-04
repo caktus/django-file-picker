@@ -1,5 +1,6 @@
 from file_picker.views import FilePickerBase
 from file_picker.sites import site, FilePickerSite
+from file_picker import widgets
 
 
 def autodiscover():

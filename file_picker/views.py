@@ -16,38 +16,27 @@ class FilePickerBase(object):
     form = None
     page_size = 4
 
-    def __init__(self, model):
+    def __init__(self, name, model):
+        self.name = name
         self.model = model
         self.form = model_to_AjaxItemForm(self.model)
 
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
         urlpatterns = patterns('',
-            url(r'^$', self.setup, name='file-picker-%s-%s-init' %
-                (self.model._meta.app_label, self.model._meta.module_name)
-            ),
-            url(r'^files/$', self.list, name='file-picker-%s-%s-list' %
-                (self.model._meta.app_label, self.model._meta.module_name)
-            ),
-            url(r'^upload/file/$', self.upload_file, 
-                name='file-picker-%s-%s-upload' % 
-                (self.model._meta.app_label, self.model._meta.module_name)
-            ),
+            url(r'^$', self.setup, name='init'),
+            url(r'^files/$', self.list, name='list-files'),
+            url(r'^upload/file/$', self.upload_file, name='upload-file'),
         )
-        return urlpatterns
+        return (urlpatterns, None, self.name)
     urls = property(get_urls)
     
     def setup(self, request):
         data = {}
-        urls = {
-            'browse': {'files': reverse('file-picker-%s-%s-list' %
-                (self.model._meta.app_label, self.model._meta.module_name)
-            )},
-            'upload': {'file': reverse('file-picker-%s-%s-upload' %
-                (self.model._meta.app_label, self.model._meta.module_name)), 
-                'form': '' },
+        data['urls'] = {
+            'browse': {'files': reverse('filepicker:%s:list-files' % self.name)},
+            'upload': {'file': reverse('filepicker:%s:upload-file' % self.name)},
         }
-        data['urls'] = urls
         return HttpResponse(json.dumps(data), mimetype='application/json')
     
     def append(self, obj):
