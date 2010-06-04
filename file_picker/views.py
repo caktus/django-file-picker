@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 from django.core.files.uploadedfile import UploadedFile
 from django.views.decorators.csrf import csrf_exempt
 
+from file_picker.forms import QueryForm, model_to_AjaxItemForm
+
 
 class FilePickerBase(object):
     model = None
@@ -16,6 +18,7 @@ class FilePickerBase(object):
 
     def __init__(self, model):
         self.model = model
+        self.form = model_to_AjaxItemForm(self.model)
 
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
@@ -77,7 +80,6 @@ class FilePickerBase(object):
             return HttpResponse(json.dumps(data), mimetype='application/json') 
 
     def list(self, request):
-        from file_picker.forms import QueryForm
         form = QueryForm(request.GET)
         if not form.is_valid():
             return HttpResponseServerError()

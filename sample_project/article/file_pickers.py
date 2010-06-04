@@ -7,7 +7,6 @@ import file_picker
 
 
 class ImagePicker(file_picker.FilePickerBase):
-    form = AjaxImageForm
 
     def get_queryset(self,search):
         return Image.objects.filter(name__icontains=search)
