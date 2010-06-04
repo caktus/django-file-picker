@@ -31,6 +31,8 @@ class FilePickerBase(object):
             if type(field) == models.ImageField:
                 self.image_field = field_name
                 self.field_names.remove(field_name)
+            elif type(field) in (models.FileField, models.ForeignKey, models.ManyToManyField):
+                self.field_names.remove(field_name)
             else:
                 self.field_labels[field_name] = capfirst(field.verbose_name)
 

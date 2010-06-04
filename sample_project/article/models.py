@@ -10,6 +10,7 @@ class Post(models.Model):
 
 class Image(models.Model):
     name = models.CharField(max_length=255)
+    related = models.ForeignKey('Post')
     date = models.DateTimeField(default=datetime.datetime.now)
     file = models.ImageField(upload_to="images/")
 
