@@ -1,7 +1,6 @@
 from sorl.thumbnail.main import DjangoThumbnail 
 
 from sample_project.blog.models import Image
-from sample_project.blog.forms import AjaxImageForm
 
 import file_picker
 
