@@ -10,12 +10,12 @@ from django.core.files.base import ContentFile
 from sample_project.article.models import Image
 from sample_project.article.forms import AjaxImageForm
 
-from file_picker.views import FilePicker
-
 from sorl.thumbnail.main import DjangoThumbnail 
 
+import file_picker
 
-class ImagePicker(FilePicker):
+
+class ImagePicker(file_picker.FilePickerBase):
     model = Image
     form = AjaxImageForm
     
@@ -34,4 +34,3 @@ class ImagePicker(FilePicker):
             'insert': '<img src="%s" />' % obj.file.url
         }
     
-file_picker = ImagePicker()

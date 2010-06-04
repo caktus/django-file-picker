@@ -8,13 +8,14 @@ from django.core.urlresolvers import reverse
 from django.core.files.uploadedfile import UploadedFile
 from django.views.decorators.csrf import csrf_exempt
 
-from file_picker.forms import QueryForm
 
-
-class FilePicker(object):
+class FilePickerBase(object):
     model = None
     form = None
     page_size = 4
+
+    def __init__(self, model):
+        self.model = model
 
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
@@ -76,6 +77,7 @@ class FilePicker(object):
             return HttpResponse(json.dumps(data), mimetype='application/json') 
 
     def list(self, request):
+        from file_picker.forms import QueryForm
         form = QueryForm(request.GET)
         if not form.is_valid():
             return HttpResponseServerError()
@@ -98,3 +100,4 @@ class FilePicker(object):
             'has_previous': page_obj.has_previous(),
         }
         return HttpResponse(json.dumps(data), mimetype='application/json')
+
