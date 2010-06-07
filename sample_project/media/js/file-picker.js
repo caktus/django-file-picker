@@ -208,13 +208,8 @@ var uploader = null;
                     })
                 );
                 var tr = $('<tr>');
-                if (files[0].thumb) {
-                    tr.append($('<th>').text('Thumbnail'));
-                }else{
-                    tr.append($('<th>').text(''));
-                }
-                var extra = files[0].extra;
-                $.each(extra, function(key, value){
+                tr.append($('<th>').text(data.link_header));
+                $.each(files[0].extra, function(key, value){
                     tr.append($('<th>').text(key));
                 });
                 table.append(tr);
@@ -223,17 +218,7 @@ var uploader = null;
                     var a = $('<a>').click(function(e) {
                         $(self).trigger("onImageClick", [file.insert]);
                     });
-                    if (file.thumb){
-                        var main = $('<img>').attr({
-                            'alt': file.name,
-                            'src': file.thumb.url,
-                            'width': file.thumb.width,
-                            'height': file.thumb.height
-                        });
-                    }else{
-                        var main = 'Click to insert';
-                    }
-                    a.append(main);
+                    a.append(file.link_content);
                     tr.append($('<td>').append(a));
                     $.each(file.extra, function(key,value){
                         tr.append($('<td>').text(value));

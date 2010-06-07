@@ -19,6 +19,7 @@ class FilePickerBase(object):
     model = None
     form = None
     page_size = 4
+    link_header = 'Insert File';
 
     def __init__(self, name, model):
         self.name = name
@@ -62,6 +63,7 @@ class FilePickerBase(object):
         return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
             'extra': extra,
             'insert': getattr(obj, self.field).url,
+            'link_content': 'Click to insert',
         }
 
     def get_queryset(self,search):
@@ -111,18 +113,17 @@ class FilePickerBase(object):
             'result': result,
             'has_next': page_obj.has_next(),
             'has_previous': page_obj.has_previous(),
+            'link_header': self.link_header,
         }
         return HttpResponse(json.dumps(data), mimetype='application/json')
 
 
 class ImagePickerBase(FilePickerBase):
+    link_header = 'Thumbnail';
     def append(self, obj):
         json = super(ImagePickerBase, self).append(obj)
         thumb = DjangoThumbnail(getattr(obj, self.field), (150, 150))
-        json['thumb'] = {
-                'url': thumb.absolute_url,
-                'width': thumb.width(),
-                'height': thumb.height(),
-        }
+        json['link_content'] = '<img src="%s" width="%s" height="%s" />' %\
+            (thumb.absolute_url, thumb.width(), thumb.height(),)
         json['insert'] = '<img src="%s" />' % getattr(obj, self.field).url
         return json
