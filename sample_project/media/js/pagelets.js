@@ -5,13 +5,9 @@ function setEditor(popup) {
     var content_field_name = popup.attr('name').replace(/type$/, 'content');
     var content_field = parent_form.find('textarea[name=' + content_field_name + ']');
     if (value.toLowerCase() == 'wymeditor') {
-        console.log('foo');
         var overlay = $('<div>').addClass('file-picker-overlay').overlay({
             effect: 'apple',
-            speed: 'fast',
-            onLoad: function() {
-                this.getOverlay().data('filePicker').load();
-            }
+            speed: 'fast'
         }).filePicker({
             url: "/file-picker/article/",
             onImageClick: function(e, insert) {

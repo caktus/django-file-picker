@@ -16,7 +16,13 @@ var uploader = null;
             tabs = null,
             browse_pane = null,
             upload_pane = null;
-        
+        root.data('overlay').onLoad(function (){
+            this.getOverlay().data('filePicker').load();
+        });
+        root.data('overlay').onClose(function (){
+            $(document).find('div.file-picker-upload').empty();
+            $(document).find('.plupload').remove();
+        });
         root.append($('<div>').addClass('file-picker'));
         root = root.find('.file-picker');
         

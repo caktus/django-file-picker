@@ -23,18 +23,9 @@ class WYMEditor(forms.Textarea):
         url_file = reverse('filepicker:blog-file:init')
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
-                var div = $('#id_%(name)s');
-                div.data('conf', {'url': '%(url-file)s'});
                 var file_overlay = $('<div>').addClass('file-picker-overlay').overlay({
                     effect: 'apple',
-                    speed: 'fast',
-                    onLoad: function() {
-                        this.getOverlay().data('filePicker').load();
-                    },
-                    onClose: function() {
-                        $(document).find('div.file-picker-upload').empty();
-                        $(document).find('.plupload').remove();
-                    }
+                    speed: 'fast'
                 }).filePicker({
                     url: '%(url-file)s',
                     onImageClick: function(e, insert) {
@@ -44,21 +35,15 @@ class WYMEditor(forms.Textarea):
                 
                 var image_overlay = $('<div>').addClass('file-picker-overlay').overlay({
                     effect: 'apple',
-                    speed: 'fast',
-                    onLoad: function() {
-                        this.getOverlay().data('filePicker').load();
-                    },
-                    onClose: function() {
-                        $(document).find('div.file-picker-upload').empty();
-                        $(document).find('.plupload').remove();
-                    }
+                    speed: 'fast'
                 }).filePicker({
                     url: '%(url-image)s',
                     onImageClick: function(e, insert) {
                         this.getRoot().parent().data('wym').insert(insert);
                     }
                 }).appendTo('body');
-                
+
+                var div = $('#id_%(name)s');                
                 div.wymeditor({
                     updateSelector: 'input:submit',
                     updateEvent: 'click',

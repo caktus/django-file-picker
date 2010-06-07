@@ -16,9 +16,6 @@ class BasicFilePickerWidget(forms.Textarea):
                 var overlay = $('<div>').addClass('file-picker-overlay').overlay({
                     effect: 'apple',
                     speed: 'fast',
-                    onLoad: function() {
-                        this.getOverlay().data('filePicker').load();
-                    }
                 }).filePicker({
                     url: '%(url)s',
                     onImageClick: function(e, insert) {
