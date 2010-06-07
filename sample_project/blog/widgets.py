@@ -30,6 +30,10 @@ class WYMEditor(forms.Textarea):
                     speed: 'fast',
                     onLoad: function() {
                         this.getOverlay().data('filePicker').load();
+                    },
+                    onClose: function() {
+                        $(document).find('div.file-picker-upload').empty();
+                        $(document).find('.plupload').remove();
                     }
                 }).filePicker({
                     url: '%(url-file)s',
@@ -43,6 +47,10 @@ class WYMEditor(forms.Textarea):
                     speed: 'fast',
                     onLoad: function() {
                         this.getOverlay().data('filePicker').load();
+                    },
+                    onClose: function() {
+                        $(document).find('div.file-picker-upload').empty();
+                        $(document).find('.plupload').remove();
                     }
                 }).filePicker({
                     url: '%(url-image)s',
