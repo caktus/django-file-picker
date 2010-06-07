@@ -120,11 +120,7 @@ var uploader = null;
                     browse_button : 'select-a-file',
                     max_file_size : '20mb',
                     url : conf.urls.upload.file,
-                    multi_selection: false,
-                    filters : [
-                        {title : "Image files", extensions : "jpg,gif,png"},
-                        {title : "Zip files", extensions : "zip"}
-                    ]
+                    multi_selection: false
                 });
                 
                 uploader.bind('Init', function(up, params) {  
@@ -205,8 +201,12 @@ var uploader = null;
                     })
                 );
                 var tr = $('<tr>');
-                tr.append($('<th>').text('Thumbnail'));
-                var extra = files[0].extra
+                if (files[0].thumb) {
+                    tr.append($('<th>').text('Thumbnail'));
+                }else{
+                    tr.append($('<th>').text(''));
+                }
+                var extra = files[0].extra;
                 $.each(extra, function(key, value){
                     tr.append($('<th>').text(key));
                 });
@@ -216,13 +216,17 @@ var uploader = null;
                     var a = $('<a>').click(function(e) {
                         $(self).trigger("onImageClick", [file.insert]);
                     });
-                    var img = $('<img>').attr({
-                        'alt': file.name,
-                        'src': file.thumb.url,
-                        'width': file.thumb.width,
-                        'height': file.thumb.height
-                    });
-                    a.append(img);
+                    if (file.thumb){
+                        var main = $('<img>').attr({
+                            'alt': file.name,
+                            'src': file.thumb.url,
+                            'width': file.thumb.width,
+                            'height': file.thumb.height
+                        });
+                    }else{
+                        var main = 'Click to insert';
+                    }
+                    a.append(main);
                     tr.append($('<td>').append(a));
                     $.each(file.extra, function(key,value){
                         tr.append($('<td>').text(value));
