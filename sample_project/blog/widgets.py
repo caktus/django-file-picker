@@ -60,7 +60,7 @@ class WYMEditor(forms.Textarea):
                             'title': 'File', 'name': 'File', 'href':'#'
                         }).css({
                             'background': 
-                            'transparent url(/media/img/attach.png) no-repeat center center'
+                            'transparent url(%(MEDIA_URL)s/img/attach.png) no-repeat center center'
                         }).text('Add File').click(function(e) {
                             e.preventDefault();
                             $(file_overlay).data('wym', wym);
@@ -72,6 +72,10 @@ class WYMEditor(forms.Textarea):
                     },
                 });
             });
-            </script>''' % {'name': name, 'language': self.language, 'url-image': url_image, 'url-file': url_file,})
+            </script>''' % {
+                'name': name, 'language': self.language, 
+                'url-image': url_image, 'url-file': url_file,
+                'MEDIA_URL': settings.MEDIA_URL
+            })
             
             

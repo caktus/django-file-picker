@@ -325,7 +325,7 @@ var uploader = null;
         if (el) { return el; }
 
         conf = $.extend({}, $.filePicker.conf, conf);
-
+        
         this.each(function() {
             el = new FilePicker($(this), conf);
             $(this).data("filePicker", el);
