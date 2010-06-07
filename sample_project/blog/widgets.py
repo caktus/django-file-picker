@@ -23,21 +23,10 @@ class WYMEditor(forms.Textarea):
         url_file = reverse('filepicker:blog-file:init')
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
-                var file_overlay = $('<div>').addClass('file-picker-overlay').overlay({
+                overlay = $('<div>').addClass('file-picker-overlay').overlay({
                     effect: 'apple',
                     speed: 'fast'
                 }).filePicker({
-                    url: '%(url-file)s',
-                    onImageClick: function(e, insert) {
-                        this.getRoot().parent().data('wym').insert(insert);
-                    }
-                }).appendTo('body');
-                
-                var image_overlay = $('<div>').addClass('file-picker-overlay').overlay({
-                    effect: 'apple',
-                    speed: 'fast'
-                }).filePicker({
-                    url: '%(url-image)s',
                     onImageClick: function(e, insert) {
                         this.getRoot().parent().data('wym').insert(insert);
                     }
@@ -52,8 +41,10 @@ class WYMEditor(forms.Textarea):
                         image_button.unbind();
                         image_button.click(function(e) {
                             e.preventDefault();
-                            $(image_overlay).data('wym', wym);
-                            $(image_overlay).data('overlay').load();
+                            $(overlay).data('wym', wym);
+                            conf = $(overlay).data('filePicker').getConf();
+                            conf.url = '%(url-image)s';
+                            $(overlay).data('overlay').load();
                         });
                         button_list = $(wym._box).find('div.wym_area_top ul');
                         file_button = $('<a>').attr({
@@ -63,8 +54,10 @@ class WYMEditor(forms.Textarea):
                             'transparent url(%(MEDIA_URL)s/img/attach.png) no-repeat center center'
                         }).text('Add File').click(function(e) {
                             e.preventDefault();
-                            $(file_overlay).data('wym', wym);
-                            $(file_overlay).data('overlay').load();
+                            $(overlay).data('wym', wym);
+                            conf = $(overlay).data('filePicker').getConf();
+                            conf.url = '%(url-file)s';
+                            $(overlay).data('overlay').load();
                         });
                         button_list.append(
                             $('<li>').addClass('wym_tools_file_add').append(file_button)

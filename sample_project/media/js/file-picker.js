@@ -20,7 +20,8 @@ var uploader = null;
             this.getOverlay().data('filePicker').load();
         });
         root.data('overlay').onClose(function (){
-            $(document).find('div.file-picker-upload').empty();
+            upload_pane.empty();
+            browse_pane.empty();
             $(document).find('.plupload').remove();
         });
         root.append($('<div>').addClass('file-picker'));
@@ -32,7 +33,7 @@ var uploader = null;
             getConf: function() {
                 return conf;    
             },
-
+            
             getRoot: function() {
                 return root;    
             },
