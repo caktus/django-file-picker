@@ -56,15 +56,18 @@ class WYMEditor(forms.Textarea):
                             $(image_overlay).data('overlay').load();
                         });
                         button_list = $(wym._box).find('div.wym_area_top ul');
-                        file_button = $('<a>').attr(
-                            {'title': 'File', 'name': 'File', 'href':'#'}
-                        ).text('File').click(function(e) {
+                        file_button = $('<a>').attr({
+                            'title': 'File', 'name': 'File', 'href':'#'
+                        }).css({
+                            'background': 
+                            'transparent url(/media/img/attach.png) no-repeat center center'
+                        }).text('Add File').click(function(e) {
                             e.preventDefault();
                             $(file_overlay).data('wym', wym);
                             $(file_overlay).data('overlay').load();
                         });
                         button_list.append(
-                            $('<li>').addClass('wym_tools_image').append(file_button)
+                            $('<li>').addClass('wym_tools_file_add').append(file_button)
                         );
                     },
                 });
