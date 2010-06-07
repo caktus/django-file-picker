@@ -19,7 +19,7 @@ class FilePickerBase(object):
     model = None
     form = None
     page_size = 4
-    link_header = 'Insert File';
+    link_header = 'Insert File'
 
     def __init__(self, name, model):
         self.name = name
