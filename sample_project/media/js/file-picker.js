@@ -1,4 +1,6 @@
 var uploader = null;
+var browserName=navigator.appName; 
+
 (function($) {
 
     $.filePicker = {
@@ -18,6 +20,8 @@ var uploader = null;
             upload_pane = null;
         root.data('overlay').onLoad(function (){
             this.getOverlay().data('filePicker').load();
+            $(document).find('.file-picker-overlay').css('z-index', '1');
+            $('img').css('z-index', '0');
         });
         root.data('overlay').onClose(function (){
             upload_pane.empty();
@@ -122,12 +126,12 @@ var uploader = null;
             },
             
             setupUpload: function() {
-                    uploader = new plupload.Uploader({
-                    runtimes : 'html5,html4',//'gears,html5,flash,silverlight,browserplus',
+                uploader = new plupload.Uploader({
+                    runtimes : 'html5,flash',
                     browse_button : 'select-a-file',
                     max_file_size : '20mb',
                     url : conf.urls.upload.file,
-                    multi_selection: false
+                    flash_swf_url : '/media/plupload.flash.swf'
                 });
                 
                 uploader.bind('Init', function(up, params) {  
@@ -135,7 +139,9 @@ var uploader = null;
                 });
                 
                 uploader.bind('PostInit', function(up) {
-                    $(document).find('div.plupload').css({'position': 'fixed'});
+                    if (browserName != "Microsoft Internet Explorer") {
+                        $(document).find('div.plupload').css({'position': 'fixed'});
+                    }
                 });
                 
                 uploader.bind('FilesAdded', function(up, files) {
@@ -153,8 +159,7 @@ var uploader = null;
                 
                 uploader.bind('QueueChanged', function(up) {
                     if ( up.files.length > 0 && uploader.state != 2) {
-                        uploader.start();
-                        
+                        uploader.start();   
                     }
                 });
                 

@@ -2,6 +2,7 @@ import os
 import tempfile
 
 from django.db import models
+from django.db.models import Q
 from django.utils import simplejson as json
 from django.utils.text import capfirst
 from django.http import HttpResponse, HttpResponseServerError
@@ -67,7 +68,15 @@ class FilePickerBase(object):
         }
 
     def get_queryset(self,search):
-        return self.model.objects.all()
+        qs = Q()
+        if search:
+            for name in self.field_names:
+                comparision = {}
+                comparision[name] = search
+                qs = qs | Q(name__contains=search)
+            return self.model.objects.filter(qs)
+        else:
+            return self.model.objects.all()
 
     @csrf_exempt
     def upload_file(self, request):
@@ -98,6 +107,7 @@ class FilePickerBase(object):
             return HttpResponseServerError()
         page = form.cleaned_data['page']
         result = []
+        print form.cleaned_data['search']
         qs = self.get_queryset(form.cleaned_data['search'])
         pages = Paginator(qs, self.page_size)
         try:
