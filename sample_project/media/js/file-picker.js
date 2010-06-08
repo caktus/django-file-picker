@@ -4,7 +4,7 @@ var uploader = null;
     $.filePicker = {
         conf: {
             url: '',
-            urls: '',
+            urls: ''
         }
     };
 
@@ -97,7 +97,7 @@ var uploader = null;
                 pane.append($('<h2>').text('Select file to upload'));
                 var browse = $('<input>').val('Select a file').attr({
                     'type': 'button',
-                    'id': 'select-a-file',
+                    'id': 'select-a-file'
                 }).addClass('select-a-file');
                 pane.append(browse);
                 var runtime = $('<div>').addClass('runtime');
@@ -105,7 +105,7 @@ var uploader = null;
                 pane.append($('<ul>').addClass('upload-list'));
                 pane.append($('<h3>').text('File details'));
                 var form = $('<form>').attr({
-                    'method': 'post', 'class': 'upload_form', 'action':'',
+                    'method': 'post', 'class': 'upload_form', 'action':''
                 });
                 var table = $('<table>').html(data.form)
                 form.append(table);
@@ -123,7 +123,7 @@ var uploader = null;
             
             setupUpload: function() {
                     uploader = new plupload.Uploader({
-                    runtimes : 'html5',//'gears,html5,flash,silverlight,browserplus',
+                    runtimes : 'html5,html4',//'gears,html5,flash,silverlight,browserplus',
                     browse_button : 'select-a-file',
                     max_file_size : '20mb',
                     url : conf.urls.upload.file,
@@ -178,7 +178,7 @@ var uploader = null;
                         })
                         var upload_form = upload_pane.find('.upload_form');
                         upload_form.append(submit);
-                        });
+                });
                 uploader.init();
             },
 
@@ -274,11 +274,11 @@ var uploader = null;
                 });
                 footer.append(next);
                 browse_pane.append(footer);
-            },
+            }
         });
 
         // callbacks    
-        $.each(['onImageClick',], function(i, name) {
+        $.each(['onImageClick'], function(i, name) {
             // configuration
             if ($.isFunction(conf[name])) { 
                 $(self).bind(name, conf[name]); 

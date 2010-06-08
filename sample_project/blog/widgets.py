@@ -62,7 +62,7 @@ class WYMEditor(forms.Textarea):
                         button_list.append(
                             $('<li>').addClass('wym_tools_file_add').append(file_button)
                         );
-                    },
+                    }
                 });
             });
             </script>''' % {

@@ -13,9 +13,9 @@ class BasicFilePickerWidget(forms.Textarea):
         url = reverse('filepicker:%s:init' % self.picker_name)
         return rendered + mark_safe(u'''<script type="text/javascript">
             $(document).ready(function() {
-                var overlay = $('<div>').addClass('file-picker-overlay').overlay({
+                overlay = $('<div>').addClass('file-picker-overlay').overlay({
                     effect: 'apple',
-                    speed: 'fast',
+                    speed: 'fast'
                 }).filePicker({
                     url: '%(url)s',
                     onImageClick: function(e, insert) {
