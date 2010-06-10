@@ -32,3 +32,15 @@ class BasicFilePickerWidget(forms.Textarea):
                 }).prependTo('.form-row.body');
             });
             </script>''' % {'name': name, 'url': url})
+
+
+class WYMeditorWidget(forms.Textarea):
+    def __init__(self, pickers, *args, **kwargs):
+        self.pickers = pickers
+        super(WYMeditorWidget, self).__init__(*args, **kwargs)
+        classes = ['wymeditor']
+        if 'file' in pickers:
+            classes.append("file_picker_name_file_%s" % pickers['file'])
+        if 'image' in pickers:
+            classes.append("file_picker_name_image_%s" % pickers['image'])
+        self.attrs['class'] = ' '.join(classes)

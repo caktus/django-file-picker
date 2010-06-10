@@ -1,5 +1,8 @@
 from django.db import models
 from django.db.models.base import ModelBase
+from django.core.urlresolvers import reverse, NoReverseMatch
+from django.http import HttpResponse
+from django.utils import simplejson as json
 
 import file_picker
 
@@ -43,6 +46,14 @@ class FilePickerSite(object):
     urls = property(get_urls)
 
     def primary(self, request):
-        pass
+        picker_names = request.GET.getlist('pickers[]')
+        pickers = []
+        for name in picker_names:
+            try:
+                pickers.append(reverse('filepicker:%s:init' % name))
+            except NoReverseMatch:
+                pass
+        data = {'urls': pickers}
+        return HttpResponse(json.dumps(data), mimetype='application/json')
 
 site = FilePickerSite()
