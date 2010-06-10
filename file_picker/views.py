@@ -1,4 +1,6 @@
 import os
+import logging
+import traceback
 import tempfile
 
 from django.db import models
@@ -25,7 +27,7 @@ class FilePickerBase(object):
     def __init__(self, name, model):
         self.name = name
         self.model = model
-        if self.form == None:
+        if not self.form:
             self.form = model_to_AjaxItemForm(self.model)
         self.field_names = model._meta.get_all_field_names()
         self.field_labels = {}
@@ -39,12 +41,25 @@ class FilePickerBase(object):
             else:
                 self.field_labels[field_name] = capfirst(field.verbose_name)
 
+    def protect(self, view, csrf_exempt=False):
+        def wrapper(*args, **kwargs):
+            data = {}
+            try:
+                return view(*args, **kwargs)
+            except Exception, e:
+                logging.exception(e)
+                data['errors'] = [traceback.format_exc(e)]
+            return HttpResponse(json.dumps(data), mimetype='application/json')
+        wrapper.csrf_exempt = csrf_exempt
+        return wrapper
+
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
         urlpatterns = patterns('',
             url(r'^$', self.setup, name='init'),
             url(r'^files/$', self.list, name='list-files'),
-            url(r'^upload/file/$', self.upload_file, name='upload-file'),
+            url(r'^upload/file/$', self.protect(self.upload_file, True),
+                name='upload-file'),
         )
         return (urlpatterns, None, self.name)
     urls = property(get_urls)
@@ -78,7 +93,6 @@ class FilePickerBase(object):
         else:
             return self.model.objects.all()
 
-    @csrf_exempt
     def upload_file(self, request):
         if request.GET and 'name' in request.GET:
             name, ext = os.path.splitext(request.GET['name'])
@@ -86,20 +100,16 @@ class FilePickerBase(object):
             fn.write(request.raw_post_data)
             fn.close()
             return HttpResponse(fn.name, mimetype='application/json')
-        else: 
-            if request.POST:
-                form = self.form(request.POST)
-                if form.is_valid():
-                    obj = form.save()
-                    data = self.append(obj)
-                    return HttpResponse(
-                        json.dumps(data), mimetype='application/json'
-                    )
-            else:
-                form = self.form()
-            form_str = form.as_table()
-            data = { 'form': form_str }
-            return HttpResponse(json.dumps(data), mimetype='application/json') 
+        else:
+            form = self.form(request.POST or None)
+            if form.is_valid():
+                obj = form.save()
+                data = self.append(obj)
+                return HttpResponse(
+                    json.dumps(data), mimetype='application/json'
+                )
+            data = {'form': form.as_table()}
+            return HttpResponse(json.dumps(data), mimetype='application/json')
 
     def list(self, request):
         form = QueryForm(request.GET)
@@ -107,7 +117,6 @@ class FilePickerBase(object):
             return HttpResponseServerError()
         page = form.cleaned_data['page']
         result = []
-        print form.cleaned_data['search']
         qs = self.get_queryset(form.cleaned_data['search'])
         pages = Paginator(qs, self.page_size)
         try:
@@ -129,7 +138,8 @@ class FilePickerBase(object):
 
 
 class ImagePickerBase(FilePickerBase):
-    link_header = 'Thumbnail';
+    link_header = 'Thumbnail'
+
     def append(self, obj):
         json = super(ImagePickerBase, self).append(obj)
         thumb = DjangoThumbnail(getattr(obj, self.field), (150, 150))
