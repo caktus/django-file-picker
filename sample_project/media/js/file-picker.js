@@ -70,11 +70,17 @@ var browserName=navigator.appName;
                         self.setupUpload();
                     });
                 } else {
-                    $.post(conf.urls.upload.file, data, function(response){
+                    $.post(conf.urls.upload.file, data, function(response) {
+                        if (response.errors) {
+                            $.each(response.errors, function(idx) {
+                                console.error(this);
+                            });
+                            return;
+                        }
                         if (response['insert']) {
                             $(self).trigger("onImageClick", [response.insert]);
                             self.getForm();
-                        }else{
+                        } else {
                             self.displayForm(response);
                             self.setupUpload();
                             var upload_form = upload_pane.find('.upload_form');
