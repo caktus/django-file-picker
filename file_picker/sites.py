@@ -46,14 +46,14 @@ class FilePickerSite(object):
     urls = property(get_urls)
 
     def primary(self, request):
-        picker_names = request.GET.getlist('pickers[]')
-        pickers = []
+        picker_names = request.GET.getlist('pickers')
+        pickers = {}
         for name in picker_names:
             try:
-                pickers.append(reverse('filepicker:%s:init' % name))
+                pickers[name] = reverse('filepicker:%s:init' % name)
             except NoReverseMatch:
-                pass
-        data = {'urls': pickers}
+                pickers[name] = None
+        data = {'pickers': pickers}
         return HttpResponse(json.dumps(data), mimetype='application/json')
 
 site = FilePickerSite()
