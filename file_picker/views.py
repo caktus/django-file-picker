@@ -35,6 +35,7 @@ class FilePickerBase(object):
             try:
                 field = model._meta.get_field(field_name)
             except models.FieldDoesNotExist:
+                self.field_names.remove(field_name)
                 continue
             if isinstance(field, (models.ImageField, models.FileField)):
                 self.field = field_name
