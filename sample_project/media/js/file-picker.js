@@ -151,6 +151,8 @@
                     }
                 });
                 
+                uploader.init();
+                
                 uploader.bind('FilesAdded', function (up, files) {
                     var list = upload_pane.find('.upload-list');
                     list.empty();
@@ -166,12 +168,16 @@
                 
                 uploader.bind('QueueChanged', function (up) {
                     if (up.files.length > 0 && uploader.state !== 2) {
-                        uploader.start();   
+                        uploader.start();
                     }
                 });
                 
                 uploader.bind('UploadProgress', function (up, file) {
                     $('#' + file.id + " b").html(file.percent + "%");
+                });
+                
+                uploader.bind('Error', function(up, err) {
+                    alert(err.message);
                 });
                 
                 uploader.bind('FileUploaded', function (uploader, file, response) {
@@ -192,7 +198,7 @@
                     var upload_form = upload_pane.find('.upload_form');
                     upload_form.append(submit);
                 });
-                uploader.init();
+
             },
 
             displayFiles: function (data) {
