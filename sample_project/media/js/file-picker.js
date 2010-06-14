@@ -178,6 +178,7 @@
                 
                 uploader.bind('Error', function(up, err) {
                     alert(err.message);
+                    alert(err.code);
                 });
                 
                 uploader.bind('FileUploaded', function (uploader, file, response) {
