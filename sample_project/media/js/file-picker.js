@@ -133,24 +133,26 @@
             
             setupUpload: function () {
                 var uploader = new plupload.Uploader({
-                    runtimes : 'html5,flash',
+                    runtimes : 'flash',
                     browse_button : 'select-a-file',
                     max_file_size : '20mb',
                     url : conf.urls.upload.file,
                     flash_swf_url : '/media/plupload.flash.swf'
                 });
                 
-                uploader.init();
-                
                 uploader.bind('Init', function (up, params) {  
                     upload_pane.find('.runtime').html('Upload runtime: ' + params.runtime);
+                    console.log(uploader.files);
                 });
                 
                 uploader.bind('PostInit', function (up) {
                     if (!$.browser.msie) {
                         $('div.plupload').css({'position': 'fixed'});
                     }
+                    console.log(uploader.files);
                 });
+                
+                uploader.init();
                 
                 uploader.bind('FilesAdded', function (up, files) {
                     var list = upload_pane.find('.upload-list');
@@ -165,6 +167,7 @@
                 });
                 
                 uploader.bind('QueueChanged', function (up) {
+                    console.log(uploader.files);
                     if (up.files.length > 0 && up.state !== 2) {
                         up.start();
                     }
