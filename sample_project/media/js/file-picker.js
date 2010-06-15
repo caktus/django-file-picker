@@ -48,7 +48,6 @@
                 $.get(conf.url, function (response) {
                     conf.urls = response.urls;
                     self.getFiles();
-                    self.getForm();
                 });
             },
 
@@ -141,17 +140,17 @@
                     flash_swf_url : '/media/plupload.flash.swf'
                 });
                 
+                uploader.init();
+                
                 uploader.bind('Init', function (up, params) {  
                     upload_pane.find('.runtime').html('Upload runtime: ' + params.runtime);
                 });
                 
                 uploader.bind('PostInit', function (up) {
-                    if ($.browser.msie) {
+                    if (!$.browser.msie) {
                         $('div.plupload').css({'position': 'fixed'});
                     }
                 });
-                
-                uploader.init();
                 
                 uploader.bind('FilesAdded', function (up, files) {
                     var list = upload_pane.find('.upload-list');
@@ -161,14 +160,13 @@
                         li.append($('<span>').text(file.name + ' (' + plupload.formatSize(file.size) + ') '));
                         li.append('<b>');
                         list.append(li);
-                        up.removeFile(file);
                         upload_pane.find('.add_to_model').remove();
                     });
                 });
                 
                 uploader.bind('QueueChanged', function (up) {
-                    if (up.files.length > 0 && uploader.state !== 2) {
-                        uploader.start();
+                    if (up.files.length > 0 && up.state !== 2) {
+                        up.start();
                     }
                 });
                 
@@ -181,7 +179,7 @@
                     alert(err.code);
                 });
                 
-                uploader.bind('FileUploaded', function (uploader, file, response) {
+                uploader.bind('FileUploaded', function (up, file, response) {
                     var submit = $('<input>').attr({
                         'class': 'add_to_model',
                         'type': 'submit',
