@@ -132,8 +132,9 @@
             },
             
             setupUpload: function () {
+                console.log('setupUpload');
                 var uploader = new plupload.Uploader({
-                    runtimes : 'flash',
+                    runtimes : 'html5,flash',
                     browse_button : 'select-a-file',
                     max_file_size : '20mb',
                     url : conf.urls.upload.file,
@@ -142,14 +143,12 @@
                 
                 uploader.bind('Init', function (up, params) {  
                     upload_pane.find('.runtime').html('Upload runtime: ' + params.runtime);
-                    console.log(uploader.files);
                 });
                 
                 uploader.bind('PostInit', function (up) {
-                    if (!$.browser.msie) {
-                        $('div.plupload').css({'position': 'fixed'});
-                    }
-                    console.log(uploader.files);
+                    //somehow triggers init to run again this is how we are getting
+                    //multiple files 
+                    //$('div.plupload').css({'position': 'fixed'});
                 });
                 
                 uploader.init();
@@ -167,7 +166,6 @@
                 });
                 
                 uploader.bind('QueueChanged', function (up) {
-                    console.log(uploader.files);
                     if (up.files.length > 0 && up.state !== 2) {
                         up.start();
                     }
