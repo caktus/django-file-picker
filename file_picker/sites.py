@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.base import ModelBase
+from django.db.models.base import ModelBase, FieldDoesNotExist
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.http import HttpResponse
 from django.utils import simplejson as json
@@ -14,7 +14,10 @@ class FilePickerSite(object):
 
     def guess_default(self, model):
         for field_name in model._meta.get_all_field_names():
-            field = model._meta.get_field(field_name)
+            try:
+                field = model._meta.get_field(field_name)
+            except FieldDoesNotExist:
+                continue
             if isinstance(field, models.ImageField):
                 return file_picker.ImagePickerBase
             elif isinstance(field, models.FileField):
