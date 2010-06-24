@@ -18,10 +18,7 @@ class PostAdmin(admin.ModelAdmin):
         css = {"all": ("css/overlay.css",)}
         js = ("js/jquery-1.4.2.min.js",
               "js/jquery.tools.min.js",
-              #"js/plupload.full.min.js",
-              "js/plupload.js",
-              "js/jquery.plupload.queue.js",
-              "js/plupload.flash.js",
+              "js/ajaxupload.js",
               "js/file-picker.js",)
 
 admin.site.register(Post, PostAdmin)

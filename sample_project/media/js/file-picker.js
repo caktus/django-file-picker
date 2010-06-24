@@ -115,7 +115,7 @@
                 var form = $('<form>').attr({
                     'method': 'post',
                     'class': 'upload_form',
-                    'action': ''
+                    'action': ""
                 });
                 var table = $('<table>').html(data.form);
                 form.append(table);
@@ -132,70 +132,38 @@
             },
             
             setupUpload: function () {
-                var uploader = new plupload.Uploader({
-                    runtimes : 'html5,flash',
-                    browse_button : 'select-a-file',
-                    max_file_size : '20mb',
-                    url : conf.urls.upload.file,
-                    flash_swf_url : '/media/plupload.flash.swf',
-                    multipart: true,
-                    container: 'file-picker-upload'
-                });
-                
-                uploader.bind('Init', function (up, params) {  
-                    upload_pane.find('.runtime').html('Upload runtime: ' + params.runtime);
-                });
-                
-                uploader.init();
-                
-                uploader.bind('FilesAdded', function (up, files) {
-                    alert('fa');
-                    var list = upload_pane.find('.upload-list');
-                    list.empty();
-                    $.each(files, function (i, file) {
-                        var li = $('<li>').attr({'id': file.id});
-                        li.append($('<span>').text(file.name + ' (' + plupload.formatSize(file.size) + ') '));
-                        li.append('<b>');
-                        list.append(li);
-                        upload_pane.find('.add_to_model').remove();
-                    });
-                });
-                
-                uploader.bind('QueueChanged', function (up) {
-                    if (up.files.length > 0 && up.state !== 2) {
-                        up.start();
+                var ajaxUpload = new AjaxUpload('select-a-file', {
+                    action: conf.urls.upload.file,
+                    autoSubmit: true,
+                    responseType: 'json',
+                    onSubmit: function(file, extension) {
+                        $('.runtime').html(
+                            'Downloading ...'
+                        );
+                        $('.add_to_model').remove();
+                    },
+                    onComplete: function(file, response) {
+                        $('.runtime').html(
+                            'Downloading ... Complete'
+                        );
+                        var submit = $('<input>').attr({
+                            'class': 'add_to_model',
+                            'type': 'submit',
+                            'value': 'Submit'
+                        }).click(function (e) {
+                            e.preventDefault();
+                            var upload_form = upload_pane.find('.upload_form');
+                            var data = {};
+                            $(':input', upload_form).each(function () {
+                                data[this.name] = this.value;
+                            });
+                            data.file = response.name;
+                            self.getForm(data);
+                        });
+                        var upload_form = upload_pane.find('.upload_form');
+                        upload_form.append(submit);
                     }
                 });
-                
-                uploader.bind('UploadProgress', function (up, file) {
-                    $('#' + file.id + " b").html(file.percent + "%");
-                });
-                
-                uploader.bind('Error', function(up, err) {
-                    alert(err.message);
-                    alert(err.code);
-                });
-                
-                uploader.bind('FileUploaded', function (up, file, response) {
-                    alert('fa');
-                    var submit = $('<input>').attr({
-                        'class': 'add_to_model',
-                        'type': 'submit',
-                        'value': 'Submit'
-                    }).click(function (e) {
-                        e.preventDefault();
-                        var upload_form = upload_pane.find('.upload_form');
-                        var data = {};
-                        $(':input', upload_form).each(function () {
-                            data[this.name] = this.value;
-                        });
-                        data.file = response.response;
-                        self.getForm(data);
-                    });
-                    var upload_form = upload_pane.find('.upload_form');
-                    upload_form.append(submit);
-                });
-
             },
 
             displayFiles: function (data) {

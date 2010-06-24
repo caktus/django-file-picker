@@ -98,14 +98,14 @@ class FilePickerBase(object):
             return self.model.objects.all()
 
     def upload_file(self, request):
-        if request.GET and 'name' in request.GET:
-            name, ext = os.path.splitext(request.GET['name'])
+        if 'userfile' in request.FILES:
+            name, ext = os.path.splitext(request.FILES['userfile'].name)
             fn = tempfile.NamedTemporaryFile(prefix=name, suffix=ext, delete=False)
-            f = request.FILES['file']
+            f = request.FILES['userfile']
             for chunk in f.chunks():
                 fn.write(chunk)
             fn.close()
-            return HttpResponse(fn.name, mimetype='text/plain; charset=UTF-8')
+            return HttpResponse(json.dumps({ 'name': fn.name }), mimetype='text/html')
         else:
             form = self.form(request.POST or None)
             if form.is_valid():
