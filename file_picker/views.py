@@ -105,7 +105,7 @@ class FilePickerBase(object):
             for chunk in f.chunks():
                 fn.write(chunk)
             fn.close()
-            return HttpResponse(fn.name, mimetype='application/json')
+            return HttpResponse(fn.name, mimetype='text/plain; charset=UTF-8')
         else:
             form = self.form(request.POST or None)
             if form.is_valid():
