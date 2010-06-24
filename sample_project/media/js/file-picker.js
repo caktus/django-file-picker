@@ -138,13 +138,13 @@
                     responseType: 'json',
                     onSubmit: function(file, extension) {
                         $('.runtime').html(
-                            'Downloading ...'
+                            'Uploading ...'
                         );
                         $('.add_to_model').remove();
                     },
                     onComplete: function(file, response) {
                         $('.runtime').html(
-                            'Downloading ... Complete'
+                            'Uploading ... Complete'
                         );
                         var submit = $('<input>').attr({
                             'class': 'add_to_model',
