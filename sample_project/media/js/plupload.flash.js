@@ -101,8 +101,6 @@
 			flashContainer.id = uploader.id + '_flash_container';
 
 			plupload.extend(flashContainer.style, {
-				position : 'absolute',
-				top : '0px',
 				background : uploader.settings.shim_bgcolor || 'transparent',
 				zIndex : 99999,
 				width : '100%',

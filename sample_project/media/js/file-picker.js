@@ -132,23 +132,18 @@
             },
             
             setupUpload: function () {
-                console.log('setupUpload');
                 var uploader = new plupload.Uploader({
                     runtimes : 'html5,flash',
                     browse_button : 'select-a-file',
                     max_file_size : '20mb',
                     url : conf.urls.upload.file,
-                    flash_swf_url : '/media/plupload.flash.swf'
+                    flash_swf_url : '/media/plupload.flash.swf',
+                    multipart: true,
+                    container: 'file-picker-upload'
                 });
                 
                 uploader.bind('Init', function (up, params) {  
                     upload_pane.find('.runtime').html('Upload runtime: ' + params.runtime);
-                });
-                
-                uploader.bind('PostInit', function (up) {
-                    //somehow triggers init to run again this is how we are getting
-                    //multiple files 
-                    //$('div.plupload').css({'position': 'fixed'});
                 });
                 
                 uploader.init();
@@ -322,7 +317,7 @@
         browse_pane = $('<div>').addClass('file-picker-browse').addClass('pane');
         browse_pane.append($('<h2>').text('Browse for a file'));
         panes.append(browse_pane);
-        upload_pane = $('<div>').addClass('file-picker-upload').addClass('pane');
+        upload_pane = $('<div>').addClass('file-picker-upload').attr({'id': 'file-picker-upload'}).addClass('pane');
         panes.append(upload_pane);
         root.append(tabs);
         root.append(panes);

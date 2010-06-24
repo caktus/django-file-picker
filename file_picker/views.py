@@ -101,7 +101,9 @@ class FilePickerBase(object):
         if request.GET and 'name' in request.GET:
             name, ext = os.path.splitext(request.GET['name'])
             fn = tempfile.NamedTemporaryFile(prefix=name, suffix=ext, delete=False)
-            fn.write(request.raw_post_data)
+            f = request.FILES['file']
+            for chunk in f.chunks():
+                fn.write(chunk)
             fn.close()
             return HttpResponse(fn.name, mimetype='application/json')
         else:
