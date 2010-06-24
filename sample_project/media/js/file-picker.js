@@ -149,6 +149,7 @@
                 uploader.init();
                 
                 uploader.bind('FilesAdded', function (up, files) {
+                    alert('fa');
                     var list = upload_pane.find('.upload-list');
                     list.empty();
                     $.each(files, function (i, file) {
@@ -176,6 +177,7 @@
                 });
                 
                 uploader.bind('FileUploaded', function (up, file, response) {
+                    alert('fa');
                     var submit = $('<input>').attr({
                         'class': 'add_to_model',
                         'type': 'submit',
