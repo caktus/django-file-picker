@@ -14,7 +14,7 @@ class PostAdmin(admin.ModelAdmin):
         }
         js = ("js/jquery-1.4.2.min.js",
               "js/file-picker.js", "js/jquery.tools.min.js",
-              "js/plupload.full.min.js",)
+              "js/ajaxupload.js",)
 admin.site.register(Post, PostAdmin)
 
 

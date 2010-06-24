@@ -11,7 +11,7 @@ class PageletAdmin(pagelets_admin.PageletAdmin):
         js = ("js/jquery-1.4.2.min.js",
               "wymeditor/jquery.wymeditor.pack.js",
               "js/jquery.tools.min.js",
-              "js/plupload.full.min.js",
+              "js/ajaxupload.js",
               "js/file-picker.js",
               "js/pagelets.js",)
 
@@ -26,7 +26,7 @@ class PageAdmin(pagelets_admin.PageAdmin):
         js = ("js/jquery-1.4.2.min.js",
               "wymeditor/jquery.wymeditor.pack.js",
               "js/jquery.tools.min.js",
-              "js/plupload.full.min.js",
+              "js/ajaxupload.js",
               "js/file-picker.js",
               "js/pagelets.js",)
 
