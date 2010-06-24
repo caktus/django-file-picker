@@ -1,9 +1,9 @@
 import os
-from django.db.models import get_model
 
 from django import forms
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, get_model
+from django.db.models.base import FieldDoesNotExist
 
 from django.core.files.base import ContentFile
 
@@ -21,12 +21,19 @@ class QueryForm(forms.Form):
         return page
 
 
+FIELD_EXCLUDES = (models.ImageField, models.FileField)
+
+
 def model_to_AjaxItemForm(model):
-    fields = model._meta.get_all_field_names()
-    for field in fields:
-        if type(model._meta.get_field(field)) in \
-        (models.ImageField, models.FileField):
-            exclude = [field]
+    exclude = []
+    for field_name in model._meta.get_all_field_names():
+        try:
+            field = model._meta.get_field(field_name)
+        except FieldDoesNotExist:
+            exclude.append(field_name)
+            continue
+        if isinstance(field, FIELD_EXCLUDES):
+            exclude.append(field_name)
     meta = type('Meta', (), { "model":model, "exclude": exclude})
     modelform_class = type('modelform', (AjaxItemForm,), {"Meta": meta})
     return modelform_class
