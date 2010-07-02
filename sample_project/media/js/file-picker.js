@@ -195,11 +195,13 @@
                         });
                     })
                 );
-                tr = $('<tr>');
-                tr.append($('<th>').text(data.link_header));
-                $.each(files[0].extra, function (key, value) {
-                    tr.append($('<th>').text(key));
-                });
+                if (files.length > 0) {
+                    tr = $('<tr>');
+                    tr.append($('<th>').text(data.link_header));
+                    $.each(files[0].extra, function (key, value) {
+                        tr.append($('<th>').text(key));
+                    });
+                }
                 table.append(tr);
                 $.each(files, function (idx, file) {
                     var tr = $('<tr>');            
