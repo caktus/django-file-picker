@@ -56,4 +56,52 @@ ____________________
                     return json
         
 
+Examples
+________
+A couple of different exmaples.
+
+ModelAdmin
+----------
+
+::
+    
+    class PostAdmin(admin.ModelAdmin):
+        formfield_overrides = {
+            models.TextField: {
+                'widget': file_picker.widgets.BasicFilePickerWidget(picker="article")
+            },
+        }
+
+        class Media:
+            css = {"all": ("css/overlay.css",)}
+            js = ("js/jquery-1.4.2.min.js",
+                  "js/jquery.tools.min.js",
+                  "js/ajaxupload.js",
+                  "js/file-picker.js",)
+    admin.site.register(Post, PostAdmin)
+
+Wymeditor
+---------
+Uses Wymeditor as a wysiwyg and includes buttons for images or files.  Look 
+::
+
+    class WymeditorAdmin(admin.ModelAdmin):
+        formfield_overrides = {
+            models.TextField: {
+                'widget': file_picker.widgets.WYMeditorWidget(pickers={
+                    'file': 'files',
+                    'image': 'images',
+                })
+            },
+        }
+
+        class Media:
+            css = {"all": ("css/overlay.css", )}
+            js = ("js/jquery-1.4.2.min.js",
+                  "wymeditor/jquery.wymeditor.pack.js",
+                  "js/jquery.tools.min.js",
+                  "js/ajaxupload.full.min.js",
+                  "js/file-picker.js",
+                  "js/file-picker-wymeditor.js",)
+
 Development by `Caktus Consulting Group <http://www.caktusgroup.com/>`_.
