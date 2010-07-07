@@ -32,7 +32,7 @@ ____________________
         - js/ajaxupload.js
         - js/file-picker.js
 
-    6. In the form where you plan on using the file-picker use this widget for the textarea you would like to have the file-picker insert the file/image into.  If your using a wysiwig look at the sample_project.blog.widgets to see how this was done with wymeditor.
+    6. In the form where you plan on using the file-picker use this widget for the textarea you would like to have the file-picker insert the file/image into.  If your using a wysiwyg look at the sample_project.blog.widgets to see how this was done with wymeditor.
         ::
         
             file_picker.widgets.BasicFilePickerWidget(picker="url-name")
@@ -58,7 +58,7 @@ ____________________
 
 Examples
 ________
-A couple of different exmaples.
+A couple of different examples.
 
 ModelAdmin
 ----------
