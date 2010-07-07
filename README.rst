@@ -12,13 +12,11 @@ ____________________
 
     1. pip install -e hg+http://bitbucket.org/copelco/django-file-picker/#egg=file-picker
     2. Add file-picker to your urlpatterns
-    
         ::
 
             (r'^file-picker/', include(file_picker.site.urls)),
 
     3. Create a file called file_pickers and add this to it:
-    
         ::
 
             import file_picker
@@ -26,7 +24,6 @@ ____________________
 
         Where Model is the model which you want to pick from and name is the name that will be used for the url entries name.  Multiple models can be registered in this way.
     4. Add the required javascript and css files to the projects media directory.  Overlay.css and file-picker.js can be found in the media directory of the sample project.
-        
         - css/overlay.css
         - js/jquery-1.4.2.min.js
         - js/jquery.tools.min.js
@@ -34,7 +31,6 @@ ____________________
         - js/file-picker.js
 
     5. In the form where you plan on using the file-picker use this widget for the textarea you would like to have the file-picker insert the file/image into.  If your using a wysiwig look at the sample_project.blog.widgets to see how this was done with wymeditor.
-        
         ::
         
             file_picker.widgets.BasicFilePickerWidget(picker="url-name")
@@ -43,13 +39,11 @@ ____________________
 Using Custom Pickers
 ____________________
     For the case where the form or display list comes out incorrectly you can define the class to use like so:
-        
         ::
         
             file_picker.site.register(Model, name='url-name', class_=NewPicker)    
 
     Where NewPicker extends from filer_picker.views.FilePickerBase or ImagePickerBase like this example which uses a custom form and uses a inserts a "item" in the textarea, this time an image from the "field_to_pick" at 50% its normal size:
-    
         ::
         
             class NewPicker(FilePickerBase):
