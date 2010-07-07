@@ -23,6 +23,8 @@ class FilePickerBase(object):
     form = None
     page_size = 4
     link_header = 'Insert File'
+    columns = None
+    ordering = None
 
     def __init__(self, name, model):
         self.name = name
@@ -78,7 +80,11 @@ class FilePickerBase(object):
     
     def append(self, obj):
         extra = {}
-        for name in self.field_names:
+        if self.columns:
+            columns = self.columns
+        else:
+            columns = self.field_names
+        for name in columns:
             extra[self.field_labels[name]] = str(getattr(obj, name))
         return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
             'extra': extra,
@@ -86,16 +92,19 @@ class FilePickerBase(object):
             'link_content': 'Click to insert',
         }
 
-    def get_queryset(self,search):
+    def get_queryset(self, search):
         qs = Q()
         if search:
             for name in self.field_names:
                 comparision = {}
                 comparision[name] = search
                 qs = qs | Q(name__contains=search)
-            return self.model.objects.filter(qs)
+            queryset = self.model.objects.filter(qs)
         else:
-            return self.model.objects.all()
+            queryset = self.model.objects.all()
+        if self.ordering:
+            queryset = queryset.order_by(self.ordering)
+        return queryset
 
     def upload_file(self, request):
         if 'userfile' in request.FILES:
