@@ -82,7 +82,7 @@ ModelAdmin
 
 Wymeditor
 ---------
-Uses Wymeditor as a wysiwyg and includes buttons for images or files.  Look 
+Uses Wymeditor as a wysiwyg and includes buttons for images or files.  Look at the media folder for images to use as icons.
 ::
 
     class WymeditorAdmin(admin.ModelAdmin):
@@ -100,7 +100,7 @@ Uses Wymeditor as a wysiwyg and includes buttons for images or files.  Look
             js = ("js/jquery-1.4.2.min.js",
                   "wymeditor/jquery.wymeditor.pack.js",
                   "js/jquery.tools.min.js",
-                  "js/ajaxupload.full.min.js",
+                  "js/ajaxupload.js",
                   "js/file-picker.js",
                   "js/file-picker-wymeditor.js",)
 
