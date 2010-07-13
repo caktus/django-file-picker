@@ -14,6 +14,7 @@ from django.core.files.uploadedfile import UploadedFile
 from django.views.decorators.csrf import csrf_exempt
 
 from sorl.thumbnail.main import DjangoThumbnail
+from sorl.thumbnail.base import ThumbnailException
 
 from file_picker.forms import QueryForm, model_to_AjaxItemForm
 
@@ -157,8 +158,16 @@ class ImagePickerBase(FilePickerBase):
 
     def append(self, obj):
         json = super(ImagePickerBase, self).append(obj)
-        thumb = DjangoThumbnail(getattr(obj, self.field), (150, 150))
-        json['link_content'] = '<img src="%s" width="%s" height="%s" />' %\
-            (thumb.absolute_url, thumb.width(), thumb.height(),)
-        json['insert'] = '<img src="%s" />' % getattr(obj, self.field).url
+        img = '<img src="{0}" alt="{1}" width="{2}" height="{3}" />'
+        try:
+            thumb = DjangoThumbnail(getattr(obj, self.field), (150, 150))
+        except ThumbnailException:
+            thumb = None
+        if thumb:
+            json['link_content'] = img.format(thumb.absolute_url, 
+                                    thumb.width(), thumb.height(),)
+            json['insert'] = '<img src="%s" />' % getattr(obj, self.field).url
+        else:
+            json['link_content'] = img.format('', 'Not Found', 150, 150)
+            json['insert'] = img.format('', 'Not Found', 150, 150)
         return json
