@@ -164,7 +164,7 @@ class ImagePickerBase(FilePickerBase):
         except ThumbnailException:
             thumb = None
         if thumb:
-            json['link_content'] = img.format(thumb.absolute_url, 
+            json['link_content'] = img.format(thumb.absolute_url, 'image'
                                     thumb.width(), thumb.height(),)
             json['insert'] = '<img src="%s" />' % getattr(obj, self.field).url
         else:
