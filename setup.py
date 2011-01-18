@@ -16,6 +16,7 @@ setup(
     license='LICENSE.txt',
     description='Pluggable file picker',
     long_description=open('README.rst').read(),
-    install_requires=['sorl-thumbnail==3.2.5',]
+    install_requires=['sorl-thumbnail==3.2.5',],
+    zip_safe=False, # because we're including media that Django needs
 )
 
