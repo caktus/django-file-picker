@@ -8,8 +8,10 @@ Dependencies
 
 Required
 ````````
-* `jQuery 1.4.x <http://www.jquery.com/>`_
-* `jQuery Tools 1.2.x <http://flowplayer.org/tools/>`_
+* `Django 1.2.x <http://www.djangoproject.com/>`_
+* sorl-thumbnail==3.2.5
+* `jQuery 1.4.2 <http://www.jquery.com/>`_
+* `jQuery Tools 1.2.2 <http://flowplayer.org/tools/>`_
 * `AJAX Upload <http://valums.com/ajax-upload/>`_ (included)
 
 Optional
@@ -19,12 +21,13 @@ Optional
 Installation and Setup
 ----------------------
 
-1) Add `file_picker` to INSTALLED_APPS in settings.py::
+1) Update INSTALLED_APPS in settings.py::
 
     INSTALLED_APPS = (
         # ...
         'file_picker',
-        'file_picker.wymeditor', # optional
+        'file_picker.uploads', # optional file and image Django app
+        'file_picker.wymeditor', # optional WYMeditor plugin
         # ...
     )
 
