@@ -1,6 +1,36 @@
+/*
+ * jQuery plugin for django-file-picker
+ * Author: Caktus Consulting Group, LLC (http://www.caktusgroup.com/)
+ * Source: https://github.com/caktus/django-file-picker
+ *
+ * Copyright (C) 2011 by Caktus Consulting Group, LLC
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 "use strict";
 
 (function ($) {
+
+    // don't use square bracket syntax (jQuery 1.4.x)
+    // source: http://benalman.com/news/2009/12/jquery-14-param-demystified/
+    $.ajaxSetup({ traditional: true });
+
     $.filePicker = {
         conf: {
             url: '',
@@ -316,6 +346,20 @@
 
 
 })(jQuery);
+
+
+function get_file_picker_types(el) {
+    var picker_names = {};
+    $.each($(el).attr('class').split(' '), function(idx, class_name) {
+        if (class_name.substr(0, 17) == 'file_picker_name_') {
+            var type = class_name.split('_')[3];
+            var name = class_name.split('_')[4];
+            picker_names[type] = name;
+        }
+    });
+    return picker_names;
+}
+
 
 function insertAtCaret(areaId,text) { 
     var txtarea = document.getElementById(areaId);
