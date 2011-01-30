@@ -33,10 +33,7 @@ jQuery(document).ready(function($) {
         $.each(picker_names, function(type, name) {
             pickers[type] = urls[name];
         });
-        var overlay = $('<div>').addClass('file-picker-overlay').overlay({
-            effect: 'apple',
-            speed: 'fast'
-        }).filePicker({
+        var overlay = $('<div>').addClass('file-picker-overlay').overlay().filePicker({
             onImageClick: function(e, insert) {
                 insertAtCaret(el.id, insert);
             }

@@ -71,8 +71,8 @@
             },
 
             load: function () {
-                tabs.tabs('div.panes > div.pane', {effect: 'fade', fadeOutSpeed: 400});
-                tabs.tabs().onClick(function (e, index) {
+                tabs.tabs('div.panes > div.pane');
+                $(tabs).data('tabs').onClick(function (e, index) {
                     self.tabClick(e, index);
                 });
                 $.get(conf.url, function (response) {

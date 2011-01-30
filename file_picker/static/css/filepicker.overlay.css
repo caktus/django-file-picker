@@ -11,7 +11,8 @@
         width after the growing animation finishes
         height is automatically calculated
     */
-    width: 640px;        
+    width: 583px;        
+    height: 450px;
     
     /* some padding to layout nested elements nicely  */
     padding: 35px;
@@ -101,8 +102,8 @@ div.panes div.pane {
 }
 
 .file-picker-overlay .scrollable {
-    width: 632px;
-    height: 390px;
+    width: 584px;
+    height: 350px;
     overflow: auto;
     border-top: 1px solid #EEE;
 }
