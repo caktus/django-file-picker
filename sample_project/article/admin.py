@@ -17,9 +17,7 @@ class PostAdmin(admin.ModelAdmin):
 
     class Media:
         css = {"all": ("css/filepicker.overlay.css",)}
-        js = ("https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js",
-              "http://cdn.jquerytools.org/1.2.2/tiny/jquery.tools.min.js",
-              "js/overlay.apple.min.js",
+        js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",
               "js/ajaxupload.js",
               "js/jquery.filepicker.js",
               "js/jquery.filepicker.simple.js",)
