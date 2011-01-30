@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
                 'name': 'filepicker-image',
                 'title': 'Insert Image',
                 'href': '#'
-            }).click(function(e) {
+            }).css('display', 'block').click(function(e) {
                 e.preventDefault();
                 var conf = $(overlay).data('filePicker').getConf();
                 conf.url = pickers.image;
@@ -59,7 +59,7 @@ jQuery(document).ready(function($) {
                 'name': 'filepicker-file',
                 'title': 'Insert File',
                 'href': '#'
-            }).click(function(e) {
+            }).css('display', 'block').click(function(e) {
                 e.preventDefault();
                 var conf = $(overlay).data('filePicker').getConf();
                 conf.url = pickers.file;
