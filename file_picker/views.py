@@ -19,6 +19,9 @@ from sorl.thumbnail.base import ThumbnailException
 from file_picker.forms import QueryForm, model_to_AjaxItemForm
 
 
+logger = logging.getLogger('filepicker.views')
+
+
 class FilePickerBase(object):
     model = None
     form = None
@@ -54,7 +57,7 @@ class FilePickerBase(object):
             try:
                 return view(*args, **kwargs)
             except Exception, e:
-                logging.exception(e)
+                logger.exception(e)
                 data['errors'] = [traceback.format_exc(e)]
             return HttpResponse(json.dumps(data), mimetype='application/json')
         wrapper.csrf_exempt = csrf_exempt
@@ -121,9 +124,8 @@ class FilePickerBase(object):
             if form.is_valid():
                 obj = form.save()
                 data = self.append(obj)
-                return HttpResponse(
-                    json.dumps(data), mimetype='application/json'
-                )
+                return HttpResponse(json.dumps(data),
+                                    mimetype='application/json')
             data = {'form': form.as_table()}
             return HttpResponse(json.dumps(data), mimetype='application/json')
 
@@ -161,7 +163,8 @@ class ImagePickerBase(FilePickerBase):
         img = '<img src="{0}" alt="{1}" width="{2}" height="{3}" />'
         try:
             thumb = DjangoThumbnail(getattr(obj, self.field), (150, 150))
-        except ThumbnailException:
+        except ThumbnailException, e:
+            logger.exception(e)
             thumb = None
         if thumb:
             json['link_content'] = img.format(thumb.absolute_url, 'image',
