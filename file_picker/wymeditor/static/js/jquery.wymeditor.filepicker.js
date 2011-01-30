@@ -36,10 +36,7 @@ WYMeditor.editor.prototype.filepicker = function(options) {
         $.each(picker_names, function(type, name) {
             pickers[type] = urls[name];
         });
-        var overlay = $('<div>').addClass('file-picker-overlay').overlay({
-            effect: 'apple',
-            speed: 'fast'
-        }).filePicker({
+        var overlay = $('<div>').addClass('file-picker-overlay').overlay().filePicker({
             onImageClick: function(e, insert) {
                 this.getRoot().parent().data('wym').insert(insert);
             }
@@ -85,3 +82,10 @@ WYMeditor.editor.prototype.filepicker = function(options) {
         });
     }
 };
+
+jQuery(function() {
+    $(document).bind('wymeditor-postinit', function(e, wym) {
+        wym.filepicker();
+    });
+});
+

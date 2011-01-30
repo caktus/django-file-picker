@@ -6,8 +6,8 @@ from django.core.urlresolvers import reverse
 class FilePickerWidget(forms.Textarea):
     def __init__(self, pickers, *args, **kwargs):
         self.pickers = pickers
+        classes = kwargs.pop('classes', ['filepicker'])
         super(FilePickerWidget, self).__init__(*args, **kwargs)
-        classes = kwargs.get('classes', ['filepicker'])
         if 'file' in pickers:
             classes.append("file_picker_name_file_%s" % pickers['file'])
         if 'image' in pickers:
@@ -15,7 +15,7 @@ class FilePickerWidget(forms.Textarea):
         self.attrs['class'] = ' '.join(classes)
 
 
-class WYMeditorWidget(forms.Textarea):
+class WYMeditorWidget(FilePickerWidget):
     def __init__(self, pickers, *args, **kwargs):
         kwargs['classes'] = ['wymeditor']
         super(WYMeditorWidget, self).__init__(pickers, *args, **kwargs)
