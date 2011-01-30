@@ -2,6 +2,7 @@ import os
 import logging
 import traceback
 import tempfile
+import datetime
 
 from django.db import models
 from django.db.models import Q
@@ -89,7 +90,13 @@ class FilePickerBase(object):
         else:
             columns = self.field_names
         for name in columns:
-            extra[self.field_labels[name]] = str(getattr(obj, name))
+            value = getattr(obj, name)
+            print type(value)
+            if isinstance(value, (datetime.datetime, datetime.date)):
+                value = value.strftime('%b %d, %Y')
+            else:
+                value = unicode(value)
+            extra[self.field_labels[name]] = value
         return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
             'extra': extra,
             'insert': getattr(obj, self.field).url,
