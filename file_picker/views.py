@@ -27,7 +27,7 @@ class FilePickerBase(object):
     model = None
     form = None
     page_size = 4
-    link_header = 'Insert File'
+    link_headers = ['Insert File',]
     columns = None
     ordering = None
 
@@ -91,7 +91,6 @@ class FilePickerBase(object):
             columns = self.field_names
         for name in columns:
             value = getattr(obj, name)
-            print type(value)
             if isinstance(value, (datetime.datetime, datetime.date)):
                 value = value.strftime('%b %d, %Y')
             else:
@@ -99,8 +98,8 @@ class FilePickerBase(object):
             extra[self.field_labels[name]] = value
         return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
             'extra': extra,
-            'insert': getattr(obj, self.field).url,
-            'link_content': 'Click to insert',
+            'insert': [getattr(obj, self.field).url,],
+            'link_content': ['Click to insert'],
         }
 
     def get_queryset(self, search):
@@ -157,7 +156,7 @@ class FilePickerBase(object):
             'result': result,
             'has_next': page_obj.has_next(),
             'has_previous': page_obj.has_previous(),
-            'link_header': self.link_header,
+            'link_headers': self.link_headers,
         }
         return HttpResponse(json.dumps(data), mimetype='application/json')
 
@@ -174,10 +173,10 @@ class ImagePickerBase(FilePickerBase):
             logger.exception(e)
             thumb = None
         if thumb:
-            json['link_content'] = img.format(thumb.absolute_url, 'image',
-                                    thumb.width(), thumb.height(),)
-            json['insert'] = '<img src="%s" />' % getattr(obj, self.field).url
+            json['link_content'] = [img.format(thumb.absolute_url, 'image',
+                                    thumb.width(), thumb.height(),),]
+            json['insert'] = ['<img src="%s" />' % getattr(obj, self.field).url,]
         else:
-            json['link_content'] = img.format('', 'Not Found', 150, 150)
-            json['insert'] = img.format('', 'Not Found', 150, 150)
+            json['link_content'] = [img.format('', 'Not Found', 150, 150),]
+            json['insert'] = [img.format('', 'Not Found', 150, 150),]
         return json
