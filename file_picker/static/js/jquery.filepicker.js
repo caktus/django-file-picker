@@ -230,8 +230,8 @@
                     $.each(data.link_headers, function (idx, value) {
                         tr.append($('<th>').text(value));
                     });
-                    $.each(files[0].extra, function (key, value) {
-                        tr.append($('<th>').text(key));
+                    $.each(data.extra_headers, function (idx, value) {
+                        tr.append($('<th>').text(value));
                     });
                 }
                 table.append(tr);
@@ -244,8 +244,8 @@
                         a.append(value);
                         tr.append($('<td>').append(a));
                     });
-                    $.each(file.extra, function (key, value) {
-                        tr.append($('<td>').append(value));
+                    $.each(data.extra_headers, function (idx, key) {
+                        tr.append($('<td>').append(file.extra[key]));
                     });
                     table.append(tr);
                 });
