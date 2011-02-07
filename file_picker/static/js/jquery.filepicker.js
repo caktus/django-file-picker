@@ -245,7 +245,7 @@
                         tr.append($('<td>').append(a));
                     });
                     $.each(file.extra, function (key, value) {
-                        tr.append($('<td>').text(value));
+                        tr.append($('<td>').append(value));
                     });
                     table.append(tr);
                 });
