@@ -227,7 +227,9 @@
                 );
                 if (files.length > 0) {
                     tr = $('<tr>');
-                    tr.append($('<th>').text(data.link_header));
+                    $.each(data.link_headers, function (idx, value) {
+                        tr.append($('<th>').text(value));
+                    });
                     $.each(files[0].extra, function (key, value) {
                         tr.append($('<th>').text(key));
                     });
@@ -235,11 +237,13 @@
                 table.append(tr);
                 $.each(files, function (idx, file) {
                     var tr = $('<tr>');            
-                    var a = $('<a>').click(function (e) {
-                        $(self).trigger("onImageClick", [file.insert]);
+                    $.each(file.link_content, function (idx, value) {
+                        var a = $('<a>').click(function (e) {
+                            $(self).trigger("onImageClick", [file.insert[idx]]);
+                        });
+                        a.append(value);
+                        tr.append($('<td>').append(a));
                     });
-                    a.append(file.link_content);
-                    tr.append($('<td>').append(a));
                     $.each(file.extra, function (key, value) {
                         tr.append($('<td>').text(value));
                     });
