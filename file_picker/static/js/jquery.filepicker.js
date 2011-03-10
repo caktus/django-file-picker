@@ -244,7 +244,7 @@
                         a.append(value);
                         tr.append($('<td>').append(a));
                     });
-                    $.each(data.extra_headers, function (idx, key) {
+                    $.each(data.columns, function (idx, key) {
                         tr.append($('<td>').append(file.extra[key]));
                     });
                     table.append(tr);

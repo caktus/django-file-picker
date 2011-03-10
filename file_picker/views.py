@@ -102,7 +102,7 @@ class FilePickerBase(object):
                 value = value.strftime('%b %d, %Y')
             else:
                 value = unicode(value)
-            extra[self.field_labels[name]] = value
+            extra[name] = value
         return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
             'extra': extra,
             'insert': [getattr(obj, self.field).url,],
@@ -165,6 +165,7 @@ class FilePickerBase(object):
             'has_previous': page_obj.has_previous(),
             'link_headers': self.link_headers,
             'extra_headers': self.extra_headers,
+            'columns': self.columns,
         }
         return HttpResponse(json.dumps(data), mimetype='application/json')
 

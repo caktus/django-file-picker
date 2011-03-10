@@ -42,7 +42,7 @@ class FileForm(forms.ModelForm):
 class ImagePicker(file_picker.ImagePickerBase):
     form = ImageForm
     columns = ('name', 'file_type', 'date_modified')
-    extra_headers = ('Name', 'File type', 'Date modified')
+    extra_headers = ('Name', 'File Type', 'Date Modified')
     
 
 class FilePicker(file_picker.FilePickerBase):
