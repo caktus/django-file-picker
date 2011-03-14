@@ -1,0 +1,2 @@
+-e svn+http://code.djangoproject.com/svn/django/trunk/#egg=django
+sorl-thumbnail==3.2.5
