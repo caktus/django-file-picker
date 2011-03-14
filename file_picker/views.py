@@ -27,7 +27,8 @@ class FilePickerBase(object):
     model = None
     form = None
     page_size = 4
-    link_header = 'Insert File'
+    link_headers = ['Insert File',]
+    extra_headers = None
     columns = None
     ordering = None
 
@@ -38,7 +39,11 @@ class FilePickerBase(object):
             self.form = model_to_AjaxItemForm(self.model)
         self.field_names = model._meta.get_all_field_names()
         self.field_labels = {}
-        for field_name in model._meta.get_all_field_names():
+        field_names = model._meta.get_all_field_names()
+        if not self.columns:
+            self.columns = self.field_names
+        extra_headers = []
+        for field_name in field_names:
             try:
                 field = model._meta.get_field(field_name)
             except models.FieldDoesNotExist:
@@ -51,7 +56,13 @@ class FilePickerBase(object):
                 self.field_names.remove(field_name)
             else:
                 self.field_labels[field_name] = capfirst(field.verbose_name)
+            if not self.extra_headers:
+                if field_name in self.columns:
+                    extra_headers.append(capfirst(field.verbose_name))
+        if not self.extra_headers:
+            self.extra_headers = extra_headers
 
+        
     def protect(self, view, csrf_exempt=False):
         def wrapper(*args, **kwargs):
             data = {}
@@ -85,11 +96,7 @@ class FilePickerBase(object):
     
     def append(self, obj):
         extra = {}
-        if self.columns:
-            columns = self.columns
-        else:
-            columns = self.field_names
-        for name in columns:
+        for name in self.columns:
             value = getattr(obj, name)
             if isinstance(value, (datetime.datetime, datetime.date)):
                 value = value.strftime('%b %d, %Y')
@@ -98,8 +105,8 @@ class FilePickerBase(object):
             extra[self.field_labels[name]] = value
         return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
             'extra': extra,
-            'insert': getattr(obj, self.field).url,
-            'link_content': 'Click to insert',
+            'insert': [getattr(obj, self.field).url,],
+            'link_content': ['Click to insert'],
         }
 
     def get_queryset(self, search):
@@ -156,14 +163,15 @@ class FilePickerBase(object):
             'result': result,
             'has_next': page_obj.has_next(),
             'has_previous': page_obj.has_previous(),
-            'link_header': self.link_header,
+            'link_headers': self.link_headers,
+            'extra_headers': self.extra_headers,
         }
         return HttpResponse(json.dumps(data), mimetype='application/json')
 
 
 class ImagePickerBase(FilePickerBase):
-    link_header = 'Thumbnail'
-
+    link_headers = ['Thumbnail',]
+    
     def append(self, obj):
         json = super(ImagePickerBase, self).append(obj)
         img = '<img src="{0}" alt="{1}" width="{2}" height="{3}" />'
@@ -173,10 +181,10 @@ class ImagePickerBase(FilePickerBase):
             logger.exception(e)
             thumb = None
         if thumb:
-            json['link_content'] = img.format(thumb.absolute_url, 'image',
-                                    thumb.width(), thumb.height(),)
-            json['insert'] = '<img src="%s" />' % getattr(obj, self.field).url
+            json['link_content'] = [img.format(thumb.absolute_url, 'image',
+                                    thumb.width(), thumb.height(),),]
+            json['insert'] = ['<img src="%s" />' % getattr(obj, self.field).url,]
         else:
-            json['link_content'] = img.format('', 'Not Found', 150, 150)
-            json['insert'] = img.format('', 'Not Found', 150, 150)
+            json['link_content'] = [img.format('', 'Not Found', 150, 150),]
+            json['insert'] = [img.format('', 'Not Found', 150, 150),]
         return json
