@@ -84,8 +84,13 @@ WYMeditor.editor.prototype.filepicker = function(options) {
 };
 
 jQuery(function() {
-    $(document).bind('wymeditor-postinit', function(e, wym) {
-        wym.filepicker();
+    $('textarea.wymeditor').each(function(idx, el) {
+        $(el).wymeditor({
+            updateSelector: 'input:submit',
+            updateEvent: 'click',
+            postInit: function(wym) {
+                wym.filepicker();
+            }
+        });
     });
 });
-
