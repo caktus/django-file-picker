@@ -91,7 +91,6 @@ class FilePickerBase(object):
             columns = self.field_names
         for name in columns:
             value = getattr(obj, name)
-            print type(value)
             if isinstance(value, (datetime.datetime, datetime.date)):
                 value = value.strftime('%b %d, %Y')
             else:
