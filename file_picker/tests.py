@@ -4,10 +4,9 @@ import file_picker
 from django.db import models
 from django.test import TestCase
 from django.core.files import File
+from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
 from django.utils.text import capfirst
-
-from file_picker.uploads import models as upload_models
 
 
 class Image(models.Model):
@@ -104,3 +103,28 @@ class TestListPage(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertEquals(columns, list_resp['columns'])
         self.assertEquals(extra_headers, list_resp['extra_headers'])
+        
+        
+class TestPickerSites(TestCase):
+    """
+    Test the site/registration aspect of file picker.
+    """
+    def setUp(self):
+        self.picker_name = 'test-images'
+        file_picker.site.register(Image, file_picker.ImagePickerBase, name=self.picker_name,)
+        self.url = reverse('filepicker:index')
+        
+    def test_site_index(self):
+        response = self.client.get(self.url, {'pickers': [self.picker_name],})
+        resp = json.loads(response.content)
+        for key, value in resp['pickers'].items():
+            self.assertEquals(key, self.picker_name)
+            self.assertEquals(value, '/file-picker/%s/' % self.picker_name)
+            
+    def test_images_urls(self):
+        url = reverse('filepicker:%s:init' % self.picker_name)
+        response = self.client.get(self.url, {'pickers': [self.picker_name],})
+        resp = json.loads(response.content)
+        for key, value in resp['pickers'].items():
+            response = self.client.get(value, {})
+            self.assertEquals(response.status_code, 200)
