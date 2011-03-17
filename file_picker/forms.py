@@ -45,7 +45,7 @@ class AjaxItemForm(forms.ModelForm):
     def clean_file(self):
         file = self.cleaned_data['file']
         if not os.path.exists(file):
-            raise forms.ValidationErorr('Missing file')
+            raise forms.ValidationError('Missing file')
         return file
         
     def save(self, *args, **kwargs):

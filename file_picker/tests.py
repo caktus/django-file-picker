@@ -24,10 +24,9 @@ class MockRequest(object):
     Incomplete Mock Request object.
     """
     GET = {}
-    
-    def get(self, _dict):
-        self.GET = _dict
-
+    POST = {}
+    FILES = {}
+        
 
 class MockImagePicker(file_picker.ImagePickerBase):
     def __init__(self, name, model, columns, extra_headers):
@@ -104,7 +103,61 @@ class TestListPage(TestCase):
         self.assertEquals(columns, list_resp['columns'])
         self.assertEquals(extra_headers, list_resp['extra_headers'])
         
+    def test_file_list(self):
+        image_picker = MockImagePicker('image_test', Image, None, None)
+        response = image_picker.list(self.request)
+        list_resp = json.loads(response.content)
+        results = list_resp['result']
+        self.assertEquals(len(results), 1)
+        result = results[0]
+        self.assertEquals(result['url'], self.image.file.url)
         
+        
+class TestUploadPage(TestCase):
+    """
+    Test the upload 
+    """
+    def setUp(self):
+        self.request = MockRequest()
+        self.path = os.path.abspath('%s' % os.path.dirname(__file__))
+        self.image_picker = MockImagePicker('image_test', Image, None, None)
+        self.image_file = File(open(os.path.join(self.path, 'static/img/attach.png')), "test_file.png")
+
+    def test_upload_form_page(self):
+        """
+        Test form generation.
+        """
+        response = self.image_picker.upload_file(self.request)
+        resp = json.loads(response.content)
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue('form' in resp)
+        
+    def test_upload(self):
+        """
+        Test upload.
+        """
+        request = self.request
+        request.FILES = {'userfile': self.image_file,}
+        response = self.image_picker.upload_file(request)
+        self.assertEquals(response.status_code, 200)
+        resp = json.loads(response.content)
+        self.assertTrue('name' in resp)
+        tmp_file = resp['name']
+        request.FILES = {}
+        request.POST = {
+            'name': 'Test Image',
+            'description_1': 'description',
+            'file': tmp_file,
+            }
+        response = self.image_picker.upload_file(request)
+        resp = json.loads(response.content)
+        url = resp['url']
+        images = Image.objects.all()
+        self.assertEquals(images.count(), 1)
+        image = images[0]
+        self.assertEquals(url, image.file.url)
+
+
 class TestPickerSites(TestCase):
     """
     Test the site/registration aspect of file picker.
