@@ -39,6 +39,7 @@ class FilePickerBase(object):
             self.form = model_to_AjaxItemForm(self.model)
         self.field_names = model._meta.get_all_field_names()
         field_names = model._meta.get_all_field_names()
+        build_headers = not self.columns or not self.extra_headers
         if not self.columns:
             self.columns = self.field_names
         extra_headers = []
@@ -59,9 +60,8 @@ class FilePickerBase(object):
             except models.FieldDoesNotExist:
                 self.field_names.remove(field_name)
                 continue
-            if not self.extra_headers:
-                extra_headers.append(capfirst(field.verbose_name))
-        if not self.extra_headers:
+            extra_headers.append(capfirst(field.verbose_name))
+        if build_headers:
             self.extra_headers = extra_headers
 
         
