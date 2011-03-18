@@ -1,5 +1,6 @@
 import os
 import file_picker
+import datetime
 
 from django.db import models
 from django.test import TestCase
@@ -29,11 +30,13 @@ class MockRequest(object):
         
 
 class MockImagePicker(file_picker.ImagePickerBase):
-    def __init__(self, name, model, columns, extra_headers):
+    def __init__(self, name, model, columns, extra_headers, extra={}):
         if columns:
             self.columns = columns
         if extra_headers:
             self.extra_headers = extra_headers
+        for key, value in extra.items():
+            setattr(self, key, value)
         super(MockImagePicker, self).__init__(name, model)
 
 
@@ -112,7 +115,40 @@ class TestListPage(TestCase):
         result = results[0]
         self.assertEquals(result['url'], self.image.file.url)
         
-        
+    def test_extra_links(self):
+        extra = {
+            'link_headers': ['URL', 'URL Caps'],
+            }
+        link_content = ['Click to insert', 'Click to insert Cap']
+        class CustomPicker(MockImagePicker):
+            def append(self, obj):
+                extra = {}
+                for name in self.columns:
+                    value = getattr(obj, name)
+                    if isinstance(value, (datetime.datetime, datetime.date)):
+                        value = value.strftime('%b %d, %Y')
+                    else:
+                        value = unicode(value)
+                    extra[name] = value
+                return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
+                    'extra': extra,
+                    'insert': [getattr(obj, self.field).url, 
+                               getattr(obj, self.field).url.upper(),],
+                    'link_content': link_content,
+                    }
+        image_picker = CustomPicker('image_test', Image, 
+                                                        None, None, extra=extra)
+        response = image_picker.list(self.request)
+        self.assertEquals(response.status_code, 200)
+        resp = json.loads(response.content)
+        self.assertEquals(resp['link_headers'], extra['link_headers'])
+        self.assertEquals(resp['link_headers'], extra['link_headers'])
+        result = resp['result']
+        self.assertEquals(len(result), 1)
+        self.assertEquals(result[0]['insert'][0].upper(), result[0]['insert'][1])
+        self.assertEquals(result[0]['link_content'], link_content)
+
+
 class TestUploadPage(TestCase):
     """
     Test the upload 
@@ -134,7 +170,7 @@ class TestUploadPage(TestCase):
         
     def test_upload(self):
         """
-        Test upload.
+        Test the file upload and post.
         """
         request = self.request
         request.FILES = {'userfile': self.image_file,}
