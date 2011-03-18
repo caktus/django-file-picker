@@ -38,7 +38,7 @@ jQuery(document).ready(function($) {
                 insertAtCaret(el.id, insert);
             }
         }).insertBefore($(el));
-
+        var parent = $(el).parent();
         if (pickers.image) {
             var anchor = $('<a>').text('Insert Image').attr({
                 'name': 'filepicker-image',
@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
                 var conf = $(overlay).data('filePicker').getConf();
                 conf.url = pickers.image;
                 $(overlay).data('overlay').load();
-            }).prependTo('.form-row.body');
+            }).prependTo(parent);
         }
         if (pickers.file) {
             var anchor = $('<a>').text('Insert File').attr({
@@ -61,11 +61,11 @@ jQuery(document).ready(function($) {
                 var conf = $(overlay).data('filePicker').getConf();
                 conf.url = pickers.file;
                 $(overlay).data('overlay').load();
-            }).prependTo('.form-row.body');
+            }).prependTo(parent);
         }
     }
 
-    $('textarea.filepicker').each(function(idx, el) {
+    $('textarea.simple-filepicker').each(function(idx, el) {
         var picker_names = get_file_picker_types(el);
         if (picker_names) {
             var names = [];
@@ -76,4 +76,3 @@ jQuery(document).ready(function($) {
         }
     });
 });
-

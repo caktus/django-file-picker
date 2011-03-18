@@ -1,9 +1,9 @@
 from django import forms
-from django.utils.safestring import mark_safe
-from django.core.urlresolvers import reverse
 
 
 class FilePickerWidget(forms.Textarea):
+    """ Base file picker widget that can be extended """
+
     def __init__(self, pickers, *args, **kwargs):
         self.pickers = pickers
         classes = kwargs.pop('classes', ['filepicker'])
@@ -15,8 +15,15 @@ class FilePickerWidget(forms.Textarea):
         self.attrs['class'] = ' '.join(classes)
 
 
-class WYMeditorWidget(FilePickerWidget):
-    def __init__(self, pickers, *args, **kwargs):
-        kwargs['classes'] = ['wymeditor']
-        super(WYMeditorWidget, self).__init__(pickers, *args, **kwargs)
+class SimpleFilePickerWidget(FilePickerWidget):
+    """ Basic widget that provides Image/File links """
 
+    def __init__(self, pickers, *args, **kwargs):
+        kwargs['classes'] = ['simple-filepicker']
+        super(SimpleFilePickerWidget, self).__init__(pickers, *args, **kwargs)
+
+    class Media:
+        css = {"all": ("css/filepicker.overlay.css",)}
+        js = ("js/ajaxupload.js",
+              "js/jquery.filepicker.js",
+              "js/jquery.filepicker.simple.js")
