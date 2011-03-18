@@ -93,7 +93,7 @@ upload_file(request)
 Builds the upload file form and is used to upload files in two steps, 
 file first then the other form parameters.
 
-If called without a POST it returns a json dictionary with the key form
+If called without a POST it returns a JSON dictionary with the key form
 with an html block for the form.
 
 If called with a file and then with the post, its a two step process.  If the form

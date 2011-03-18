@@ -49,7 +49,7 @@ Basic Installation and Setup
     class PostAdmin(admin.ModelAdmin):
         formfield_overrides = {
             models.TextField: {
-                'widget': file_picker.widgets.FilePickerWidget(pickers={
+                'widget': file_picker.widgets.SimpleFilePickerWidget(pickers={
                     'image': "images", # a picker named "images" from file_picker.uploads
                     'file': "files", # a picker named "files" from file_picker.uploads
                 }),
@@ -57,11 +57,7 @@ Basic Installation and Setup
         }
     
         class Media:
-            css = {"all": ("css/filepicker.overlay.css",)}
-            js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",
-                  "js/ajaxupload.js",
-                  "js/jquery.filepicker.js",
-                  "js/jquery.filepicker.simple.js",)
+            js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",)
 
 Development sponsored by `Caktus Consulting Group, LLC. <http://www.caktusgroup.com/services>`_.
 
