@@ -40,7 +40,7 @@ insert content into the textbox or WYSIWYG of your choice.
 columns are used to define the fields you want to be included on the listing page
 and their ordering.  The extra_headers list is used to define the headers for the columns
 and needs to be in the same order as columns.  The ordering attribute is used define
-the order of items on the listing page in the same form as query_set.ordering('-date').
+the order of items on the listing page in the same form as query_set.order_by('-date').
 
 Methods
 -------
