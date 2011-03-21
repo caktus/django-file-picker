@@ -40,9 +40,9 @@ class MockImagePicker(file_picker.ImagePickerBase):
         super(MockImagePicker, self).__init__(name, model)
 
 
-class TestListPage(TestCase):
+class BasePickerTest(TestCase):
     """
-    Test listing page.
+    Base class to build the 
     """
     def setUp(self):
         self.path = os.path.abspath('%s' % os.path.dirname(__file__))
@@ -55,6 +55,14 @@ class TestListPage(TestCase):
             )
         self.image.save()
         self.request = MockRequest()
+    
+
+class TestListPage(BasePickerTest):
+    """
+    Test listing page.
+    """
+    def setUp(self):
+        super(TestListPage, self).setUp()
         self.field_names = Image._meta.get_all_field_names()
         self.field_names.remove('file')
         
@@ -147,6 +155,22 @@ class TestListPage(TestCase):
         self.assertEquals(len(result), 1)
         self.assertEquals(result[0]['insert'][0].upper(), result[0]['insert'][1])
         self.assertEquals(result[0]['link_content'], link_content)
+        
+    def test_search_page(self):
+        for i in range(0,3):
+            image = Image(
+                 name = 'no find %s' % i,
+                 description_1 = 'desc 1 %s' % i,
+                 description_2 = 'desc 2 %s' % i,
+                 file = self.image_file,
+                )
+            image.save()
+        image_picker = MockImagePicker('image_test', Image, None, None)
+        qs = image_picker.get_queryset('Test')
+        images = qs.all()
+        self.assertEquals(images.count(), 1)
+        self.assertTrue(self.image in images)
+        self.assertFalse(image in images)
 
 
 class TestUploadPage(TestCase):
