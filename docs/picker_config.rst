@@ -30,24 +30,28 @@ Each picker can take a set of attributes for easy customization.::
 
     file_picker.site.register(CustomModel, CustomPicker, name='custom')    
     
-None of these attributes are required and they all have sane defaults.  form is
-created by building a ModelForm from the model defined in the register function
-and is used to build the form on the Upload tab.
+None of these attributes are required and they all have sane defaults.  
 
-link_headers defines the headers for the first set of columns which are used to
-insert content into the textbox or WYSIWYG of your choice.
+* form- If left blank is created by building a ModelForm from the model defined 
+  in the register function.  It is used to build the form on the Upload tab.
 
-columns are used to define the fields you want to be included on the listing page
-and their ordering.  The extra_headers list is used to define the headers for the columns
-and needs to be in the same order as columns.  The ordering attribute is used define
-the order of items on the listing page in the same form as query_set.order_by('-date').
+* link_headers- Defines the headers for the first set of columns which are used 
+  to insert content into the textbox or WYSIWYG of your choice.  By default it
+  converts _ to ' ' and capitalizes first letter of the fields name.
+
+* columns- Defines the fields you want to be included on the listing page
+  and their ordering.  
+* extra_headers- The list is used to define the headers for the columns
+  and needs to be in the same order as columns.  
+* ordering attribute- Defines the order of items on the listing page in 
+  to be used as query_set.order_by('-date').
 
 Methods
 -------
 
 The three main methods consist of append, list, and upload_file.  List and upload_file
 take in the request object and act as views while append takes in an model item and helps
-build the JSON output for list.  The other methods are available but typically do not 
+build the JSON output for list.  Other methods are available but typically do not 
 need to be modified.
 
 append(obj)
