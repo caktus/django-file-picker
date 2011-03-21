@@ -105,6 +105,9 @@ class TestListPage(BasePickerTest):
                 for i in self.field_names], list_resp['extra_headers'])
                 
     def test_columns_and_headers(self):
+        """
+        Test custom columns and extra headers.
+        """
         columns = ['description_2', 'name', 'description_1']
         extra_headers = ['Top Description', 'Image Name', 'Bottom Description']
         image_picker = MockImagePicker('image_test', Image, columns, extra_headers)
@@ -115,6 +118,9 @@ class TestListPage(BasePickerTest):
         self.assertEquals(extra_headers, list_resp['extra_headers'])
         
     def test_file_list(self):
+        """
+        Make sure that the file list gives the correct url.
+        """
         image_picker = MockImagePicker('image_test', Image, None, None)
         response = image_picker.list(self.request)
         list_resp = json.loads(response.content)
@@ -124,6 +130,9 @@ class TestListPage(BasePickerTest):
         self.assertEquals(result['url'], self.image.file.url)
         
     def test_extra_links(self):
+        """
+        Test having multiple links works.
+        """
         extra = {
             'link_headers': ['URL', 'URL Caps'],
             }
@@ -157,6 +166,10 @@ class TestListPage(BasePickerTest):
         self.assertEquals(result[0]['link_content'], link_content)
         
     def test_search_page(self):
+        """
+        Make sure that the search is checking text fields and finding the 
+        correct results.
+        """
         for i in range(0,3):
             image = Image(
                  name = 'no find %s' % i,
