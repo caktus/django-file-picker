@@ -46,7 +46,7 @@ None of these attributes are required and they all have sane defaults.
 * *extra_headers*- The list is used to define the headers for the columns
   and needs to be in the same order as columns.  
 * *ordering*- Defines the order of items on the listing page in 
-  to be used as `query_set.order_by('-date')`.
+  to be used as ``query_set.order_by('-date')``.
 
 Methods
 -------

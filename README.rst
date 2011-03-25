@@ -29,19 +29,17 @@ Optional
 Basic Installation and Setup
 ----------------------------
 
-1) Add `file_picker` to INSTALLED_APPS in settings.py::
+1) Add ``file_picker`` to INSTALLED_APPS in settings.py::
 
     INSTALLED_APPS = (
-        # ...
         'file_picker',
         'file_picker.uploads', # file and image Django app
         'file_picker.wymeditor', # optional WYMeditor plugin
-        # ...
     )
 
-`file_picker.uploads` will automatically create two pickers name 'images' and 'files'.
+   ``file_picker.uploads`` will automatically create two pickers name 'images' and 'files'.
 
-2) Add the `file_picker` URLs to urls.py, e.g.::
+2) Add the ``file_picker`` URLs to urls.py, e.g.::
 
     import file_picker
     file_picker.autodiscover()
