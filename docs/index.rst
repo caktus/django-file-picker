@@ -10,6 +10,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
    
+   uploads
+   wymeditor
    picker_config
 
 Indices and tables

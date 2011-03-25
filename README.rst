@@ -26,6 +26,9 @@ Optional
 ````````
 * `WYMeditor 0.5 <http://www.wymeditor.org/>`_
 
+..  _setup:
+
+
 Basic Installation and Setup
 ----------------------------
 
