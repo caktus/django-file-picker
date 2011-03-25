@@ -11,6 +11,7 @@ Contents
 .. toctree::
    :maxdepth: 2
    
+   simple_widget
    uploads
    wymeditor
    picker_config
