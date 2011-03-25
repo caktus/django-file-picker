@@ -36,6 +36,6 @@ on a single text field::
                     'image': "images",
                 }))
 
-Where the `"file"` and `"image"` keywords add classes to the inputs, that the links
+Where the `"file"` and `"image"` keywords add classes to the inputs, so that the links
 for the overlay can be added.  They can also be added to all fields in a form by
 using the *formfield_overrides* like in step there of :ref:`setup`.
