@@ -12,7 +12,7 @@ WYMeditorWidget
 
 .. class:: file_picker.wymeditor.widgets.WYMeditorWidget
 
-To use the WYMeditorWidget override the desired form field's widget.  Tt takes in a
+To use the WYMeditorWidget override the desired form field's widget.  It takes in a
 dictionary with expected keys `"image"` and/or `"file"` these define which button
 is used to call the overlay, either an image or a paper clip icon respectively.
 
