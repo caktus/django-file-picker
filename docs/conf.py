@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'django-file-picker'
-copyright = u'2011, Caktus Group LLC'
+copyright = u'2011, Caktus Consulting Group LLC'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -179,7 +179,7 @@ htmlhelp_basename = 'DjangoFilePickerdoc'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'DjangoFilePicker.tex', u'Django File Picker Documentation',
-   u'Caktus Group LLC', 'manual'),
+   u'Caktus Consulting Group LLC', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -212,5 +212,5 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'djangofilepicker', u'Django File Picker Documentation',
-     [u'Caktus Group LLC'], 1)
+     [u'Caktus Consulting Group LLC'], 1)
 ]
