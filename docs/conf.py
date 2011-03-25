@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Django File Picker'
+project = u'django-file-picker'
 copyright = u'2011, Caktus Group LLC'
 
 # The version info for the project you're documenting, acts as replacement for
