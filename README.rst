@@ -1,7 +1,15 @@
-django-file-picker
+Django File Picker
 ==================
 
-Pluggable Django file picker with AJAX upload support.
+File Picker is a model independent way of displaying or adding links to files, images, 
+even movies to a text field.  Whether it is intended to be HTML, XML, or plain-text.
+
+The deep concern while building file picker has been flexibility.  Too many projects
+focus on wrapping everything together so that they can make deep connects.
+
+Our main goal has been to build a application that facilitates deep connections, 
+that can be attached accross multiple applications and models.
+
 
 Dependencies
 ------------
