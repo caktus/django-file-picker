@@ -1,4 +1,4 @@
-Django File Picker
+django-file-picker
 ==================
 
 django-file-picker is a pluggable Django application used for uploading, 
@@ -9,9 +9,10 @@ installing an overlay that lists file details and, when applicable, image
 thumbnails. New files can also be uploaded from within the overlay (via AJAX 
 Upload). 
 
-file_picker provides a few optional extensions to help get started, 
-including file_picker.uploads, an app with pre-built Image and File models, and 
-file_picker.wymeditor, an app that integrates with WYMeditor, a web-based 
+``file_picker provides`` a few optional extensions to help get started, 
+including ``file_picker.uploads``, an app with pre-built Image and File models, and 
+``file_picker.wymeditor``, an app that integrates with 
+`WYMeditor <http://www.wymeditor.org/>`_, a web-based 
 WYSIWYM (What You See Is What You Mean) XHTML editor. These extensions are 
 provided for convenience and can easily be replaced by custom modules.
 
