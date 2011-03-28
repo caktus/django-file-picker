@@ -1,14 +1,19 @@
 Django File Picker
 ==================
 
-File Picker is a model independent way of displaying or adding links to files, images, 
-even movies to a text field.  Whether it is intended to be HTML, XML, or plain-text.
+django-file-picker is a pluggable Django application used for uploading, 
+browsing, and inserting various forms of media into HTML form fields. 
 
-The deep concern while building file picker has been flexibility.  Too many projects
-focus on wrapping everything together so that they can make deep connections.
+Using jQuery Tools, file_picker integrates seamlessly into pre-existing pages by
+installing an overlay that lists file details and, when applicable, image 
+thumbnails. New files can also be uploaded from within the overlay (via AJAX 
+Upload). 
 
-Our main goal has been to build a application that facilitates deep connections, 
-that can be attached accross multiple applications and models.
+file_picker provides a few optional extensions to help get started, 
+including file_picker.uploads, an app with pre-built Image and File models, and 
+file_picker.wymeditor, an app that integrates with WYMeditor, a web-based 
+WYSIWYM (What You See Is What You Mean) XHTML editor. These extensions are 
+provided for convenience and can easily be replaced by custom modules.
 
 
 Dependencies

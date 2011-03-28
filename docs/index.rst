@@ -15,6 +15,7 @@ Contents
    uploads
    wymeditor
    picker_config
+   screenshots
 
 Indices and tables
 ==================
