@@ -33,16 +33,16 @@ Optional
 * `django-staticfiles <https://github.com/jezdez/django-staticfiles>`_
 * `WYMeditor 0.5 <http://www.wymeditor.org/>`_
 
-..  _setup:
-
   If you are using *django-staticfiles* (or ``django.contrib.staticfiles`` in Django 
   1.3) then add ``file_picker`` to your INSTALLED_APPS to include the related css/js.
 
   Otherwise make sure to include the contents of the static folder in your projects
   media folder.
 
-Basic Installation and Setup
-----------------------------
+..  _installation:
+
+Basic Installation
+------------------
 
 #. Add ``file_picker`` to INSTALLED_APPS in settings.py::
 
@@ -64,21 +64,8 @@ Basic Installation and Setup
         (r'^file-picker/', include(file_picker.site.urls)),
         # ...
     )
-
-#. Setup widgets and media::
-
-    class PostAdmin(admin.ModelAdmin):
-        formfield_overrides = {
-            models.TextField: {
-                'widget': file_picker.widgets.SimpleFilePickerWidget(pickers={
-                    'image': "images", # a picker named "images" from file_picker.uploads
-                    'file': "files", # a picker named "files" from file_picker.uploads
-                }),
-            },
-        }
     
-        class Media:
-            js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",)
+#. Continue to :ref:`setup`
 
 Development sponsored by `Caktus Consulting Group, LLC. <http://www.caktusgroup.com/services>`_.
 
