@@ -9,7 +9,7 @@ The FilePickerBase Class
 
 The base file picker class has a mixture of class based views and helper functions
 for building the colorbox on the page.  File pickers should be included in the 
-*file_picker.py* file in the root directory of any app so that the auto-discovery
+*file_pickers.py* file in the root directory of any app so that the auto-discovery
 process can find it. 
 
 
