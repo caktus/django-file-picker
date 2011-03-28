@@ -16,6 +16,7 @@ Contents
    wymeditor
    picker_config
    screenshots
+   motivation
 
 Indices and tables
 ==================
