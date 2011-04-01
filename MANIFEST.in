@@ -1,0 +1,6 @@
+include README.rst
+recursive-include file_picker/static *
+recursive-include file_picker/wymeditor/static *
+recursive-include file_picker/templates *
+recursive-include sample_project/ *py *html *js
+
