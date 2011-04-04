@@ -7,7 +7,8 @@ setup(
     author_email='solutions@caktusgroup.com',
     packages=find_packages(exclude=['sample_project']),
     include_package_data=True,
-    url='https://github.com/caktus/django-file-picker/',
+    #url='https://github.com/caktus/django-file-picker/',
+    url='http://django-file-picker.readthedocs.org/',
     license='BSD',
     description='Pluggable file picker',
     classifiers=[
