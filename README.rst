@@ -16,6 +16,7 @@ including ``file_picker.uploads``, an app with pre-built Image and File models, 
 WYSIWYM (What You See Is What You Mean) XHTML editor. These extensions are
 provided for convenience and can easily be replaced by custom modules.
 
+For complete documentation checkout, `<http://django-file-picker.readthedocs.org>`_
 
 Dependencies
 ------------
