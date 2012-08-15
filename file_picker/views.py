@@ -14,8 +14,8 @@ from django.core.urlresolvers import reverse
 from django.core.files.uploadedfile import UploadedFile
 from django.views.decorators.csrf import csrf_exempt
 
-from sorl.thumbnail.main import DjangoThumbnail
-from sorl.thumbnail.base import ThumbnailException
+from sorl.thumbnail.helpers import ThumbnailError
+from sorl.thumbnail import get_thumbnail
 
 from file_picker.forms import QueryForm, model_to_AjaxItemForm
 
@@ -179,13 +179,13 @@ class ImagePickerBase(FilePickerBase):
         json = super(ImagePickerBase, self).append(obj)
         img = '<img src="{0}" alt="{1}" width="{2}" height="{3}" />'
         try:
-            thumb = DjangoThumbnail(getattr(obj, self.field), (150, 150))
-        except ThumbnailException, e:
+            thumb = get_thumbnail(obj.file.path, '150x150', crop='center', quality=99)
+        except ThumbnailError, e:
             logger.exception(e)
             thumb = None
         if thumb:
-            json['link_content'] = [img.format(thumb.absolute_url, 'image',
-                                    thumb.width(), thumb.height(),),]
+            json['link_content'] = [img.format(thumb.url, 'image',
+                                    thumb.width, thumb.height,),]
             json['insert'] = ['<img src="%s" />' % getattr(obj, self.field).url,]
         else:
             json['link_content'] = [img.format('', 'Not Found', 150, 150),]

@@ -42,6 +42,8 @@ WYMeditor.editor.prototype.filepicker = function(options) {
             }
         }).insertBefore($(el));
 
+
+
         if (pickers.image) {
             var image_button = $box.find('li.wym_tools_image a');
             image_button.unbind();
