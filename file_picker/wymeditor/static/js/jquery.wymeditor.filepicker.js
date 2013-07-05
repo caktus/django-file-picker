@@ -28,7 +28,7 @@ WYMeditor.editor.prototype.filepicker = function(options) {
     options = jQuery.extend({'rootURL': '/file-picker/'}, options);
 
     var wym = this,
-        $element = jQuery(this._element);
+        $element = jQuery(this._element),
         $box = jQuery(this._box);
 
     function install_wymeditor_file_picker(el, picker_names, urls) {
