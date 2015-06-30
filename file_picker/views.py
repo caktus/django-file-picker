@@ -3,10 +3,10 @@ import logging
 import traceback
 import tempfile
 import datetime
+import json
 
 from django.db import models
 from django.db.models import Q
-from django.utils import simplejson as json
 from django.utils.text import capfirst
 from django.http import HttpResponse, HttpResponseServerError
 from django.core.paginator import Paginator, EmptyPage
