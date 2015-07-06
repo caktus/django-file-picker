@@ -78,7 +78,7 @@ class FilePickerBase(object):
         return wrapper
 
     def get_urls(self):
-        from django.conf.urls.defaults import patterns, url
+        from django.conf.urls import include,patterns,url
         urlpatterns = patterns('',
             url(r'^$', self.setup, name='init'),
             url(r'^files/$', self.list, name='list-files'),
