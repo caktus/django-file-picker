@@ -43,7 +43,7 @@ class FilePickerSite(object):
             self._registry.append({'name': name, 'picker': picker_class(name, model)})
 
     def get_urls(self):
-        from django.conf.urls.defaults import patterns, url, include
+        from django.conf.urls import include,patterns,url
         urlpatterns = patterns('', url(r'^$', self.primary, name='index'),)
         for p in self._registry:
             urlpatterns += url(r'^%s/' % p['name'], include(p['picker'].urls)),
