@@ -64,7 +64,7 @@ class FilePickerBase(object):
         if build_headers:
             self.extra_headers = extra_headers
 
-        
+
     def protect(self, view, csrf_exempt=False):
         def wrapper(*args, **kwargs):
             data = {}
@@ -73,7 +73,7 @@ class FilePickerBase(object):
             except Exception, e:
                 logger.exception(e)
                 data['errors'] = [traceback.format_exc(e)]
-            return HttpResponse(json.dumps(data), mimetype='application/json')
+            return HttpResponse(json.dumps(data), content_type='application/json')
         wrapper.csrf_exempt = csrf_exempt
         return wrapper
 
@@ -87,15 +87,15 @@ class FilePickerBase(object):
         )
         return (urlpatterns, None, self.name)
     urls = property(get_urls)
-    
+
     def setup(self, request):
         data = {}
         data['urls'] = {
             'browse': {'files': reverse('filepicker:%s:list-files' % self.name)},
             'upload': {'file': reverse('filepicker:%s:upload-file' % self.name)},
         }
-        return HttpResponse(json.dumps(data), mimetype='application/json')
-    
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
     def append(self, obj):
         extra = {}
         for name in self.columns:
@@ -133,16 +133,16 @@ class FilePickerBase(object):
             for chunk in f.chunks():
                 fn.write(chunk)
             fn.close()
-            return HttpResponse(json.dumps({ 'name': fn.name }), mimetype='application/json')
+            return HttpResponse(json.dumps({ 'name': fn.name }), content_type='application/json')
         else:
             form = self.form(request.POST or None)
             if form.is_valid():
                 obj = form.save()
                 data = self.append(obj)
                 return HttpResponse(json.dumps(data),
-                                    mimetype='application/json')
+                                    content_type='application/json')
             data = {'form': form.as_table()}
-            return HttpResponse(json.dumps(data), mimetype='application/json')
+            return HttpResponse(json.dumps(data), content_type='application/json')
 
     def list(self, request):
         form = QueryForm(request.GET)
@@ -169,12 +169,12 @@ class FilePickerBase(object):
             'extra_headers': self.extra_headers,
             'columns': self.columns,
         }
-        return HttpResponse(json.dumps(data), mimetype='application/json')
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 class ImagePickerBase(FilePickerBase):
     link_headers = ['Thumbnail',]
-    
+
     def append(self, obj):
         json = super(ImagePickerBase, self).append(obj)
         img = '<img src="{0}" alt="{1}" width="{2}" height="{3}" />'

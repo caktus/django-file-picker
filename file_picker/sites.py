@@ -59,6 +59,6 @@ class FilePickerSite(object):
             except NoReverseMatch:
                 pickers[name] = None
         data = {'pickers': pickers}
-        return HttpResponse(json.dumps(data), mimetype='application/json')
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
 site = FilePickerSite()
