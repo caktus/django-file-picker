@@ -56,16 +56,16 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 SECRET_KEY = 'ki&&#oatj)5&+roxg3&(#$4%^srdh3zaayq9yoa(0_@&ge=3m+'
 
 # List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-#     'django.template.loaders.eggs.load_template_source',
-)
+TEMPLATE_LOADERS = [
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'sample_project.urls'
@@ -87,5 +87,5 @@ INSTALLED_APPS = (
     'file_picker.uploads',
     'file_picker.wymeditor',
     'sample_project.article',
+    'sorl.thumbnail',
 )
-

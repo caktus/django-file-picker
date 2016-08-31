@@ -1,8 +1,10 @@
+import json
+
 from django.db import models
 from django.db.models.base import ModelBase, FieldDoesNotExist
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.http import HttpResponse
-from django.utils import simplejson as json
+
 
 import file_picker
 
@@ -41,7 +43,7 @@ class FilePickerSite(object):
             self._registry.append({'name': name, 'picker': picker_class(name, model)})
 
     def get_urls(self):
-        from django.conf.urls.defaults import patterns, url, include
+        from django.conf.urls import include,patterns,url
         urlpatterns = patterns('', url(r'^$', self.primary, name='index'),)
         for p in self._registry:
             urlpatterns += url(r'^%s/' % p['name'], include(p['picker'].urls)),
@@ -57,6 +59,6 @@ class FilePickerSite(object):
             except NoReverseMatch:
                 pickers[name] = None
         data = {'pickers': pickers}
-        return HttpResponse(json.dumps(data), mimetype='application/json')
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
 site = FilePickerSite()

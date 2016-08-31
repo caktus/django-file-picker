@@ -2,7 +2,7 @@ import os
 
 from django import forms
 from django.db import models
-from django.db.models import Q, get_model
+from django.db.models import Q
 from django.db.models.base import FieldDoesNotExist
 
 from django.core.files.base import ContentFile
