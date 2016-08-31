@@ -1,12 +1,12 @@
 import os
 import file_picker
 import datetime
+import json
 
 from django.db import models
 from django.test import TestCase
 from django.core.files import File
 from django.core.urlresolvers import reverse
-from django.utils import simplejson as json
 from django.utils.text import capfirst
 
 

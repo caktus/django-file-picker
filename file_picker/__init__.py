@@ -13,15 +13,14 @@ def autodiscover():
     may want.
     """
 
-    import copy
+    import copy,importlib
     from django.conf import settings
-    from django.utils.importlib import import_module
     from django.utils.module_loading import module_has_submodule
 
     for app in settings.INSTALLED_APPS:
-        mod = import_module(app)
+        mod = importlib.import_module(app)
         try:
-            import_module('%s.file_pickers' % app)
+            importlib.import_module('%s.file_pickers' % app)
         except:
             # Decide whether to bubble up this error. If the app just
             # doesn't have an admin module, we can ignore the error
