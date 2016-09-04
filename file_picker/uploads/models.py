@@ -2,7 +2,7 @@ import os
 import datetime
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class BaseFileModel(models.Model):
@@ -14,9 +14,9 @@ class BaseFileModel(models.Model):
     file_type = models.CharField(max_length=16, blank=True)
     date_created = models.DateTimeField()
     date_modified = models.DateTimeField()
-    created_by = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_created",
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="%(app_label)s_%(class)s_created",
                                    null=True, blank=True)
-    modified_by = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_modified",
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="%(app_label)s_%(class)s_modified",
                                     null=True, blank=True)
 
     class Meta:
@@ -50,4 +50,3 @@ class File(BaseFileModel):
 class Image(BaseFileModel):
     """ Basic image field model """
     file = models.ImageField(upload_to='uploads/images/')
-

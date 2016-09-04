@@ -89,3 +89,5 @@ INSTALLED_APPS = (
     'sample_project.article',
     'sorl.thumbnail',
 )
+
+TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
