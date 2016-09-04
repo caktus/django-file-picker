@@ -22,6 +22,7 @@ class PostForm(forms.ModelForm):
 
     class Meta(object):
         model = Post
+        fields = '__all__'
 
 
 
@@ -33,4 +34,3 @@ class PostAdmin(admin.ModelAdmin):
         js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",)
 
 admin.site.register(Post, PostAdmin)
-

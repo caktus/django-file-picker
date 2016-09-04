@@ -160,7 +160,7 @@ class FilePickerBase(object):
             result.append(self.append(obj))
         data = {
             'page': page,
-            'pages': pages.page_range,
+            'pages': list(pages.page_range),
             'search': form.cleaned_data['search'],
             'result': result,
             'has_next': page_obj.has_next(),
