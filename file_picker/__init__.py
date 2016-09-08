@@ -1,4 +1,4 @@
-VERSION = (0, 5, 0,)
+VERSION = (0, 6, 0,)
 __version__ = '.'.join(map(str, VERSION))
 
 from file_picker.views import FilePickerBase, ImagePickerBase
