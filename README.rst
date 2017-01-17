@@ -23,8 +23,8 @@ Dependencies
 
 Required
 ````````
-* Python 2.6 or 2.7 (**note**: Python 3 is not yet supported)
-* `Django 1.6 to 1.9 (inclusive) <http://www.djangoproject.com/>`_
+* Python 2.7 (**note**: Python 3 is not yet supported)
+* `Django 1.8 to 1.10 (inclusive) <http://www.djangoproject.com/>`_
 * sorl-thumbnail==12.3
 * `jQuery 1.4.x <http://www.jquery.com/>`_
 * `jQuery Tools 1.2.x <http://flowplayer.org/tools/>`_
@@ -32,11 +32,11 @@ Required
 
 Optional
 ````````
-* `django-staticfiles <https://github.com/jezdez/django-staticfiles>`_
+* `django.contrib.staticfiles <https://docs.djangoproject.com/en/1.8/howto/static-files/>`_
 * `WYMeditor 0.5 <http://www.wymeditor.org/>`_
 
-  If you are using *django-staticfiles* (or ``django.contrib.staticfiles`` in Django
-  1.3) then add ``file_picker`` to your INSTALLED_APPS to include the related css/js.
+  If you are using ``django.contrib.staticfiles``, then add ``file_picker`` to your INSTALLED_APPS
+  to include the related css/js.
 
   Otherwise make sure to include the contents of the static folder in your projects
   media folder.
@@ -54,17 +54,17 @@ Basic Installation
         'file_picker.wymeditor', # optional WYMeditor plugin
     )
 
-   ``file_picker.uploads`` will automatically create two pickers name 'images' and 'files'.
+   ``file_picker.uploads`` will automatically create two pickers named 'images' and 'files'.
 
 #. Add the ``file_picker`` URLs to urls.py, e.g.::
 
+    from django.conf.urls import include, url
     import file_picker
-    file_picker.autodiscover()
 
-    urlpatterns = patterns('',
+    urlpatterns = [
         # ...
-        (r'^file-picker/', include(file_picker.site.urls)),
+        url(r'^file-picker/', include(file_picker.site.urls)),
         # ...
-    )
+    ]
 
 Development sponsored by `Caktus Consulting Group, LLC. <http://www.caktusgroup.com/services>`_.

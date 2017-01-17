@@ -17,6 +17,7 @@ Contents
    picker_config
    screenshots
    motivation
+   sample
 
 Indices and tables
 ==================
