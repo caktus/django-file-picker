@@ -1,6 +1,7 @@
 *.pyc
 *.db
-sample_project/sample_project/media
+sample_project/media
 _build
 *.egg-info*
 .tox
+.coverage
