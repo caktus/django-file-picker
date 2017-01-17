@@ -1,3 +1,5 @@
+import os
+
 from django import forms
 from django.core.files.base import ContentFile
 
@@ -14,7 +16,8 @@ class ImageForm(forms.ModelForm):
 
     def save(self, commit=True):
         image = super(ImageForm, self).save(commit=False)
-        file_path = self.cleaned_data['file']
+        # Strip any directory names from the filename
+        file_path = os.path.basename(self.cleaned_data['file'])
         fh = ContentFile(open(self.cleaned_data['file'], 'r').read())
         image.file.save(file_path, fh)
         if commit:
@@ -31,7 +34,8 @@ class FileForm(forms.ModelForm):
 
     def save(self, commit=True):
         image = super(FileForm, self).save(commit=False)
-        file_path = self.cleaned_data['file']
+        # Strip any directory names from the filename
+        file_path = os.path.basename(self.cleaned_data['file'])
         fh = ContentFile(open(self.cleaned_data['file'], 'r').read())
         image.file.save(file_path, fh)
         if commit:

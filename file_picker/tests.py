@@ -63,9 +63,9 @@ class TestListPage(BasePickerTest):
     """
     def setUp(self):
         super(TestListPage, self).setUp()
-        self.field_names = Image._meta.get_all_field_names()
+        self.field_names = [f.name for f in Image._meta.get_fields()]
         self.field_names.remove('file')
-        
+
     def test_all_fields(self):
         """
         Test neither columns nor extra_headers defined.

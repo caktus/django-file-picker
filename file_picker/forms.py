@@ -26,7 +26,7 @@ FIELD_EXCLUDES = (models.ImageField, models.FileField)
 
 def model_to_AjaxItemForm(model):
     exclude = []
-    for field_name in model._meta.get_all_field_names():
+    for field_name in [f.name for f in model._meta.get_fields()]:
         try:
             field = model._meta.get_field(field_name)
         except FieldDoesNotExist:
@@ -47,10 +47,12 @@ class AjaxItemForm(forms.ModelForm):
         if not os.path.exists(file):
             raise forms.ValidationError('Missing file')
         return file
-        
+
     def save(self, *args, **kwargs):
         item = super(AjaxItemForm, self).save(commit=False)
-        getattr(item, self.Meta.exclude[0]).save(self.cleaned_data['file'],
+        # Strip any directory names from the filename
+        filename = os.path.basename(self.cleaned_data['file'])
+        getattr(item, self.Meta.exclude[0]).save(filename,
             ContentFile(open(str(self.cleaned_data['file']),'r').read())
         )
         item.save(*args, **kwargs)

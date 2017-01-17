@@ -1,0 +1,3 @@
+[run]
+source = file_picker
+omit = */tests*,*/migrations/*

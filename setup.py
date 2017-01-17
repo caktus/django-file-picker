@@ -7,8 +7,7 @@ setup(
     author_email='solutions@caktusgroup.com',
     packages=find_packages(exclude=['sample_project']),
     include_package_data=True,
-    #url='https://github.com/caktus/django-file-picker/',
-    url='http://django-file-picker.readthedocs.org/',
+    url='https://github.com/caktus/django-file-picker/',
     license='BSD',
     description='Pluggable file picker',
     classifiers=[
@@ -16,12 +15,16 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
     ],
     long_description=open('README.rst').read(),
-    install_requires=['sorl-thumbnail==12.3',],
-    zip_safe=False, # because we're including media that Django needs
+    install_requires=[
+        'sorl-thumbnail==12.4a1',
+        'Pillow>=3.1.0,<4.0',
+    ],
+    zip_safe=False,  # because we're including media that Django needs
 )
-

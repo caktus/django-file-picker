@@ -37,13 +37,12 @@ class FilePickerBase(object):
         self.model = model
         if not self.form:
             self.form = model_to_AjaxItemForm(self.model)
-        self.field_names = model._meta.get_all_field_names()
-        field_names = model._meta.get_all_field_names()
+        self.field_names = [f.name for f in model._meta.get_fields()]
         build_headers = not self.columns or not self.extra_headers
         if not self.columns:
             self.columns = self.field_names
         extra_headers = []
-        for field_name in field_names:
+        for field_name in self.field_names:
             try:
                 field = model._meta.get_field(field_name)
             except models.FieldDoesNotExist:
@@ -78,13 +77,13 @@ class FilePickerBase(object):
         return wrapper
 
     def get_urls(self):
-        from django.conf.urls import include,patterns,url
-        urlpatterns = patterns('',
+        from django.conf.urls import url
+        urlpatterns = [
             url(r'^$', self.setup, name='init'),
             url(r'^files/$', self.list, name='list-files'),
             url(r'^upload/file/$', self.protect(self.upload_file, True),
                 name='upload-file'),
-        )
+        ]
         return (urlpatterns, None, self.name)
     urls = property(get_urls)
 
