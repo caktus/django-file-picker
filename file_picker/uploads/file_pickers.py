@@ -47,14 +47,13 @@ class ImagePicker(file_picker.ImagePickerBase):
     form = ImageForm
     columns = ('name', 'file_type', 'date_modified')
     extra_headers = ('Name', 'File Type', 'Date Modified')
-    
+
 
 class FilePicker(file_picker.FilePickerBase):
     form = FileForm
     columns = ('name', 'file_type', 'date_modified')
     extra_headers = ('Name', 'File type', 'Date modified')
-    
+
 
 file_picker.site.register(Image, ImagePicker, name='images')
 file_picker.site.register(File, FilePicker, name='files')
-

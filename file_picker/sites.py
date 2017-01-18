@@ -61,4 +61,5 @@ class FilePickerSite(object):
         data = {'pickers': pickers}
         return HttpResponse(json.dumps(data), content_type='application/json')
 
+
 site = FilePickerSite()

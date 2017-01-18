@@ -11,8 +11,6 @@ from django.utils.text import capfirst
 from django.http import HttpResponse, HttpResponseServerError
 from django.core.paginator import Paginator, EmptyPage
 from django.core.urlresolvers import reverse
-from django.core.files.uploadedfile import UploadedFile
-from django.views.decorators.csrf import csrf_exempt
 
 from sorl.thumbnail.helpers import ThumbnailError
 from sorl.thumbnail import get_thumbnail
@@ -20,14 +18,14 @@ from sorl.thumbnail import get_thumbnail
 from file_picker.forms import QueryForm, model_to_AjaxItemForm
 
 
-logger = logging.getLogger('filepicker.views')
+logger = logging.getLogger(__name__)
 
 
 class FilePickerBase(object):
     model = None
     form = None
     page_size = 4
-    link_headers = ['Insert File',]
+    link_headers = ['Insert File', ]
     extra_headers = None
     columns = None
     ordering = None
@@ -62,7 +60,6 @@ class FilePickerBase(object):
             extra_headers.append(capfirst(field.verbose_name))
         if build_headers:
             self.extra_headers = extra_headers
-
 
     def protect(self, view, csrf_exempt=False):
         def wrapper(*args, **kwargs):
@@ -104,9 +101,11 @@ class FilePickerBase(object):
             else:
                 value = unicode(value)
             extra[name] = value
-        return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
+        return {
+            'name': unicode(obj),
+            'url': getattr(obj, self.field).url,
             'extra': extra,
-            'insert': [getattr(obj, self.field).url,],
+            'insert': [getattr(obj, self.field).url, ],
             'link_content': ['Click to insert'],
         }
 
@@ -132,7 +131,7 @@ class FilePickerBase(object):
             for chunk in f.chunks():
                 fn.write(chunk)
             fn.close()
-            return HttpResponse(json.dumps({ 'name': fn.name }), content_type='application/json')
+            return HttpResponse(json.dumps({'name': fn.name}), content_type='application/json')
         else:
             form = self.form(request.POST or None)
             if form.is_valid():
@@ -172,7 +171,7 @@ class FilePickerBase(object):
 
 
 class ImagePickerBase(FilePickerBase):
-    link_headers = ['Thumbnail',]
+    link_headers = ['Thumbnail', ]
 
     def append(self, obj):
         json = super(ImagePickerBase, self).append(obj)
@@ -183,10 +182,9 @@ class ImagePickerBase(FilePickerBase):
             logger.exception(e)
             thumb = None
         if thumb:
-            json['link_content'] = [img.format(thumb.url, 'image',
-                                    thumb.width, thumb.height,),]
-            json['insert'] = ['<img src="%s" />' % getattr(obj, self.field).url,]
+            json['link_content'] = [img.format(thumb.url, 'image', thumb.width, thumb.height), ]
+            json['insert'] = ['<img src="%s" />' % getattr(obj, self.field).url, ]
         else:
-            json['link_content'] = [img.format('', 'Not Found', 150, 150),]
-            json['insert'] = [img.format('', 'Not Found', 150, 150),]
+            json['link_content'] = [img.format('', 'Not Found', 150, 150), ]
+            json['insert'] = [img.format('', 'Not Found', 150, 150), ]
         return json
