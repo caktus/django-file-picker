@@ -18,4 +18,4 @@ Screenshots
    :align: center
    :width: 800px
 
-   An example of inseting an image with File Picker.
+   An example of inserting an image with File Picker.

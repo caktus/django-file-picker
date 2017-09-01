@@ -4,10 +4,10 @@
 The Uploads App
 =======================
 
-Designed to make it easy to get File Picker up and running without having to add
-models or register them with ``file_picker``.  The uploads app includes two
-simple pickers which can be attached to your own projects text fields.  For install
-instructions check out :ref:`setup`
+The uploads app is designed to make it easy to get File Picker up and running without
+having to add models or register them with ``file_picker``. The uploads app includes two
+simple pickers which can be attached to your own project's text fields. For installation
+instructions, check out :ref:`setup`
 
 FilePicker
 ----------

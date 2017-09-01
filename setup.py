@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-file-picker',
-    version='0.6.0',
+    version=__import__('file_picker').__version__,
     author='Caktus Consulting Group',
     author_email='solutions@caktusgroup.com',
     packages=find_packages(exclude=['sample_project']),
@@ -23,7 +23,7 @@ setup(
     ],
     long_description=open('README.rst').read(),
     install_requires=[
-        'sorl-thumbnail==12.4a1',
+        'sorl-thumbnail>=12.4a1',
         'Pillow>=3.1.0,<4.0',
     ],
     zip_safe=False,  # because we're including media that Django needs

@@ -13,5 +13,5 @@ django-file-picker includes a sample project to use as an example. You can run t
     (filepicker-sample)~/django-file-picker/sample_project$ ./manage.py createsuperuser
     (filepicker-sample)~/django-file-picker/sample_project$ ./manage.py runserver
 
-Then go to the `admin <http://localhost:8000/>`_, log in, and add an Article Post. There will be 2
+Then go to the `admin <http://localhost:8000/admin/>`_, log in, and add an Article Post. There will be 2
 links to 'Insert File' and 'Insert Image' which will pop up the File Picker dialog.

@@ -5,6 +5,7 @@ import tempfile
 import datetime
 import json
 
+from django.conf.urls import url
 from django.db import models
 from django.db.models import Q
 from django.utils.text import capfirst
@@ -74,7 +75,6 @@ class FilePickerBase(object):
         return wrapper
 
     def get_urls(self):
-        from django.conf.urls import url
         urlpatterns = [
             url(r'^$', self.setup, name='init'),
             url(r'^files/$', self.list, name='list-files'),

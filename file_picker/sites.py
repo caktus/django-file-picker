@@ -44,7 +44,9 @@ class FilePickerSite(object):
             self._registry.append({'name': name, 'picker': picker_class(name, model)})
 
     def get_urls(self):
-        urlpatterns = [url(r'^$', self.primary, name='index'), ]
+        urlpatterns = [
+            url(r'^$', self.primary, name='index'),
+        ]
         for p in self._registry:
             urlpatterns += url(r'^%s/' % p['name'], include(p['picker'].urls)),
         return (urlpatterns, None, "filepicker")

@@ -2,6 +2,7 @@ import os
 import file_picker
 import datetime
 import json
+from tempfile import NamedTemporaryFile
 
 from django.db import models
 from django.test import TestCase
@@ -257,3 +258,30 @@ class TestPickerSites(TestCase):
         for url in urls:
             response = self.client.get(url)
             self.assertEquals(response.status_code, 200)
+
+
+class FilePickerUploadFormTests(TestCase):
+    def setUp(self):
+        self.upload_file = NamedTemporaryFile()
+        filename = self.upload_file.name
+        self.basename = os.path.basename(filename)
+        self.data = {
+            'name': 'Pretty Name for this File',
+            'file': filename,
+        }
+
+    def test_image_form(self):
+        form = file_picker.uploads.file_pickers.ImageForm(data=self.data)
+        self.assertTrue(form.is_valid(), form.errors)
+        instance = form.save()
+        # Assert that the file gets placed into the upload_to for this model
+        upload_to = 'uploads/images'
+        self.assertEqual('{}/{}'.format(upload_to, self.basename), instance.file.name)
+
+    def test_file_form(self):
+        form = file_picker.uploads.file_pickers.FileForm(data=self.data)
+        self.assertTrue(form.is_valid(), form.errors)
+        instance = form.save()
+        # Assert that the file gets placed into the upload_to for this model
+        upload_to = 'uploads/files'
+        self.assertEqual('{}/{}'.format(upload_to, self.basename), instance.file.name)

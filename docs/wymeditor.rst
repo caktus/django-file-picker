@@ -1,18 +1,17 @@
 The WYMeditor App
 =================
 
-Included to make the intergration of File Picker with a popular WYSIWYG easy.
-WYMeditor is a javascript based editor, its documentation can be found
-`here <http://www.wymeditor.org/>`_.  This application offers an extra form
-widget for applying WYMeditor to a text field with buttons for files and images
-if desired.
+The WYMeditor app is included to make it easy to integrate a File Picker with a popular WYSIWYG
+interface. WYMeditor is a javascript based editor, its documentation can be found `here
+<http://www.wymeditor.org/>`_. This application offers an extra form widget for applying WYMeditor
+to a text field with buttons for files and images if desired.
 
 WYMeditorWidget
 ---------------
 
 .. class:: file_picker.wymeditor.widgets.WYMeditorWidget
 
-To use the WYMeditorWidget override the desired form field's widget.  It takes in a
+To use the WYMeditorWidget, override the desired form field's widget.  It takes in a
 dictionary with expected keys `"image"` and/or `"file"` these define which button
 is used to call the overlay, either an image or a paper clip icon respectively.
 
