@@ -28,8 +28,6 @@ class FilePickerSite(object):
         return file_picker.FilePickerBase
 
     def register(self, model_or_iterable, class_=None, name=None, **options):
-        # if not class_:
-        #     class_ = file_picker.FilePickerBase
         if isinstance(model_or_iterable, ModelBase):
             model_or_iterable = [model_or_iterable]
         for model in model_or_iterable:

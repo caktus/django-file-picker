@@ -109,3 +109,5 @@ STATIC_ROOT = '%s/static/' % BASE_DIR
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '%s/media/' % BASE_DIR
 ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+TEST_RUNNER = 'sample_project.runner.NoChecksRunner'

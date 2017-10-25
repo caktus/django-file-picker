@@ -121,6 +121,9 @@ class FilePickerBase(object):
             queryset = self.model.objects.all()
         if self.ordering:
             queryset = queryset.order_by(self.ordering)
+        else:
+            # Need to default to some kind of ordering since we paginate
+            queryset = queryset.order_by('-pk')
         return queryset
 
     def upload_file(self, request):
