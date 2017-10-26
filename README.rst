@@ -24,7 +24,7 @@ Dependencies
 Required
 ````````
 * Python 2.7 (**note**: Python 3 is not yet supported)
-* `Django 1.8 to 1.11 (inclusive) <http://www.djangoproject.com/>`_
+* `Django 1.10 to 1.11 (inclusive) <http://www.djangoproject.com/>`_
 * sorl-thumbnail==12.4a1
 * `jQuery 1.4.x <http://www.jquery.com/>`_
 * `jQuery Tools 1.2.x <http://flowplayer.org/tools/>`_
