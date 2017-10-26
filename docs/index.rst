@@ -18,6 +18,7 @@ Contents
    screenshots
    motivation
    sample
+   releases
 
 Indices and tables
 ==================
