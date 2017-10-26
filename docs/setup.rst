@@ -6,9 +6,9 @@ Basic Setup
 #. Use or create a model for storing images and/or files.  For simplicity here
    we will use the models in ``file_picker.uploads``: Image and File.
 
-#. Use or create another model to contian the text field(s) to be inserted in
+#. Use or create another model to contain the text field(s) to be inserted
    by the picker.  Here we will use the Post model from the ``sample_project.article``.
-   Which has two text fields, Body and Teaser.
+   It has two text fields, Body and Teaser.
 
 #. To use the pickers on both the teaser and body fields use a *formfield_override*
    to override the widget with the ``file_picker.widgets.SimpleFilePickerWidget``::
