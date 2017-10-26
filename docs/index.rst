@@ -10,13 +10,14 @@ Contents
 
 .. toctree::
    :maxdepth: 2
-   
+
    setup
    uploads
    wymeditor
    picker_config
    screenshots
    motivation
+   sample
 
 Indices and tables
 ==================
@@ -24,4 +25,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

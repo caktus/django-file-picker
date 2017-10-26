@@ -2,6 +2,7 @@ import os
 import file_picker
 import datetime
 import json
+from tempfile import NamedTemporaryFile
 
 from django.db import models
 from django.test import TestCase
@@ -17,7 +18,7 @@ class Image(models.Model):
     name = models.CharField(max_length=255)
     description_1 = models.TextField(blank=True)
     description_2 = models.TextField(blank=True)
-    file = models.ImageField(upload_to='images/')    
+    file = models.ImageField(upload_to='images/')
 
 
 class MockRequest(object):
@@ -27,7 +28,7 @@ class MockRequest(object):
     GET = {}
     POST = {}
     FILES = {}
-        
+
 
 class MockImagePicker(file_picker.ImagePickerBase):
     def __init__(self, name, model, columns, extra_headers, extra={}):
@@ -42,20 +43,20 @@ class MockImagePicker(file_picker.ImagePickerBase):
 
 class BasePickerTest(TestCase):
     """
-    Base class to build the 
+    Base class to build the
     """
     def setUp(self):
         self.path = os.path.abspath('%s' % os.path.dirname(__file__))
         self.image_file = File(open(os.path.join(self.path, 'static/img/attach.png')), "test_file.png")
         self.image = Image(
-             name = 'Test Image',
-             description_1 = 'test desc 1',
-             description_2 = 'test desc 2',
-             file = self.image_file,
-            )
+            name='Test Image',
+            description_1='test desc 1',
+            description_2='test desc 2',
+            file=self.image_file,
+        )
         self.image.save()
         self.request = MockRequest()
-    
+
 
 class TestListPage(BasePickerTest):
     """
@@ -63,9 +64,9 @@ class TestListPage(BasePickerTest):
     """
     def setUp(self):
         super(TestListPage, self).setUp()
-        self.field_names = Image._meta.get_all_field_names()
+        self.field_names = [f.name for f in Image._meta.get_fields()]
         self.field_names.remove('file')
-        
+
     def test_all_fields(self):
         """
         Test neither columns nor extra_headers defined.
@@ -75,23 +76,23 @@ class TestListPage(BasePickerTest):
         list_resp = json.loads(response.content)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(self.field_names, list_resp['columns'])
-        self.assertEquals([capfirst(Image._meta.get_field(i).verbose_name) \
-                for i in self.field_names], list_resp['extra_headers'])
+        self.assertEquals([capfirst(Image._meta.get_field(i).verbose_name)
+                           for i in self.field_names], list_resp['extra_headers'])
 
     def test_columns(self):
         """
         Test only columns defined.
         """
-        columns = ['description_2', 'name',]
+        columns = ['description_2', 'name']
         image_picker = MockImagePicker('image_test', Image, columns, None)
         response = image_picker.list(self.request)
         list_resp = json.loads(response.content)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(columns, list_resp['columns'])
-        extra_headers = [capfirst(Image._meta.get_field(i).verbose_name) \
-                for i in columns]
+        extra_headers = [capfirst(Image._meta.get_field(i).verbose_name)
+                         for i in columns]
         self.assertEquals(extra_headers, list_resp['extra_headers'])
-        
+
     def test_extra_headers(self):
         """
         Test only extra headers defined.  Should ignore it completely.
@@ -101,9 +102,9 @@ class TestListPage(BasePickerTest):
         list_resp = json.loads(response.content)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(self.field_names, list_resp['columns'])
-        self.assertEquals([capfirst(Image._meta.get_field(i).verbose_name) \
-                for i in self.field_names], list_resp['extra_headers'])
-                
+        self.assertEquals([capfirst(Image._meta.get_field(i).verbose_name)
+                           for i in self.field_names], list_resp['extra_headers'])
+
     def test_columns_and_headers(self):
         """
         Test custom columns and extra headers.
@@ -116,7 +117,7 @@ class TestListPage(BasePickerTest):
         self.assertEquals(response.status_code, 200)
         self.assertEquals(columns, list_resp['columns'])
         self.assertEquals(extra_headers, list_resp['extra_headers'])
-        
+
     def test_file_list(self):
         """
         Make sure that the file list gives the correct url.
@@ -128,7 +129,7 @@ class TestListPage(BasePickerTest):
         self.assertEquals(len(results), 1)
         result = results[0]
         self.assertEquals(result['url'], self.image.file.url)
-        
+
     def test_extra_links(self):
         """
         Test having multiple links works.
@@ -137,6 +138,7 @@ class TestListPage(BasePickerTest):
             'link_headers': ['URL', 'URL Caps'],
             }
         link_content = ['Click to insert', 'Click to insert Cap']
+
         class CustomPicker(MockImagePicker):
             def append(self, obj):
                 extra = {}
@@ -147,14 +149,15 @@ class TestListPage(BasePickerTest):
                     else:
                         value = unicode(value)
                     extra[name] = value
-                return {'name': unicode(obj), 'url': getattr(obj, self.field).url,
+                return {
+                    'name': unicode(obj),
+                    'url': getattr(obj, self.field).url,
                     'extra': extra,
-                    'insert': [getattr(obj, self.field).url, 
-                               getattr(obj, self.field).url.upper(),],
+                    'insert': [getattr(obj, self.field).url,
+                               getattr(obj, self.field).url.upper()],
                     'link_content': link_content,
-                    }
-        image_picker = CustomPicker('image_test', Image, 
-                                                        None, None, extra=extra)
+                }
+        image_picker = CustomPicker('image_test', Image, None, None, extra=extra)
         response = image_picker.list(self.request)
         self.assertEquals(response.status_code, 200)
         resp = json.loads(response.content)
@@ -164,19 +167,19 @@ class TestListPage(BasePickerTest):
         self.assertEquals(len(result), 1)
         self.assertEquals(result[0]['insert'][0].upper(), result[0]['insert'][1])
         self.assertEquals(result[0]['link_content'], link_content)
-        
+
     def test_search_page(self):
         """
-        Make sure that the search is checking text fields and finding the 
+        Make sure that the search is checking text fields and finding the
         correct results.
         """
-        for i in range(0,3):
+        for i in range(0, 3):
             image = Image(
-                 name = 'no find %s' % i,
-                 description_1 = 'desc 1 %s' % i,
-                 description_2 = 'desc 2 %s' % i,
-                 file = self.image_file,
-                )
+                name='no find %s' % i,
+                description_1='desc 1 %s' % i,
+                description_2='desc 2 %s' % i,
+                file=self.image_file,
+            )
             image.save()
         image_picker = MockImagePicker('image_test', Image, None, None)
         qs = image_picker.get_queryset('Test')
@@ -188,7 +191,7 @@ class TestListPage(BasePickerTest):
 
 class TestUploadPage(TestCase):
     """
-    Test the upload 
+    Test the upload
     """
     def setUp(self):
         self.request = MockRequest()
@@ -204,13 +207,13 @@ class TestUploadPage(TestCase):
         resp = json.loads(response.content)
         self.assertEquals(response.status_code, 200)
         self.assertTrue('form' in resp)
-        
+
     def test_upload(self):
         """
         Test the file upload and post.
         """
         request = self.request
-        request.FILES = {'userfile': self.image_file,}
+        request.FILES = {'userfile': self.image_file}
         response = self.image_picker.upload_file(request)
         self.assertEquals(response.status_code, 200)
         resp = json.loads(response.content)
@@ -239,18 +242,46 @@ class TestPickerSites(TestCase):
         self.picker_name = 'test-images'
         file_picker.site.register(Image, file_picker.ImagePickerBase, name=self.picker_name,)
         self.url = reverse('filepicker:index')
-        
+
     def test_site_index(self):
-        response = self.client.get(self.url, {'pickers': [self.picker_name],})
+        response = self.client.get(self.url, {'pickers': [self.picker_name]})
         resp = json.loads(response.content)
         for key, value in resp['pickers'].items():
             self.assertEquals(key, self.picker_name)
             self.assertEquals(value, '/file-picker/%s/' % self.picker_name)
-            
+
     def test_images_urls(self):
         url = reverse('filepicker:%s:init' % self.picker_name)
-        response = self.client.get(self.url, {'pickers': [self.picker_name],})
-        resp = json.loads(response.content)
-        for key, value in resp['pickers'].items():
-            response = self.client.get(value, {})
+        response = self.client.get(url)
+        data = json.loads(response.content)
+        urls = [u.values()[0] for u in data['urls'].values()]
+        for url in urls:
+            response = self.client.get(url)
             self.assertEquals(response.status_code, 200)
+
+
+class FilePickerUploadFormTests(TestCase):
+    def setUp(self):
+        self.upload_file = NamedTemporaryFile()
+        filename = self.upload_file.name
+        self.basename = os.path.basename(filename)
+        self.data = {
+            'name': 'Pretty Name for this File',
+            'file': filename,
+        }
+
+    def test_image_form(self):
+        form = file_picker.uploads.file_pickers.ImageForm(data=self.data)
+        self.assertTrue(form.is_valid(), form.errors)
+        instance = form.save()
+        # Assert that the file gets placed into the upload_to for this model
+        upload_to = 'uploads/images'
+        self.assertEqual('{}/{}'.format(upload_to, self.basename), instance.file.name)
+
+    def test_file_form(self):
+        form = file_picker.uploads.file_pickers.FileForm(data=self.data)
+        self.assertTrue(form.is_valid(), form.errors)
+        instance = form.save()
+        # Assert that the file gets placed into the upload_to for this model
+        upload_to = 'uploads/files'
+        self.assertEqual('{}/{}'.format(upload_to, self.basename), instance.file.name)

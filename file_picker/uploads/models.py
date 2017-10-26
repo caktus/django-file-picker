@@ -1,8 +1,8 @@
 import os
-import datetime
 
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 
 class BaseFileModel(models.Model):
@@ -25,7 +25,7 @@ class BaseFileModel(models.Model):
 
     def save(self, **kwargs):
         # dates
-        now = datetime.datetime.now()
+        now = timezone.now()
         if not self.pk:
             self.date_created = now
         self.date_modified = now

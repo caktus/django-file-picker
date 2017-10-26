@@ -1,9 +1,6 @@
 from django import forms
 from django.contrib import admin
-from django.db import models
 from sample_project.article.models import Post
-
-import file_picker
 
 
 class PostForm(forms.ModelForm):
@@ -25,12 +22,12 @@ class PostForm(forms.ModelForm):
         fields = '__all__'
 
 
-
 class PostAdmin(admin.ModelAdmin):
 
     form = PostForm
 
     class Media:
         js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",)
+
 
 admin.site.register(Post, PostAdmin)
