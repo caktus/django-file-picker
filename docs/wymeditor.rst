@@ -2,7 +2,7 @@ The WYMeditor App
 =================
 
 The WYMeditor app is included to make it easy to integrate a File Picker with a popular WYSIWYG
-interface. WYMeditor is a javascript based editor, its documentation can be found `here
+interface. WYMeditor is a Javascript based editor. Its documentation can be found `here
 <http://www.wymeditor.org/>`_. This application offers an extra form widget for applying WYMeditor
 to a text field with buttons for files and images if desired.
 
