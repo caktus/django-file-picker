@@ -1,10 +1,9 @@
 import os
 
 from django import forms
+from django.core.files.base import ContentFile
 from django.db import models
 from django.db.models.base import FieldDoesNotExist
-
-from django.core.files.base import ContentFile
 
 
 class QueryForm(forms.Form):
@@ -15,9 +14,7 @@ class QueryForm(forms.Form):
 
     def clean_page(self):
         page = self.cleaned_data.get('page')
-        if not page:
-            page = 1
-        return page
+        return page or 1
 
 
 FIELD_EXCLUDES = (models.ImageField, models.FileField)

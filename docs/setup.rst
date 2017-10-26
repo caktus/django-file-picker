@@ -7,7 +7,7 @@ Basic Setup
    we will use the models in ``file_picker.uploads``: Image and File.
 
 #. Use or create another model to contain the text field(s) to be inserted
-   by the picker.  Here we will use the Post model from the ``sample_project.article``.
+   by the picker.  Here we will use the Post model from ``sample_project.article``.
    It has two text fields, Body and Teaser.
 
 #. To use the pickers on both the teaser and body fields use a *formfield_override*
@@ -39,7 +39,5 @@ Simple File Picker Widget
 .. class:: file_picker.widgets.SimpleFilePickerWidget
 
 To use the simple file picker widget, override the desired form field's widget.
-It takes in a dictionary with expected keys `"image"` and/or `"file"` these
-define which link to use "Add Image" and/or "Add File".
-
-For an example of usage look at the.
+It takes a dictionary with expected keys `"image"` and/or `"file"` which
+define which link to use, i.e. "Add Image" and/or "Add File".

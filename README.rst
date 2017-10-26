@@ -4,12 +4,12 @@ django-file-picker
 django-file-picker is a pluggable Django application used for uploading,
 browsing, and inserting various forms of media into HTML form fields.
 
-Using jQuery Tools, file_picker integrates seamlessly into pre-existing pages by
+Using jQuery Tools, django-file-picker integrates seamlessly into pre-existing pages by
 installing an overlay that lists file details and, when applicable, image
 thumbnails. New files can also be uploaded from within the overlay (via AJAX
 Upload).
 
-``file_picker`` provides a few optional extensions to help get started,
+django-file-picker provides a few optional extensions to help get started,
 including ``file_picker.uploads``, an app with pre-built Image and File models, and
 ``file_picker.wymeditor``, an app that integrates with
 `WYMeditor <http://www.wymeditor.org/>`_, a web-based
@@ -24,7 +24,7 @@ Dependencies
 Required
 ````````
 * Python 2.7 (**note**: Python 3 is not yet supported)
-* `Django 1.8 to 1.10 (inclusive) <http://www.djangoproject.com/>`_
+* `Django 1.8 to 1.11 (inclusive) <http://www.djangoproject.com/>`_
 * sorl-thumbnail==12.4a1
 * `jQuery 1.4.x <http://www.jquery.com/>`_
 * `jQuery Tools 1.2.x <http://flowplayer.org/tools/>`_
@@ -38,7 +38,7 @@ Optional
   If you are using ``django.contrib.staticfiles``, then add ``file_picker`` to your INSTALLED_APPS
   to include the related css/js.
 
-  Otherwise make sure to include the contents of the static folder in your projects
+  Otherwise make sure to include the contents of the static folder in your project's
   media folder.
 
 ..  _installation:
@@ -67,4 +67,4 @@ Basic Installation
         # ...
     ]
 
-Development sponsored by `Caktus Consulting Group, LLC. <http://www.caktusgroup.com/services>`_.
+Development sponsored by `Caktus Consulting Group, LLC. <https://www.caktusgroup.com/services/>`_.

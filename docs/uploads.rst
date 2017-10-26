@@ -14,7 +14,7 @@ FilePicker
 
 .. class:: file_picker.uploads.file_pickers.FilePicker
 
-Is a simple class based off of the ``file_picker.FilePickerBase``
+This is a subclass of ``file_picker.FilePickerBase``
 which is connected to the *File* model and can be found in the Uploads admin
 section.
 
@@ -23,7 +23,7 @@ ImagePicker
 
 .. class:: file_picker.uploads.file_pickers.ImagePicker
 
-Is a simple class based off of the ``file_picker.ImagePickerBase``
+This is a subclass of ``file_picker.ImagePickerBase``
 which is connected to the *Image* model and can be found in the Uploads admin
 section.
 
@@ -39,6 +39,6 @@ on a single text field::
                     'image': "images",
                 }))
 
-Where the `"file"` and `"image"` keywords add classes to the inputs, so that the links
+The `"file"` and `"image"` keywords add classes to the inputs, so that the links
 for the overlay can be added.  They can also be added to all fields in a form by
 using the *formfield_overrides* as in:ref:`setup`.

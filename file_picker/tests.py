@@ -1,14 +1,15 @@
 import os
-import file_picker
 import datetime
 import json
 from tempfile import NamedTemporaryFile
 
 from django.db import models
-from django.test import TestCase
 from django.core.files import File
 from django.core.urlresolvers import reverse
+from django.test import TestCase
 from django.utils.text import capfirst
+
+import file_picker
 
 
 class Image(models.Model):

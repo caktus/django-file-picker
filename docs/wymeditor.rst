@@ -12,15 +12,14 @@ WYMeditorWidget
 .. class:: file_picker.wymeditor.widgets.WYMeditorWidget
 
 To use the WYMeditorWidget, override the desired form field's widget.  It takes in a
-dictionary with expected keys `"image"` and/or `"file"` these define which button
+dictionary with expected keys `"image"` and/or `"file"` which define which button
 is used to call the overlay, either an image or a paper clip icon respectively.
 
 Example TextField Override
 **************************
-An example using a *formfield_override* in an admin class use WYMeditor and
-File Picker for each `TextField` in the form.
 
-::
+An example using a *formfield_override* in an admin class using WYMeditor and
+a File Picker for each `TextField` in the form::
 
     class PostAdmin(admin.ModelAdmin):
             formfield_overrides = {
