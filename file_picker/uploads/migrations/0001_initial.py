@@ -23,8 +23,8 @@ class Migration(migrations.Migration):
                 ('date_created', models.DateTimeField()),
                 ('date_modified', models.DateTimeField()),
                 ('file', models.FileField(upload_to=b'uploads/files/')),
-                ('created_by', models.ForeignKey(related_name=b'uploads_file_created', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('modified_by', models.ForeignKey(related_name=b'uploads_file_modified', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('created_by', models.ForeignKey(related_name=b'uploads_file_created', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
+                ('modified_by', models.ForeignKey(related_name=b'uploads_file_modified', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
             ],
             options={
                 'ordering': ('-date_modified',),
@@ -43,8 +43,8 @@ class Migration(migrations.Migration):
                 ('date_created', models.DateTimeField()),
                 ('date_modified', models.DateTimeField()),
                 ('file', models.ImageField(upload_to=b'uploads/images/')),
-                ('created_by', models.ForeignKey(related_name=b'uploads_image_created', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('modified_by', models.ForeignKey(related_name=b'uploads_image_modified', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('created_by', models.ForeignKey(related_name=b'uploads_image_created', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
+                ('modified_by', models.ForeignKey(related_name=b'uploads_image_modified', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
             ],
             options={
                 'ordering': ('-date_modified',),
