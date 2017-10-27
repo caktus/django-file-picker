@@ -67,8 +67,8 @@ class FilePickerBase(object):
             data = {}
             try:
                 return view(*args, **kwargs)
-            except Exception, e:
-                logger.exception(e)
+            except Exception as e:
+                logger.exception()
                 data['errors'] = [traceback.format_exc(e)]
             return HttpResponse(json.dumps(data), content_type='application/json')
         wrapper.csrf_exempt = csrf_exempt
@@ -99,10 +99,10 @@ class FilePickerBase(object):
             if isinstance(value, (datetime.datetime, datetime.date)):
                 value = value.strftime('%b %d, %Y')
             else:
-                value = unicode(value)
+                value = str(value)
             extra[name] = value
         return {
-            'name': unicode(obj),
+            'name': str(obj),
             'url': getattr(obj, self.field).url,
             'extra': extra,
             'insert': [getattr(obj, self.field).url, ],
@@ -181,8 +181,8 @@ class ImagePickerBase(FilePickerBase):
         img = '<img src="{0}" alt="{1}" width="{2}" height="{3}" />'
         try:
             thumb = get_thumbnail(obj.file.path, '150x150', crop='center', quality=99)
-        except ThumbnailError, e:
-            logger.exception(e)
+        except ThumbnailError:
+            logger.exception()
             thumb = None
         if thumb:
             json['link_content'] = [img.format(thumb.url, 'image', thumb.width, thumb.height), ]

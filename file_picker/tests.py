@@ -48,7 +48,7 @@ class BasePickerTest(TestCase):
     """
     def setUp(self):
         self.path = os.path.abspath('%s' % os.path.dirname(__file__))
-        self.image_file = File(open(os.path.join(self.path, 'static/img/attach.png')), "test_file.png")
+        self.image_file = File(open(os.path.join(self.path, 'static/img/attach.png'), 'rb'), "test_file.png")
         self.image = Image(
             name='Test Image',
             description_1='test desc 1',
@@ -74,11 +74,11 @@ class TestListPage(BasePickerTest):
         """
         image_picker = MockImagePicker('image_test', Image, None, None)
         response = image_picker.list(self.request)
-        list_resp = json.loads(response.content)
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(self.field_names, list_resp['columns'])
-        self.assertEquals([capfirst(Image._meta.get_field(i).verbose_name)
-                           for i in self.field_names], list_resp['extra_headers'])
+        list_resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.field_names, list_resp['columns'])
+        self.assertEqual([capfirst(Image._meta.get_field(i).verbose_name)
+                          for i in self.field_names], list_resp['extra_headers'])
 
     def test_columns(self):
         """
@@ -87,12 +87,12 @@ class TestListPage(BasePickerTest):
         columns = ['description_2', 'name']
         image_picker = MockImagePicker('image_test', Image, columns, None)
         response = image_picker.list(self.request)
-        list_resp = json.loads(response.content)
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(columns, list_resp['columns'])
+        list_resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(columns, list_resp['columns'])
         extra_headers = [capfirst(Image._meta.get_field(i).verbose_name)
                          for i in columns]
-        self.assertEquals(extra_headers, list_resp['extra_headers'])
+        self.assertEqual(extra_headers, list_resp['extra_headers'])
 
     def test_extra_headers(self):
         """
@@ -100,11 +100,11 @@ class TestListPage(BasePickerTest):
         """
         image_picker = MockImagePicker('image_test', Image, None, ['Header'])
         response = image_picker.list(self.request)
-        list_resp = json.loads(response.content)
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(self.field_names, list_resp['columns'])
-        self.assertEquals([capfirst(Image._meta.get_field(i).verbose_name)
-                           for i in self.field_names], list_resp['extra_headers'])
+        list_resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.field_names, list_resp['columns'])
+        self.assertEqual([capfirst(Image._meta.get_field(i).verbose_name)
+                          for i in self.field_names], list_resp['extra_headers'])
 
     def test_columns_and_headers(self):
         """
@@ -114,10 +114,10 @@ class TestListPage(BasePickerTest):
         extra_headers = ['Top Description', 'Image Name', 'Bottom Description']
         image_picker = MockImagePicker('image_test', Image, columns, extra_headers)
         response = image_picker.list(self.request)
-        list_resp = json.loads(response.content)
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(columns, list_resp['columns'])
-        self.assertEquals(extra_headers, list_resp['extra_headers'])
+        list_resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(columns, list_resp['columns'])
+        self.assertEqual(extra_headers, list_resp['extra_headers'])
 
     def test_file_list(self):
         """
@@ -125,11 +125,11 @@ class TestListPage(BasePickerTest):
         """
         image_picker = MockImagePicker('image_test', Image, None, None)
         response = image_picker.list(self.request)
-        list_resp = json.loads(response.content)
+        list_resp = json.loads(response.content.decode('utf-8'))
         results = list_resp['result']
-        self.assertEquals(len(results), 1)
+        self.assertEqual(len(results), 1)
         result = results[0]
-        self.assertEquals(result['url'], self.image.file.url)
+        self.assertEqual(result['url'], self.image.file.url)
 
     def test_extra_links(self):
         """
@@ -148,10 +148,10 @@ class TestListPage(BasePickerTest):
                     if isinstance(value, (datetime.datetime, datetime.date)):
                         value = value.strftime('%b %d, %Y')
                     else:
-                        value = unicode(value)
+                        value = str(value)
                     extra[name] = value
                 return {
-                    'name': unicode(obj),
+                    'name': str(obj),
                     'url': getattr(obj, self.field).url,
                     'extra': extra,
                     'insert': [getattr(obj, self.field).url,
@@ -160,14 +160,14 @@ class TestListPage(BasePickerTest):
                 }
         image_picker = CustomPicker('image_test', Image, None, None, extra=extra)
         response = image_picker.list(self.request)
-        self.assertEquals(response.status_code, 200)
-        resp = json.loads(response.content)
-        self.assertEquals(resp['link_headers'], extra['link_headers'])
-        self.assertEquals(resp['link_headers'], extra['link_headers'])
+        self.assertEqual(response.status_code, 200)
+        resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(resp['link_headers'], extra['link_headers'])
+        self.assertEqual(resp['link_headers'], extra['link_headers'])
         result = resp['result']
-        self.assertEquals(len(result), 1)
-        self.assertEquals(result[0]['insert'][0].upper(), result[0]['insert'][1])
-        self.assertEquals(result[0]['link_content'], link_content)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]['insert'][0].upper(), result[0]['insert'][1])
+        self.assertEqual(result[0]['link_content'], link_content)
 
     def test_search_page(self):
         """
@@ -185,7 +185,7 @@ class TestListPage(BasePickerTest):
         image_picker = MockImagePicker('image_test', Image, None, None)
         qs = image_picker.get_queryset('Test')
         images = qs.all()
-        self.assertEquals(images.count(), 1)
+        self.assertEqual(images.count(), 1)
         self.assertTrue(self.image in images)
         self.assertFalse(image in images)
 
@@ -196,17 +196,17 @@ class TestUploadPage(TestCase):
     """
     def setUp(self):
         self.request = MockRequest()
-        self.path = os.path.abspath('%s' % os.path.dirname(__file__))
+        cwd = os.path.dirname(__file__)
         self.image_picker = MockImagePicker('image_test', Image, None, None)
-        self.image_file = File(open(os.path.join(self.path, 'static/img/attach.png')), "test_file.png")
+        self.image_file = File(open(os.path.join(cwd, 'static/img/attach.png'), 'rb'), "test_file.png")
 
     def test_upload_form_page(self):
         """
         Test form generation.
         """
         response = self.image_picker.upload_file(self.request)
-        resp = json.loads(response.content)
-        self.assertEquals(response.status_code, 200)
+        resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code, 200)
         self.assertTrue('form' in resp)
 
     def test_upload(self):
@@ -216,8 +216,8 @@ class TestUploadPage(TestCase):
         request = self.request
         request.FILES = {'userfile': self.image_file}
         response = self.image_picker.upload_file(request)
-        self.assertEquals(response.status_code, 200)
-        resp = json.loads(response.content)
+        self.assertEqual(response.status_code, 200)
+        resp = json.loads(response.content.decode('utf-8'))
         self.assertTrue('name' in resp)
         tmp_file = resp['name']
         request.FILES = {}
@@ -227,12 +227,12 @@ class TestUploadPage(TestCase):
             'file': tmp_file,
             }
         response = self.image_picker.upload_file(request)
-        resp = json.loads(response.content)
+        resp = json.loads(response.content.decode('utf-8'))
         url = resp['url']
         images = Image.objects.all()
-        self.assertEquals(images.count(), 1)
+        self.assertEqual(images.count(), 1)
         image = images[0]
-        self.assertEquals(url, image.file.url)
+        self.assertEqual(url, image.file.url)
 
 
 class TestPickerSites(TestCase):
@@ -246,19 +246,19 @@ class TestPickerSites(TestCase):
 
     def test_site_index(self):
         response = self.client.get(self.url, {'pickers': [self.picker_name]})
-        resp = json.loads(response.content)
+        resp = json.loads(response.content.decode('utf-8'))
         for key, value in resp['pickers'].items():
-            self.assertEquals(key, self.picker_name)
-            self.assertEquals(value, '/file-picker/%s/' % self.picker_name)
+            self.assertEqual(key, self.picker_name)
+            self.assertEqual(value, '/file-picker/%s/' % self.picker_name)
 
     def test_images_urls(self):
         url = reverse('filepicker:%s:init' % self.picker_name)
         response = self.client.get(url)
-        data = json.loads(response.content)
-        urls = [u.values()[0] for u in data['urls'].values()]
+        data = json.loads(response.content.decode('utf-8'))
+        urls = [list(u.values())[0] for u in list(data['urls'].values())]
         for url in urls:
             response = self.client.get(url)
-            self.assertEquals(response.status_code, 200)
+            self.assertEqual(response.status_code, 200)
 
 
 class FilePickerUploadFormTests(TestCase):
