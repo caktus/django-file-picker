@@ -5,7 +5,7 @@ from tempfile import NamedTemporaryFile
 
 from django.db import models
 from django.core.files import File
-from django.urls import reverse
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils.text import capfirst
 

@@ -1,7 +1,7 @@
 import json
 
 from django.conf.urls import url
-from django.urls import reverse, NoReverseMatch
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
 from django.db.models.base import ModelBase, FieldDoesNotExist
 from django.http import HttpResponse
