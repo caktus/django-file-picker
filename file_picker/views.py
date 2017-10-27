@@ -1,17 +1,17 @@
-import os
-import logging
-import traceback
-import tempfile
 import datetime
 import json
+import logging
+import os
+import tempfile
+import traceback
 
 from django.conf.urls import url
-from django.db import models
-from django.db.models import Q
-from django.utils.text import capfirst
-from django.http import HttpResponse, HttpResponseServerError
 from django.core.paginator import Paginator, EmptyPage
 from django.core.urlresolvers import reverse
+from django.db import models
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseServerError
+from django.utils.text import capfirst
 
 from sorl.thumbnail.helpers import ThumbnailError
 from sorl.thumbnail import get_thumbnail
@@ -121,6 +121,9 @@ class FilePickerBase(object):
             queryset = self.model.objects.all()
         if self.ordering:
             queryset = queryset.order_by(self.ordering)
+        else:
+            # Need to default to some kind of ordering since we paginate
+            queryset = queryset.order_by('-pk')
         return queryset
 
     def upload_file(self, request):

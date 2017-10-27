@@ -15,9 +15,9 @@ class BaseFileModel(models.Model):
     date_created = models.DateTimeField()
     date_modified = models.DateTimeField()
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="%(app_label)s_%(class)s_created",
-                                   null=True, blank=True)
+                                   null=True, blank=True, on_delete=models.CASCADE)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="%(app_label)s_%(class)s_modified",
-                                    null=True, blank=True)
+                                    null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
