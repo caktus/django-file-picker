@@ -50,7 +50,7 @@ class AjaxItemForm(forms.ModelForm):
         filename = os.path.basename(self.cleaned_data['file'])
         getattr(item, self.Meta.exclude[0]).save(
             filename,
-            ContentFile(open(str(self.cleaned_data['file']), 'r').read())
+            ContentFile(open(str(self.cleaned_data['file']), 'rb').read())
         )
         item.save(*args, **kwargs)
         return item

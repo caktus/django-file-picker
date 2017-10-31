@@ -3,8 +3,10 @@ import os
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class BaseFileModel(models.Model):
     """ Base file model with meta fields """
 
@@ -38,7 +40,7 @@ class BaseFileModel(models.Model):
         self.file_type = ext.lstrip('.').upper()
         return super(BaseFileModel, self).save(**kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
