@@ -3,14 +3,19 @@
 Basic Setup
 ===========
 
-#. Use or create a model for storing images and/or files.  For simplicity here
-   we will use the models in ``file_picker.uploads``: Image and File.
+Here's an example of how to support uploading and linking to files and images
+when editing a text field in a model while in the Django admin interface.
 
-#. Use or create another model to contain the text field(s) to be inserted
-   by the picker.  Here we will use the Post model from ``sample_project.article``.
+#. Use or create a model to contain the text field(s) to be edited
+   by the user.  Here we will use the Post model from ``sample_project.article``.
    It has two text fields, Body and Teaser.
 
-#. To use the pickers on both the teaser and body fields use a *formfield_override*
+#. The files and images are tracked using their own models.
+   For simplicity here we will use the models in ``file_picker.uploads``: Image and File.
+   (You won't see them mentioned in the code below - more on that shortly.)
+
+#. To use the pickers on both the teaser and body fields, use a *formfield_override*
+   in the model's admin class
    to override the widget with the ``file_picker.widgets.SimpleFilePickerWidget``::
 
     import file_picker
@@ -32,6 +37,15 @@ Basic Setup
 
     admin.site.register(article_models.Post, PostAdmin)
 
+There's a lot going on behind the scenes here to make this work. Some of it:
+
+* ``file_picker/uploads/file_pickers.py`` defines two forms,
+  defines two picker objects to use those forms, and then registers those two
+  pickers to be used with the ``Image`` and ``File`` models mentioned earlier.
+
+* ``file_picker/uploads/file_pickers.py`` needs to be imported for its code to run.
+  That happens because 'file_picker.uploads' has been added to ``INSTALLED_APPS``
+  during the basic installation of django-file-picker.
 
 Simple File Picker Widget
 -------------------------

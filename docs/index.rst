@@ -12,6 +12,7 @@ Contents
    :maxdepth: 2
 
    setup
+   detail
    uploads
    wymeditor
    picker_config
