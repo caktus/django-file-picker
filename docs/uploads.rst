@@ -40,5 +40,6 @@ on a single text field::
                 }))
 
 The `"file"` and `"image"` keywords add classes to the inputs, so that the links
-for the overlay can be added.  They can also be added to all fields in a form by
-using the *formfield_overrides* as in:ref:`setup`.
+for the overlay can be added.  If you're using the Django admin,
+they can also be added to all fields in a form by
+using the *formfield_overrides* on the admin class, as in:ref:`setup`.

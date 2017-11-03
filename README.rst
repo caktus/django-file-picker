@@ -4,6 +4,10 @@ django-file-picker
 django-file-picker is a pluggable Django application used for uploading,
 browsing, and inserting various forms of media into HTML form fields.
 
+When a user is editing some content, and they want to insert a link to
+a file or image into their content, possibly uploading the image or file
+in the process, django-file-picker provides the tools to do that.
+
 Using jQuery Tools, django-file-picker integrates seamlessly into pre-existing pages by
 installing an overlay that lists file details and, when applicable, image
 thumbnails. New files can also be uploaded from within the overlay (via AJAX
@@ -16,7 +20,7 @@ including ``file_picker.uploads``, an app with pre-built Image and File models, 
 WYSIWYM (What You See Is What You Mean) XHTML editor. These extensions are
 provided for convenience and can easily be replaced by custom modules.
 
-For complete documentation checkout, `<http://django-file-picker.readthedocs.org>`_
+For more complete documentation, see `<http://django-file-picker.readthedocs.org>`_
 
 Dependencies
 ------------
@@ -46,15 +50,22 @@ Optional
 Basic Installation
 ------------------
 
-#. Add ``file_picker`` to INSTALLED_APPS in settings.py::
+#. Add ``file_picker`` and ``sorl.thumbnail`` to INSTALLED_APPS in settings.py::
 
     INSTALLED_APPS = (
         'file_picker',
         'file_picker.uploads', # file and image Django app
         'file_picker.wymeditor', # optional WYMeditor plugin
+        'sorl.thumbnail',  # required
     )
 
    ``file_picker.uploads`` will automatically create two pickers named 'images' and 'files'.
+
+Note: sorl-thumbnail was out of support for a number of years, but there is now a new pre-release that seems to work, which you can install using::
+
+    $ pip install --pre sorl-thumbnail==12.4a1
+
+Hopefully newer releases will come soon.
 
 #. Add the ``file_picker`` URLs to urls.py, e.g.::
 

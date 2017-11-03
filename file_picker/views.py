@@ -68,7 +68,7 @@ class FilePickerBase(object):
             try:
                 return view(*args, **kwargs)
             except Exception as e:
-                logger.exception()
+                logger.exception("error in view")
                 data['errors'] = [traceback.format_exc(e)]
             return HttpResponse(json.dumps(data), content_type='application/json')
         wrapper.csrf_exempt = csrf_exempt

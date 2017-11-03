@@ -18,7 +18,7 @@ class ImageForm(forms.ModelForm):
         image = super(ImageForm, self).save(commit=False)
         # Strip any directory names from the filename
         file_path = os.path.basename(self.cleaned_data['file'])
-        fh = ContentFile(open(self.cleaned_data['file'], 'r').read())
+        fh = ContentFile(open(self.cleaned_data['file'], 'rb').read())
         image.file.save(file_path, fh)
         if commit:
             image.save()
@@ -36,7 +36,7 @@ class FileForm(forms.ModelForm):
         image = super(FileForm, self).save(commit=False)
         # Strip any directory names from the filename
         file_path = os.path.basename(self.cleaned_data['file'])
-        fh = ContentFile(open(self.cleaned_data['file'], 'r').read())
+        fh = ContentFile(open(self.cleaned_data['file'], 'rb').read())
         image.file.save(file_path, fh)
         if commit:
             image.save()
