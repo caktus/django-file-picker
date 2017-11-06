@@ -1,6 +1,13 @@
 Release History
 ===============
 
+0.9.1 (released 2017-11-06)
+---------------------------
+
+* Fixed bug when trying to read binary content.
+* Greatly expanded documentation explaining how to get started with django-file-picker.
+
+
 0.9.0 (released 2017-10-31)
 ---------------------------
 
